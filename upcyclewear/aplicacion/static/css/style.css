@@ -1,0 +1,65 @@
+/* PALETA DE COLORES*/
+:root {
+    --dark-moss-green: #4d570fff;
+    --sage: #babf95ff;
+    --ecru: #c4ad83ff;
+    --ecru-2: #c6b677ff;
+    --satin-sheen-gold: #b99527ff;
+
+    
+    --gradient-top: linear-gradient(0deg, #4d570f, #babf95, #c4ad83, #c6b677, #b99527);
+    --gradient-right: linear-gradient(90deg, #4d570f, #babf95, #c4ad83, #c6b677, #b99527);
+    --gradient-bottom: linear-gradient(180deg, #4d570f, #babf95, #c4ad83, #c6b677, #b99527);
+    --gradient-left: linear-gradient(270deg, #4d570f, #babf95, #c4ad83, #c6b677, #b99527);
+    --gradient-top-right: linear-gradient(45deg, #4d570f, #babf95, #c4ad83, #c6b677, #b99527);
+    --gradient-bottom-right: linear-gradient(135deg, #4d570f, #babf95, #c4ad83, #c6b677, #b99527);
+    --gradient-top-left: linear-gradient(225deg, #4d570f, #babf95, #c4ad83, #c6b677, #b99527);
+    --gradient-bottom-left: linear-gradient(315deg, #4d570f, #babf95, #c4ad83, #c6b677, #b99527);
+    --gradient-radial: radial-gradient(#4d570f, #babf95, #c4ad83, #c6b677, #b99527);
+  }
+
+/* DISEÑO DE DIVS PRINCIPAL*/
+/* Reseteo de márgenes y padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100vw;
+  height: 2800px;
+  overflow: hidden; /* Evita el scroll dentro del contenedor */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilo de cada sección */
+.section {
+  width: 100%;
+  flex-grow: 1; /* Permite que las secciones se expandan para llenar el contenedor */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff; /* Texto blanco para contraste */
+  font-size: 24px;
+  text-align: center;
+  padding: 20px; /* Espacio interno para mejor visualización */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para mejor separación */
+}
+
+/* Colores de fondo para cada sección */
+#section1 {
+  background-color: var(--ecru); /* Cambridge Blue */
+}
+
+#section2 {
+  background-color: var(--dark-moss-green); /* Wenge */
+}
+
+#section3 {
+  background-color: var(--satin-sheen-gold); /* Light Green */
+}
+
+
+

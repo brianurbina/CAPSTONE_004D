@@ -1,0 +1,7 @@
+
+<!-- register_fundacion.html -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Registrar Fundación</button>
+</form>

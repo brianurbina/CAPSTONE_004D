@@ -34,7 +34,7 @@
                             <!-- Div con botones -->
                             <div class="d-flex flex-column align-items-end justify-content-center login-container">
                                 <div class="login-buttons">
-                                    <button class="btn btn-primary mb-2">Iniciar Sesión</button>
+                                    <button class="btn btn-primary mb-2" data-toggle="modal" data-target="#loginModal">Iniciar Sesión</button>
                                     <p style="color: black; font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold;">¿Eres Nuevo?</p>
                                     <button data-toggle="modal" data-target="#exampleModal" class="btn btn-secondary">Registrarse</button>
                                 </div>
@@ -65,21 +65,50 @@
             </div>
             <div class="modal-body d-flex flex-column align-items-center justify-content-center">
                 <div class="d-flex flex-column align-items-center justify-content-center">
-                    <!-- Botón para "Persona" -->
-                    <button type="button" class="btn btn-primary btn-logo mb-3">
-                        <i class="fas fa-user"></i> Persona
-                    </button>
-                    <!-- Botón para "Fundación" -->
-                    <button type="button" class="btn btn-secondary btn-logo">
-                        <i class="fas fa-building"></i> Fundación
-                    </button>
+                  <!-- Botón para "Persona" -->
+        <a href="{% url 'newusuario' %}" class="btn btn-primary btn-logo mb-3">
+        <i class="fas fa-user"></i> Persona
+        </a>
+
+        <!-- Botón para "Fundación" -->
+        <a href="{% url 'newfundacion' %}" class="btn btn-secondary btn-logo">
+        <i class="fas fa-building"></i> Fundación
+        </a>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
+<!--MODAL INICIO SESION-->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Iniciar sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'user_login' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                </form>
+                {% if error %}
+                    <div class="alert alert-danger mt-3">{{ error }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

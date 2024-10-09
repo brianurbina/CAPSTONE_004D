@@ -1,126 +1,301 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UPCYCLE WEAR - Bienvenid@!</title>
+<!doctype html>
+<html lang="en">
+<head>    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inicio</title>
     
-    <!-- Bootstrap CSS -->
+    <link rel="icon" href="{% static 'img/logoprincipal.png' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static '/css/style.css' %}">
-</head>
-<body>
-    {% load static %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 section" id="section1">
-                <div class="d-flex w-100">
-                    <!-- Div para el texto "hola" -->
-                    <div class="col-6 d-flex align-items-center" style="background-color: black; color: white; padding: 10px;">
-                        <a href="#" style="color: white;">hola</a>
-                    </div>
-                    <!-- Div principal para imagen y botones -->
-                    <div class="col-6 d-flex align-items-center justify-content-end">
-                        <!-- Contenedor para la imagen y los botones -->
-                        <div class="d-flex align-items-center">
-                            <!-- Div con imagen -->
-                            <div class="mr-3">
-                                <img src="{% static 'img/planetafeliz.png' %}" alt="Persona sosteniendo el div" class="person-holding" />
-                            </div>
-                            <!-- Div con botones -->
-                            <div class="d-flex flex-column align-items-end justify-content-center login-container">
-                                <div class="login-buttons">
-                                    <button class="btn btn-primary mb-2" data-toggle="modal" data-target="#loginModal">Iniciar Sesión</button>
-                                    <p style="color: black; font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold;">¿Eres Nuevo?</p>
-                                    <button data-toggle="modal" data-target="#exampleModal" class="btn btn-secondary">Registrarse</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-12 section" id="section2">Sección 2</div>
-        </div>
-        <div class="row">
-            <div class="col-12 section" id="section3">Sección 3</div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Crear cuenta como:</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body d-flex flex-column align-items-center justify-content-center">
-                <div class="d-flex flex-column align-items-center justify-content-center">
-                  <!-- Botón para "Persona" -->
-        <a href="{% url 'newusuario' %}" class="btn btn-primary btn-logo mb-3">
-        <i class="fas fa-user"></i> Persona
-        </a>
-
-        <!-- Botón para "Fundación" -->
-        <a href="{% url 'newfundacion' %}" class="btn btn-secondary btn-logo">
-        <i class="fas fa-building"></i> Fundación
-        </a>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--MODAL INICIO SESION-->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Iniciar sesión</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" action="{% url 'user_login' %}">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Correo electrónico</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-                </form>
-                {% if error %}
-                    <div class="alert alert-danger mt-3">{{ error }}</div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-<!--LIBRERIAS-->
-    <!-- jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <!-- Popper.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+/* Estilos generales */
+
+.contact-info {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.contact-info .item {
+    text-align: center;
+}
+
+.carousel-item img {
+    max-height: 800px;
+    width: auto;
+}
+
+.conocimiento-img {
+    width: auto;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.degradado1, .degradado2, .degradado3 {
+    height: 2px;
+    margin: 0;
+}
+
+.degradado1 {
+    background: linear-gradient(to right, #7ddab2, black);
+    animation: cambiaColor 0.8s linear infinite alternate;
+}
+
+@keyframes cambiaColor {
+    0% {
+        background: linear-gradient(to right, #C4FF61, white);
+    }
+    100% {
+        background: linear-gradient(to right, white, #C4FF61);
+    }
+}
+
+.degradado2 {
+    background: linear-gradient(to right, black, yellow);
+    animation: cambiaColor2 0.8s linear infinite alternate;
+}
+
+@keyframes cambiaColor2 {
+    0% {
+        background: linear-gradient(to right, black, yellow);
+    }
+    100% {
+        background: linear-gradient(to right, yellow, black);
+    }
+}
+
+.degradado3 {
+    background: linear-gradient(to right, yellow, black);
+}
+
+/* Media queries para pantallas pequeñas */
+@media (max-width: 768px) {
+    .carousel-caption {
+        border-radius: 0px !important;
+    }
+    .carousel-caption h5, .carousel-caption p {
+        font-size: 12px;
+    }
+}
+
+/* Estilos personalizados para la imagen y el título */
+.header-content {
+    text-align: center; /* Asegura que todo esté centrado horizontalmente */
+}
+
+
+
+.title {
+    font-size: 48px;
+    text-transform: uppercase;
+    font-family: 'Times New Roman', Times, serif;
+    color: black;
+    text-align: center;
+    margin-bottom: 10px; /* Añade un pequeño margen inferior */
+}
+
+.description {
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    color: black;
+}
+
+/* Otros estilos que mencionaste */
+.image {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
+}
+
+.image2 {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    clip-path: polygon(0 0, 85% 0, 100% 100%, 15% 100%);
+}
+
+.content {
+    background-color: #00000000;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(248, 211, 0, 0.1);
+}
+
+.interliniado {
+    margin-bottom: 23px !important;
+}
+
+.h11 {
+    text-align: center;
+    font-size: 38px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+
+.custom-h5 {
+    text-align: right; /* Texto alineado a la derecha */
+    font-family: Arial, sans-serif; /* Tipo de letra */
+    font-size: 24px; /* Tamaño de la letra */
+    font-weight: bold; /* Negrita */
+    color: #000; /* Color del texto */
+}
+.custom-caption {
+    position: absolute; /* Permite que el div se posicione respecto al contenedor */
+    right: 0; /* Se coloca pegado al lado derecho */
+    top: 20%; /* Ajusta la distancia desde la parte superior */
+    height: auto; /* Permitir que la altura se ajuste automáticamente según el contenido */
+    width: 300px; /* Ancho fijo del div */
+    max-width: 100%; /* Asegurarse de que no exceda el ancho del contenedor */
+    background-color: rgba(255, 255, 255, 0.7); /* Color de fondo semitransparente */
+    color: black; /* Color del texto */
+    border-radius: 20px; /* Bordes redondeados */
+    padding: 20px; /* Espaciado interno del div */
+    text-align: left; /* Alinear el texto a la izquierda */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra para mejor visualización */
+}
+
+.container2 {
+    text-align: center;
+    background-color: #f9d94c; /* Color de fondo */
+    padding: 40px;
+}
+
+.title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.card-group {
+    display: flex;
+    justify-content: space-around; /* Espaciado entre tarjetas */
+}
+
+.card {
+    background-color: white; /* Color de fondo de las tarjetas */
+    border: none;
+    border-radius: 15px; /* Bordes redondeados */
+    width: 300px; /* Ancho de cada tarjeta */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+    margin: 10px; /* Margen entre tarjetas */
+}
+
+.card-img-top {
+    width: 100%; /* Asegura que la imagen se ajuste al ancho de la tarjeta */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+}
+
+.card-text {
+    font-size: 1rem;
+}
+
+    </style>
+</head>
+<body >
+
+{% include 'estructura/menuprincipal.html' %}
+
+{% load static %}
+<div class="container-fluid fondoimagen" >
+    <br>
+<div class="container-fluid" style="COLOR: white">
+  <div class="header-content">
+    <img src="{% static 'img/planetafeliz.png' %}" alt="Logo" class="logo-navbar">
+    <h2 class="title">¡Bienvenido, Sumate!</h2>
+    <p class="description">Descripción a modificar</p>
+    <hr class="degradado1">
+</div><br>
+
+<div class="container">
+    <div id="carouselExampleIndicators" class="carousel slide mx-auto" data-ride="carousel" style="max-width: 900px">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'img/ropacarousel1.jpg' %}" class="d-block w-100" alt="Imagen 1">
+                <div class="carousel-caption  custom-caption" >
+                  <h5 class="custom-h5">Cada Prenda Cuenta: Reutiliza, Dona y Sonríe al Planeta</h5>
+                </div>
+              </div>
+            <div class="carousel-item">
+                <img src="{% static 'img/ropacarousel2.jpg' %}" class="d-block w-100" alt="Imagen 2">
+                <div class="carousel-caption d-md-block " style="background-color: rgba(255, 255, 255, 0.7); color: black ; border-radius: 100px;" >
+                    <h5></h5>
+                    <p>
+                      </p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'img/ropacarousel3.jpg' %}" class="d-block w-100" alt="Imagen 3">
+                <div class="carousel-caption d-md-block" style="background-color: rgba(255, 255, 255, 0.7); color: black; border-radius: 100px;">
+                  <h5></h5>
+                  <p></p>
+                </div>
+              </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Anterior</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Siguiente</span>
+        </a>
+    </div>
+</div></div>
+</BR></BR>
+</div>
+<div class="container-fluid" style="color: black; background-color: #FFC700;">
+ 
+  <div class="container2">
+    <h2 class="title">Sé parte del cambio</h2>
+    <div class="card-group">
+        <div class="card">
+            <img src="{% static 'img/cajaconropa.png' %}" class="card-img-top" alt="¿Quieres donar?">
+            <div class="card-body">
+                <h5 class="card-title">¿Quieres donar?</h5>
+                <p class="card-text">Te ayudamos a publicar la ropa que quieres donar y a conectar con quienes la necesitan.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="{% static 'img/cajaconropavolando.png' %}" class="card-img-top" alt="¿Necesitas ropa?">
+            <div class="card-body">
+                <h5 class="card-title">¿Necesitas ropa?</h5>
+                <p class="card-text">Ofrecemos un servicio de reciclaje colectivo de ropa, dándole una segunda oportunidad a las prendas que ya no usas.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="{% static 'img/fundacionlogo.png' %}" class="card-img-top" alt="¿Eres Fundación?">
+            <div class="card-body">
+                <h5 class="card-title">¿Eres Fundación?</h5>
+                <p class="card-text">Registra tu fundación y gestiona tus donaciones.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+  </div>
+
+
+
+
 </body>
+
+
+
+  
+{% include 'estructura/footer.html' %}
 </html>
+

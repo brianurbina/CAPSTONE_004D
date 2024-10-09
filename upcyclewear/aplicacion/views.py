@@ -47,7 +47,7 @@ def user_login(request):
 
 
 
-def register_usuario(request):
+def register(request):
     if request.method == 'POST':
         form = UsuarioRegisterForm(request.POST, request.FILES)
         if form.is_valid():
@@ -58,22 +58,7 @@ def register_usuario(request):
             return redirect('principal')
     else:
         form = UsuarioRegisterForm()
-    return render(request, 'register/register_usuario.html', {'form': form})
-
-def register_fundacion(request):
-    if request.method == 'POST':
-        form = FundacionRegisterForm(request.POST, request.FILES)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.user_type = 'fundacion'
-            user.save()
-            login(request, user)
-            return redirect('principal')
-    else:
-        form = FundacionRegisterForm()
-    return render(request, 'register/register_fundacion.html', {'form': form})
-
-
+    return render(request, 'register/register.html', {'form': form})
 
 def login_view(request):
     if request.method == 'POST':

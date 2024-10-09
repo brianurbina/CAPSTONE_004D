@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .btn-iniciar-sesion,
+        .btn-crear-cuenta {
+            padding: 10px 20px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-iniciar-sesion:hover,
+        .btn-crear-cuenta:hover {
+            background-color: white;
+            color: #000;
+        }
+
+        .btn-crear-cuenta {
+            background-color: white;
+            color: #000;
+            margin-left: 10px; /* Añade espacio entre los botones */
+        }
+
+        .btn-crear-cuenta:hover {
+            background-color: black;
+            color: white;
+        }
+
+        .navbar {
+            background-color: #C4FF61 !important; /* Color de fondo del menú */
+            border: none; /* Elimina bordes si hay */
+        }
+
+        .navbar-brand {
+            color: #fff !important; /* Letras blancas */
+            font-size: 24px; /* Tamaño de fuente */
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff !important; /* Letras blancas */
+            font-size: 25px;
+            transition: font-size 0.4s; /* Transición de tamaño de fuente */
+            font-family: 'Courier New', Courier, monospace;
+            padding: 0 20px !important;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: yellow !important; /* Letras amarillas */
+            font-size: 30px; /* Tamaño de fuente aumentado */
+            text-decoration: underline; /* Subrayado */
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .dropdown-item:hover {
+            background-color: yellow !important; /* Fondo amarillo */
+            color: black !important; /* Letras negras */
+            font-weight: bold !important; /* Negrita */
+        }
+
+        .logo-navbar {
+            height: 50px; /* Tamaño del logo para pantallas grandes */
+        }
+
+        /* Estilos para centrar el logo en la barra de navegación */
+        .navbar-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .navbar-right {
+            position: absolute;
+            right: 0;
+        }
+
+        /* Estilos para pantallas pequeñas */
+        @media (max-width: 768px) {
+            .btn-iniciar-sesion,
+            .btn-crear-cuenta {
+                padding: 5px 10px;
+                font-size: 14px;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 18px;
+            }
+
+            .navbar-center {
+                flex-direction: column; /* Logo y botones en columna */
+            }
+
+            .logo-navbar {
+                height: 40px; /* Tamaño del logo para pantallas medianas */
+            }
+
+            .navbar-right {
+                position: static;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn-iniciar-sesion,
+            .btn-crear-cuenta {
+                padding: 5px 10px;
+                width: 100%;
+                margin-bottom: 5px;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 16px;
+            }
+
+            .logo-navbar {
+                height: 30px; /* Tamaño del logo para pantallas móviles */
+            }
+        }
+    </style>
+</head>
+<body>
+    {% load static %}
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid justify-content-center navbar-center">
+            <!-- Logo centrado -->
+            <a class="navbar-brand" href="{% url 'principal' %}">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="logo-navbar">
+            </a>
+            <!-- Botones que están a la derecha en resoluciones normales -->
+            <div class="navbar-right d-flex flex-column flex-lg-row align-items-center">
+                <button id="btnAbrirModal" class="btn-iniciar-sesion mr-lg-2">INICIAR SESIÓN</button>
+                <a href="{% url 'registrarse' %}" class="btn-crear-cuenta">REGISTRARSE</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <button class="cerrar" id="btnCerrarModal"><i class="fas fa-times"></i></button>
+            <div class="logo-container">
+                <img src="" alt="Logo" class="logo-modal">
+            </div>
+            <h2 style="text-align: center; color: white;">Iniciar Sesión</h2>
+            <form id="formulario" action="{% url 'login' %}" style="color: white; font-family: 'Courier New', Courier, monospace; font-size: 20px;">
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" name="username" required>
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="password" required>
+                <button type="submit">Iniciar Sesión</button><br>
+                <a href="{% url 'registrarse' %}">¿No tienes una cuenta?</a>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('modal');
+            const btnAbrirModal = document.getElementById('btnAbrirModal');
+            const btnCerrarModal = document.getElementById('btnCerrarModal');
+
+            btnAbrirModal.addEventListener('click', function () {
+                modal.style.display = 'block';
+            });
+
+            btnCerrarModal.addEventListener('click', function () {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function (event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-toggle').dropdown();
+        });
+    </script>
+</body>
+</html>

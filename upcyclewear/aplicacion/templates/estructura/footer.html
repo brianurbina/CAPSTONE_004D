@@ -1,0 +1,91 @@
+<style>
+html, body {
+    height: 100%; /* Asegura que el HTML y body ocupen toda la altura del viewport */
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* La página siempre ocupará la altura completa del viewport */
+}
+
+.footer {
+    margin-top: auto; /* Empuja el footer hacia el final de la página */
+    bottom: 0; 
+    height: 500px;
+    width: 100%;
+    background: linear-gradient(to bottom, rgba(255, 250, 250, 0.452) 20%, rgba(0, 0, 0, 0.486) 20%, #C4FF61 100%);
+    padding: 40px 0;
+    position: relative;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px; /* Espacio adicional entre los iconos y el texto */
+}
+
+.social-icons a {
+    color: black; /* Cambiado a negro */
+    font-size: 30px; /* Aumenta el tamaño de los iconos */
+    text-decoration: none;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.social-icons a:hover {
+    color: #007bff; /* Cambia el color al pasar el mouse */
+    transform: scale(1.2); /* Aumenta el tamaño al pasar el mouse */
+}
+
+.social-icons a .fab {
+    background-color: white;
+    border-radius: 50%;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Cambia el color del texto en el footer a negro */
+.footer h5, .footer p {
+    color: black !important; /* Cambiado a negro */
+}
+
+</style>
+</head>
+<body>
+    <footer class="footer">
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-4 mb-4" style="text-align: center;">
+                    <h5>Contacto</h5>
+                    <p>
+                        <i class="fab fa-whatsapp"></i> 
+                        <span style="margin-left: 10px;">+56 9 5606 9545</span>
+                    </p>
+                    <p>
+                        <i class="far fa-envelope"></i> 
+                        <span style="margin-left: 10px;">contacto@servicomputec.cl</span>
+                    </p>
+                </div>
+                <div class="col-md-4 mb-4" style="text-align: center;">
+                    <p>¡Síguenos en nuestras redes!</p>
+                    <ul class="list-inline social-icons">
+                        <li class="list-inline-item"><a href="https://www.facebook.com/profile.php?id=61559042896464&locale=es_LA"><i class="fab fa-facebook"></i></a></li>
+                        <li class="list-inline-item"><a href="https://www.instagram.com/servicomputec"><i class="fab fa-instagram"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4" style="text-align: center;">
+                    <h5>Horario de atención</h5>
+                    <p>Lunes a Sábado: 9am - 6pm</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p style="font-size:14px;">© ServiCompuTec.cl || 2024 || Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    

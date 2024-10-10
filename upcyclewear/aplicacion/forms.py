@@ -35,7 +35,3 @@ class FundacionRegisterForm(UserCreationForm):
 
 
 
-
-class CustomAuthenticationForm(AuthenticationForm):
-    username = forms.EmailField(label='Email', max_length=254, widget=forms.TextInput(attrs={'autofocus': True}))
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)

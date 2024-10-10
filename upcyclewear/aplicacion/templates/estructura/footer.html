@@ -1,3 +1,4 @@
+{% load static %}
 <style>
 html, body {
     height: 100%; /* Asegura que el HTML y body ocupen toda la altura del viewport */
@@ -16,7 +17,10 @@ body {
     height: 500px;
     width: 100%;
     background: #C4FF61;
-
+    padding: 20px 0; /* Ajusta el espacio vertical alrededor del texto */
+    display: flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente si es necesario */
     position: relative;
 }
 
@@ -50,6 +54,11 @@ body {
 .footer h5, .footer p {
     color: black !important; /* Cambiado a negro */
 }
+.footer h6 {
+    margin: 0;
+    text-align: center; /* Asegura que el texto dentro del h6 esté centrado */
+    
+}
 
 </style>
 </head>
@@ -61,11 +70,11 @@ body {
                     <h5>Contacto</h5>
                     <p>
                         <i class="fab fa-whatsapp"></i> 
-                        <span style="margin-left: 10px;">+56 9 5606 9545</span>
+                        <span style="margin-left: 10px;">+56 9 3456 7891 // +56 9 1234 5678</span>
                     </p>
                     <p>
                         <i class="far fa-envelope"></i> 
-                        <span style="margin-left: 10px;">contacto@servicomputec.cl</span>
+                        <span style="margin-left: 10px;">contacto@upcyclewear.cl</span>
                     </p>
                 </div>
                 <div class="col-md-4 mb-4" style="text-align: center;">
@@ -75,17 +84,13 @@ body {
                         <li class="list-inline-item"><a href="https://www.instagram.com/servicomputec"><i class="fab fa-instagram"></i></a></li>
                     </ul>
                 </div>
-                <div class="col-md-4 mb-4" style="text-align: center;">
-                    <h5>Horario de atención</h5>
-                    <p>Lunes a Sábado: 9am - 6pm</p>
-                </div>
+            
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <p style="font-size:14px;">© ServiCompuTec.cl || 2024 || Todos los derechos reservados.</p>
+                    <p style="font-size:14px;">© UpcycleWear.cl || 2024 || Todos los derechos reservados.</p>
                 </div>
             </div>
         </div>
     </footer>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    

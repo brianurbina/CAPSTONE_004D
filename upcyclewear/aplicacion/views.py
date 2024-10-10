@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
-from .forms import UsuarioRegisterForm, FundacionRegisterForm,CustomAuthenticationForm
+from .forms import UsuarioRegisterForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
 
 # Create your views here.
 
@@ -11,50 +13,31 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request, 'index.html')
 
+
 def principal(request):
+    # Si el usuario ya está autenticado, lo redirigimos al 'index'
     if request.user.is_authenticated:
-        return redirect('index')  # Redirige si el usuario ya está autenticado
+        return redirect('index')
 
-    return render(request, 'principal.html')
-
-
-
-
-
-def user_login(request):
     if request.method == 'POST':
-        form = CustomAuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            # Extraemos el email en lugar de 'username'
-            email = form.cleaned_data.get('username')  # Aunque el campo es email, en el backend sigue siendo 'username'
-            password = form.cleaned_data.get('password')
+        # Capturamos el username (email en este caso) y password del formulario
+        email = request.POST.get('username')
+        password = request.POST.get('password')
 
-            # Autenticamos con el email
-            user = authenticate(request, username=email, password=password)
-            
-            if user is not None:
-                login(request, user)
-                return redirect('index')  # Redirige a la página principal tras el login
-            else:
-                # Si la autenticación falla, mostramos el error en el modal
-                return render(request, 'principal.html', {
-                    'form': form,
-                    'error': 'Credenciales incorrectas',
-                    'show_modal': True  # Bandera para abrir el modal
-                })
+        # Autenticamos al usuario con los datos ingresados
+        user = authenticate(request, username=email, password=password)
+
+        if user is not None:
+            # Si la autenticación es exitosa, iniciamos sesión y redirigimos
+            login(request, user)
+            messages.success(request, '¡Has iniciado sesión correctamente!')
+            return redirect('index')
         else:
-            # Si el formulario es inválido, mostramos el error en el modal
-            return render(request, 'principal.html', {
-                'form': form,
-                'error': 'Formulario inválido',
-                'show_modal': True  # Bandera para abrir el modal
-            })
-    else:
-        form = CustomAuthenticationForm()
+            # Si la autenticación falla, mostramos el mensaje de error
+            messages.error(request, 'Ups! Al parecer te equivocaste en tu usuario o contraseña.')
 
-    return render(request, 'principal.html', {'form': form})
-
-
+    # Enviamos la página de login (principal.html)
+    return render(request, 'principal.html')
 
 
 def register(request):
@@ -70,20 +53,3 @@ def register(request):
         form = UsuarioRegisterForm()
     return render(request, 'register/register.html', {'form': form})
 
-def login_view(request):
-    if request.method == 'POST':
-        form = CustomAuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.success(request, '¡Te haz logeado correctamente!')
-                return redirect('home')  # Redirige a la página principal después del login
-            else:
-                messages.error(request, 'Correo o contraseña invalidos')
-    else:
-        form = CustomAuthenticationForm()
-    
-    return render(request, 'register/login.html', {'form': form})

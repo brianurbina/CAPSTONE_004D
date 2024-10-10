@@ -22,7 +22,7 @@
             <!-- Botones que están a la derecha en resoluciones normales -->
             <div class="navbar-right d-flex flex-column flex-lg-row align-items-center">
                 <button id="btnAbrirModal" class="btn-iniciar-sesion mr-lg-2">INICIAR SESIÓN</button>
-                <a href="{% url 'registrarse' %}" class="btn-crear-cuenta">REGISTRARSE</a>
+                <button class="btn-crear-cuenta mr-lg-2" onclick="window.location.href='{% url 'registrarse' %}'">REGISTRARSE</button>
             </div>
         </div>
     </nav>
@@ -139,22 +139,38 @@
         <h2 style="text-align: center; color: black;">Iniciar Sesión</h2>
         
         <!-- Formulario de login -->
-        <form id="formulario" action="{% url 'login' %}" method="post" style="color: black; font-family: 'Courier New', Courier, monospace; font-size: 20px;">
-            {% csrf_token %}
-            <!-- Campo de usuario (username) -->
-            <label for="usuario">Usuario:</label>
-            <input type="text" id="usuario" name="username" required>
-            
-            <!-- Campo de contraseña (password) -->
-            <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" name="password" required>
-            
-            <!-- Botón de enviar formulario -->
-            <button type="submit">Iniciar Sesión</button><br>
-            
-            <!-- Enlace para registrarse si no tiene una cuenta -->
-            <a href="{% url 'registrarse' %}" style="color: rgb(0, 38, 255);">¿No tienes una cuenta?</a>
-        </form>
+
+<form id="formulario" action="{% url 'principal' %}" method="post" style="color: black; font-family: 'Courier New', Courier, monospace; font-size: 20px;">
+    {% csrf_token %}
+    
+    <!-- Campo de usuario (username) -->
+    <label for="usuario">Usuario:</label>
+    <input type="text" id="usuario" name="username" required>
+    
+    <!-- Campo de contraseña (password) -->
+    <label for="contrasena">Contraseña:</label>
+    <input type="password" id="contrasena" name="password" required>
+    
+    <!-- Botón de enviar formulario -->
+    <button type="submit">Iniciar Sesión</button><br>
+    
+    <!-- Enlace para registrarse -->
+    <a href="{% url 'registrarse' %}" style="color: rgb(0, 38, 255);">¿No tienes una cuenta?</a>
+
+    <!-- Mostrar mensajes de error -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" style="color: red; font-weight: bold;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</form>
+
+
+
     </div>
 </div>
 

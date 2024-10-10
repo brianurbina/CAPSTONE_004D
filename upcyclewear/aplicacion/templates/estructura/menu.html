@@ -6,46 +6,23 @@
     <title>Menú</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM5Jzz//Wx1ImO03eK/pA3U9fYkT5i5H75+9Q0" crossorigin="anonymous">
+</head>
    <style>
-    .btn-iniciar-sesion,
-    .btn-crear-cuenta {
-    padding: 10px 20px;
-    background-color: #000;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-.btn-iniciar-sesion:hover,
-.btn-crear-cuenta:hover {
-    background-color: #7ddab2;
-}
-
-.btn-crear-cuenta {
-    background-color: #007bff;
-    margin-left: 10px; /* Añade espacio entre los botones */
-}
-
-.btn-crear-cuenta:hover {
-    background-color: #0056b3;
-}
-
+  
 /* Estilo corregido para la barra de navegación */
 .navbar {
-    background-color: #7ddab2 !important; /* Color de fondo del menú */
+    background-color: #C4FF61 !important; /* Color de fondo del menú */
     border: none; /* Elimina bordes si hay */
 }
 
 .navbar-brand {
-    color: #fff !important; /* Letras blancas */
+    color: black !important; /* Letras blancas */
     font-size: 24px; /* Tamaño de fuente */
 }
 
 .navbar-nav .nav-link {
-    color: #fff !important; /* Letras blancas */
+    color: black !important; /* Letras blancas */
     font-size: 25px;
     transition: font-size 0.4s; /* Transición de tamaño de fuente */
     font-family: 'Courier New', Courier, monospace;
@@ -53,7 +30,7 @@
 }
 
 .navbar-nav .nav-link:hover {
-    color: yellow !important; /* Letras amarillas */
+    color: rgb(0, 195, 255) !important; /* Letras amarillas */
     font-size: 30px; /* Tamaño de fuente aumentado */
     text-decoration: underline; /* Subrayado */
     font-family: 'Courier New', Courier, monospace;
@@ -85,23 +62,23 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'index' %}">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Quiénes Somos</a>
-                    </li>
-                    <li class="nav-item dropdown submenu">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" aria-haspopup="true" aria-expanded="false">
-                            Servicios
+                        <a class="nav-link" href="">
+                            <i class="fas fa-comment-dots"></i>
                         </a>
-                        <ul class="dropdown-menu submenu-items" aria-labelledby="navbarDropdownMenuLink">
-                            <li class="dropdown">
-                                <a class="dropdown-item" href="">Consultoría y Soporte Softland</a>
-                            </li>
-                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Contacto</a>
+                        <a class="nav-link" href="">Fundaciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            Donar
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Pedir</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Mapa</a>
                     </li>
                 </ul>
                 <div class="mr-0">
@@ -112,8 +89,7 @@
                     </div>
                     {% else %}
                     <div class="d-flex">
-                        <button id="btnAbrirModal" class="btn-iniciar-sesion mr-2">Iniciar Sesión</button>
-                        <a href="{% url 'registrarse' %}" class="btn-crear-cuenta">Crear cuenta</a>
+                   
                     </div>
                     {% endif %}
                 </div>
@@ -121,53 +97,10 @@
         </div>
     </nav>
 
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <button class="cerrar" id="btnCerrarModal"><i class="fas fa-times"></i></button>
-            <div class="logo-container">
-                <img src="" alt="Logo" class="logo-modal">
-            </div>
-            <h2 style="text-align: center; color: white;">Iniciar Sesión</h2>
-            <form id="formulario" action="{% url 'login' %}" style="color: white; font-family: 'Courier New', Courier, monospace; font-size: 20px;">
-                <label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" name="username" required>
-                <label for="contrasena">Contraseña:</label>
-                <input type="password" id="contrasena" name="password" required>
-                <button type="submit">Iniciar Sesión</button><br>
-                <a href="{% url 'registrarse' %}">¿No tienes una cuenta?</a>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const modal = document.getElementById('modal');
-            const btnAbrirModal = document.getElementById('btnAbrirModal');
-            const btnCerrarModal = document.getElementById('btnCerrarModal');
-
-            btnAbrirModal.addEventListener('click', function () {
-                modal.style.display = 'block';
-            });
-
-            btnCerrarModal.addEventListener('click', function () {
-                modal.style.display = 'none';
-            });
-
-            window.addEventListener('click', function (event) {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        });
-    </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.dropdown-toggle').dropdown();
-        });
-    </script>
+
 </body>
 </html>

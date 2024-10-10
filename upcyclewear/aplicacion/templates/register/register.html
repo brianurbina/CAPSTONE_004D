@@ -1,6 +1,144 @@
-<!-- register_usuario.html -->
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Registrar Usuario</button>
-</form>
+<!doctype html>
+<html lang="en">
+<head>    
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inicio</title>
+    
+    <link rel="icon" href="{% static 'img/logoprincipal.png' %}">
+    <!-- Incluye Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styleprincipal.css' %}">
+    <style>
+        /* Estilos personalizados para separación y responsividad */
+        body {
+            background-image: url("{% static 'img/fondo.png' %}"); /* Cambia 'fondo.jpg' por el nombre de tu imagen */
+            background-size: cover; /* Ajusta la imagen para cubrir todo el fondo */
+            background-position: center; /* Centra la imagen */
+            background-attachment: fixed; /* Hace que el fondo se mantenga fijo al hacer scroll */
+            color: white;
+        }
+
+        .container {
+            margin-top: 50px; /* Espacio superior para separar del navbar */
+            margin-bottom: 100px; /* Espacio inferior para separar del footer */
+        }
+
+        /* Estilos para el navbar */
+        .navbar {
+            background-color: rgba(27, 27, 27, 0.8); /* Color oscuro con algo de transparencia */
+        }
+
+        .navbar-brand img {
+            width: 150px;
+            height: auto;
+        }
+
+        .navbar-light .navbar-brand {
+            color: #00b7ff;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar-light .navbar-brand:hover {
+            color: #0099cc;
+        }
+
+        /* Estilos del formulario */
+        .card {
+            background-color: rgba(44, 47, 51, 0.9); /* Fondo de la tarjeta con algo de transparencia */
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+        }
+
+        .card-header {
+            background-color: rgba(35, 39, 42, 0.9);
+            color: #C4FF61;
+            border-bottom: none;
+            font-size: 1.75rem;
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        input, select, textarea {
+            background-color: #444;
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            background-color: #555;
+            outline: none;
+            box-shadow: 0 0 10px #C4FF61;
+        }
+
+        /* Estilos para el botón */
+        .btn-primary {
+            background-color: #C4FF61;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            width: 100%;
+            font-weight: bold;
+            color: #1c1c1c;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #A4D87D;
+            box-shadow: 0 0 15px #C4FF61;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid justify-content-center">
+            <a class="navbar-brand" href="{% url 'principal' %}">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="logo-navbar">
+            </a>
+        </div>
+    </nav>
+
+    <!-- Formulario de registro -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card shadow">
+                    <div class="card-header text-center">
+                        <h3>Registrar Usuario</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary btn-block">Registrar Usuario</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'estructura/footer.html' %}
+    
+    <!-- Scripts de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

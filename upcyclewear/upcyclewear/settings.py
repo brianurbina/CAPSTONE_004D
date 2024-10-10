@@ -133,7 +133,3 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-AUTHENTICATION_BACKENDS = [
-    'aplicacion.backends.EmailBackend',  # Asegúrate de que este sea el nombre correcto del backend
-    'django.contrib.auth.backends.ModelBackend',  # Mantén el backend de autenticación por defecto
-]

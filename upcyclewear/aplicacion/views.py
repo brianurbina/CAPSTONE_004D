@@ -20,25 +20,35 @@ def principal(request):
 
 
 
+
 def user_login(request):
     if request.method == 'POST':
         form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            email = form.cleaned_data.get('username')
+            # Extraemos el email en lugar de 'username'
+            email = form.cleaned_data.get('username')  # Aunque el campo es email, en el backend sigue siendo 'username'
             password = form.cleaned_data.get('password')
 
-            # Autenticación con email
-            user = authenticate(request, email=email, password=password)
+            # Autenticamos con el email
+            user = authenticate(request, username=email, password=password)
             
             if user is not None:
                 login(request, user)
-                return redirect('index')  # Redirige después del inicio de sesión
+                return redirect('index')  # Redirige a la página principal tras el login
             else:
-                # Error en la autenticación
-                return render(request, 'principal.html', {'form': form, 'error': 'Credenciales incorrectas'})
+                # Si la autenticación falla, mostramos el error en el modal
+                return render(request, 'principal.html', {
+                    'form': form,
+                    'error': 'Credenciales incorrectas',
+                    'show_modal': True  # Bandera para abrir el modal
+                })
         else:
-            # Error en la validación del formulario
-            return render(request, 'principal.html', {'form': form, 'error': 'Formulario inválido'})
+            # Si el formulario es inválido, mostramos el error en el modal
+            return render(request, 'principal.html', {
+                'form': form,
+                'error': 'Formulario inválido',
+                'show_modal': True  # Bandera para abrir el modal
+            })
     else:
         form = CustomAuthenticationForm()
 

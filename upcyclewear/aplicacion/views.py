@@ -58,3 +58,27 @@ def logout_view(request):
     # Redirige al usuario a una página después de cerrar sesión (opcional)
     return redirect('/')  # Reemplaza 'inicio' con el nombre de tu URL
 
+
+
+#VISTAS USUARIO:
+@login_required(login_url='/')
+def chat(request):
+    return render(request, 'menuuser/chat.html')
+
+@login_required(login_url='/')
+def donar(request):
+    return render(request, 'menuuser/donar.html')
+
+@login_required(login_url='/')
+def fundaciones(request):
+    return render(request, 'menuuser/fundaciones.html')
+
+@login_required(login_url='/')
+def mapa(request):
+    return render(request, 'menuuser/mapa.html')
+
+@login_required(login_url='/')
+def pedir(request):
+    return render(request, 'menuuser/pedir.html')
+
+

@@ -85,7 +85,7 @@
                     {% if request.user.is_authenticated %}
                     <div class="usuario-autenticado">
                         <p class="mensaje-bienvenida">Bienvenido, <span class="nombre-usuario">{{ request.user }}</span></p>
-                        <a href="" class="btn-logout">Cerrar sesión</a>
+                        <a href="{% url 'logout' %}" class="btn-logout">Cerrar sesión</a>
                     </div>
                     {% else %}
                     <div class="d-flex">

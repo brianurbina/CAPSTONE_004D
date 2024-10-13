@@ -16,6 +16,8 @@ urlpatterns = [
     path('fundaciones/', views.fundaciones, name='fundaciones'),
     path('mapa/', views.mapa, name='mapa'),
     path('pedir/', views.pedir, name='pedir'),
-  
+    path('mi_perfil/', views.mi_perfil, name='mi_perfil'),
+    path('perfil/<str:username>/', views.perfil_usuario, name='perfil_usuario'),
+
 ]   
 

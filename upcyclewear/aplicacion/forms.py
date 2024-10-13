@@ -1,37 +1,34 @@
-# forms.py
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser
-from django.contrib.auth.forms import AuthenticationForm
-
+from .models import Usuario
 
 class UsuarioRegisterForm(UserCreationForm):
-    telefono = forms.CharField(max_length=15, required=False)
     direccion = forms.CharField(max_length=255, required=False)
-    fotoperfil = forms.ImageField(required=False)
+    telefono = forms.CharField(max_length=20, required=False)
+    foto_perfil = forms.ImageField(required=False)
+    descripcion = forms.CharField(widget=forms.Textarea, required=False)
 
     class Meta:
-        model = CustomUser
-        fields = ['username', 'email', 'telefono', 'direccion', 'fotoperfil', 'password1', 'password2']
+        model = Usuario
+        fields = ['username', 'email', 'telefono', 'direccion', 'foto_perfil', 'password1', 'password2', 'descripcion']
         widgets = {
             'password1': forms.PasswordInput(),
             'password2': forms.PasswordInput(),
-            'fotoperfil': forms.FileInput(),
+            'foto_perfil': forms.FileInput(),
+            'descripcion': forms.Textarea(attrs={'rows': 4}),
         }
 
-class FundacionRegisterForm(UserCreationForm):
-    telefono = forms.CharField(max_length=15, required=False)
-    rut = forms.CharField(max_length=12, required=False)
-    logotipo = forms.ImageField(required=False)
-
-    class Meta:
-        model = CustomUser
-        fields = ['username', 'email', 'telefono', 'rut', 'logotipo', 'password1', 'password2']
-        widgets = {
-            'password1': forms.PasswordInput(),
-            'password2': forms.PasswordInput(),
-            'logotipo': forms.FileInput(),
-        }
-
-
-
+    def save(self, commit=True):
+        user = super().save(commit)
+        
+        # Cambiar el nombre del archivo de la foto de perfil
+        if self.cleaned_data.get('foto_perfil'):
+            foto = self.cleaned_data['foto_perfil']
+            # Cambia el nombre del archivo
+            foto.name = f"{user.username}.jpg"  # O el formato que prefieras
+            user.foto_perfil = foto
+        
+        if commit:
+            user.save()
+        
+        return user

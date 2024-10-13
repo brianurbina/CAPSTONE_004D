@@ -1,0 +1,43 @@
+.foundation-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semitransparente */
+    border-radius: 10px;
+}
+.foundation-card img {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+.search-bar {
+    background-color: #C4FF61;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+}
+.search-bar input {
+    width: 80%;
+    padding: 5px;
+}
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+.pagination a {
+    color: black;
+    margin: 0 5px;
+    text-decoration: none;
+}
+.pagination span {
+    color: black;
+}
+.container1{
+    margin-top: 50px;
+    background-color: rgba(255, 255, 255, 0.493);
+    margin-bottom: 100px; 
+}

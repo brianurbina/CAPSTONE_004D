@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPCYCLE WEAR - {{ user.username }}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/styleuser.css' %}">
+    <style>
+        body {
+            background-image: url("{% static '/img/fondo.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+
+        .perfil-container {
+            max-width: 800px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: rgba(248, 249, 250, 0.9);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .perfil-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .perfil-imagen2 {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+            border: 2px solid #007bff;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007bff;
+            margin: 0;
+        }
+
+        .info {
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .info label {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .descripcion {
+            margin-left: 20px;
+            flex-grow: 1;
+        }
+
+        .btn-custom {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'estructura/menu.html' %}
+    <div class="container-fluid">
+
+        <!-- CONTENIDO -->
+     
+        <div class="perfil-container">
+            <div class="perfil-header">
+                <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil" class="perfil-imagen2" />
+                <div class="descripcion">
+                    <h2>Perfil de {{ user.username }}</h2>
+                    <div class="info">
+                        <label>Descripción:</label>
+                        <p>{{ user.descripcion }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info">
+                <label>Correo:</label>
+                <p>{{ user.email }}</p>
+            </div>
+            <div class="info">
+                <label>Dirección:</label>
+                <p>{{ user.direccion }}</p>
+            </div>
+            <div class="info">
+                <label>Teléfono:</label>
+                <p>{{ user.telefono }}</p>
+            </div>
+            
+            <a href="" class="btn btn-primary btn-custom">Modificar Perfil</a>
+            <a href="{% url 'logout' %}" class="btn btn-danger btn-custom">Cerrar sesión</a>
+        </div>
+    
+    </div>
+
+    <!-- LIBRERIAS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+{% include 'estructura/footer.html' %}
+</html>

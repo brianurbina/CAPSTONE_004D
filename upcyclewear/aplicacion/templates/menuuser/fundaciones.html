@@ -12,34 +12,72 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/styleuser.css' %}">
-   <style>
-    body {
-    background-image: url("{% static '/img/fondo.png' %}"); /* Cambia 'fondo.jpg' por el nombre de tu imagen */
-    background-size: cover; /* Ajusta la imagen para cubrir todo el fondo */
-    background-position: center; /* Centra la imagen */
-    background-attachment: fixed; /* Hace que el fondo se mantenga fijo al hacer scroll */
-    color: white;
-}
-   </style>
+    <link rel="stylesheet" href="{% static 'css/stylelistas.css' %}">
+    <style>
+        body {
+            background-image: url("{% static '/img/fondo.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+      
+    </style>
 </head>
 <body>
 
     {% include 'estructura/menu.html' %}
-    {% load static %}
     <div class="container-fluid">
 
         <!--CONTENIDO-->
-        
+        <div class="container container1" >
+            <div class="search-bar">
+                <form method="GET" action="{% url 'fundaciones' %}" style="flex-grow: 1; margin-right: 10px;">
+                    <input type="text" name="q" placeholder="Buscar: Fundación Banco de ropa">
+                    <button type="submit" style="background-color: black; color: white; border: none; padding: 5px 10px;">Buscar</button>
+                </form>
+                <a href="}" class="btn" style="background-color: black; color: white; text-decoration: none; padding: 5px 10px;">Publicar Fundación</a>
+            </div>
+
+            {% for foundation in foundations %}
+                <div class="foundation-card">
+                    <img src="{{ foundation.logotipo.url }}" alt="{{ foundation.razon_social }} Logo">
+                    <div>
+                        <h2>{{ foundation.razon_social }}</h2>
+                        <p>{{ foundation.descripcion }}</p>
+                        <p>Teléfono: {{ foundation.telefono }}</p>
+                        <p>Comuna: {{ foundation.comuna }} | Región: {{ foundation.region }}</p>
+                        {% if foundation.sitio_web %}
+                            <a href="{{ foundation.sitio_web }}" class="btn" style="background-color: #f0f0f0; padding: 5px 10px; text-decoration: none; display: inline-block; margin-top: 10px;">Visitar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <p>No se encontraron fundaciones.</p>
+            {% endfor %}
+
+            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; primera</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                    {% endif %}
+                    <span class="current">
+                        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
 
     </div>
 
-
-<!--LIBRERIAS-->
-    <!-- jQuery -->
+    <!--LIBRERIAS-->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <!-- Popper.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
-    <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 

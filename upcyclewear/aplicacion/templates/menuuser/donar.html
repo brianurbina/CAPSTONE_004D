@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/styleuser.css' %}">
+    <link rel="stylesheet" href="{% static 'css/stylelistas.css' %}">
    <style>
     body {
     background-image: url("{% static '/img/fondo.png' %}"); /* Cambia 'fondo.jpg' por el nombre de tu imagen */
@@ -29,6 +30,51 @@
     <div class="container-fluid">
 
         <!--CONTENIDO-->
+        <div class="container container1">
+            <div class="search-bar">
+                <form method="GET" action="{% url 'donar' %}" style="flex-grow: 1; margin-right: 10px;">
+                    <input type="text" name="q" placeholder="Buscar: Título de la petición">
+                    <button type="submit" style="background-color: black; color: white; border: none; padding: 5px 10px;">Buscar</button>
+                </form>
+                <a href="" class="btn" style="background-color: black; color: white; text-decoration: none; padding: 5px 10px;">Publicar Petición</a>
+            </div>
+        
+            {% for peticion in peticiones %}
+                <div class="foundation-card">
+                    <div>
+                        <h2>{{ peticion.titulo }}</h2>
+                        <p>{{ peticion.descripcion }}</p>
+                        <p>Tipo de ropa: {{ peticion.tipo_ropa }}</p>
+                        <p>Estado: {{ peticion.estado }}</p>
+                        <p>Fecha: {{ peticion.fecha_hora|date:"Y-m-d H:i" }}</p>
+                        <p>Usuario: {{ peticion.usuario.username }}</p>
+                        {% if peticion.donador %}
+                            <p>Donador: {{ peticion.donador.username }}</p>
+                        {% else %}
+                            <p>Donador: No asignado</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <p>No se encontraron peticiones.</p>
+            {% endfor %}
+        
+            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; primera</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                    {% endif %}
+                    <span class="current">
+                        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
         
 
     </div>

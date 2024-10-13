@@ -1,11 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UsuarioRegisterForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-
+from .models import Usuario, Fundacion, Peticion, Donacion
+from django.views.generic import ListView, DetailView, CreateView
+from django.db.models import Q
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -65,20 +68,93 @@ def logout_view(request):
 def chat(request):
     return render(request, 'menuuser/chat.html')
 
-@login_required(login_url='/')
-def donar(request):
-    return render(request, 'menuuser/donar.html')
 
-@login_required(login_url='/')
-def fundaciones(request):
-    return render(request, 'menuuser/fundaciones.html')
 
-@login_required(login_url='/')
-def mapa(request):
-    return render(request, 'menuuser/mapa.html')
+
 
 @login_required(login_url='/')
 def pedir(request):
     return render(request, 'menuuser/pedir.html')
 
 
+
+
+#VISTAS PERFILES
+
+@login_required(login_url='/')
+def mi_perfil(request):
+    return render(request, 'perfil/mi_perfil.html')
+
+
+@login_required(login_url='/')
+def perfil_usuario(request, username):
+    usuario = get_object_or_404(Usuario, username=username)
+    return render(request, 'perfil/perfil_usuario.html', {'usuario': usuario})
+
+
+
+
+
+
+#Vistas Fundación
+@login_required(login_url='/')
+def fundaciones(request):
+    query = request.GET.get('q')  # Obtener la búsqueda del usuario
+    if query:
+        foundations = Fundacion.objects.filter(
+            Q(razon_social__icontains=query) | 
+            Q(descripcion__icontains=query) |
+            Q(comuna__icontains=query) |
+            Q(region__icontains=query) |
+            Q(direccion__icontains=query) |
+            Q(telefono__icontains=query)
+        )
+    else:
+        foundations = Fundacion.objects.all()  # Obtener todas las fundaciones si no hay búsqueda
+
+    return render(request, 'menuuser/fundaciones.html', {'foundations': foundations})
+    
+##class FundacionDetailView(DetailView):
+  #  model = Fundacion
+   # template_name = 'fundacion_detail.html'
+
+
+@login_required(login_url='/')
+def donar(request): 
+    query = request.GET.get('q')  # Obtener la búsqueda del usuario
+    if query:
+        peticiones = Peticion.objects.filter(
+            Q(titulo__icontains=query) |
+            Q(descripcion__icontains=query) |
+            Q(tipo_ropa__icontains=query) |
+            Q(usuario__username__icontains=query)
+        )
+    else:
+        peticiones = Peticion.objects.all()  # Obtener todas las peticiones si no hay búsqueda
+
+    # Paginación
+    paginator = Paginator(peticiones, 10)  # 10 peticiones por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'menuuser/donar.html', {'peticiones': page_obj})
+
+
+
+
+#VISTAS MAPA
+@login_required(login_url='/')
+def mapa(request):
+    query = request.GET.get('q')  # Obtener la búsqueda del usuario
+    if query:
+        foundations = Fundacion.objects.filter(
+            Q(razon_social__icontains=query) | 
+            Q(descripcion__icontains=query) |
+            Q(comuna__icontains=query) |
+            Q(region__icontains=query) |
+            Q(direccion__icontains=query) |
+            Q(telefono__icontains=query)
+        )
+    else:
+        foundations = Fundacion.objects.all()  # Obtener todas las fundaciones si no hay búsqueda
+    return render(request, 'menuuser/mapa.html', {'foundations': foundations})

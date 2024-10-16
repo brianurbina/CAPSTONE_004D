@@ -37,10 +37,14 @@ class HistorialDonaciones(models.Model):
     donacion = models.ForeignKey(Donacion, on_delete=models.CASCADE)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
+
 class Conversacion(models.Model):
     id_conversacion = models.CharField(primary_key=True, max_length=50)
     usuario1 = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='conversaciones_iniciadas')
     usuario2 = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='conversaciones_recibidas')
+
+    class Meta:
+        unique_together = ('usuario1', 'usuario2')
 
 class Mensaje(models.Model):
     id_mensaje = models.CharField(primary_key=True, max_length=50)
@@ -48,6 +52,7 @@ class Mensaje(models.Model):
     fecha_hora = models.DateTimeField(auto_now_add=True)
     emisor = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='mensajes_enviados')
     conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE, related_name='mensajes')
+
 
 class Reporte(models.Model):
     ESTADO_CHOICES = [

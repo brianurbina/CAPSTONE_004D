@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Fundación</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Si tienes estilos -->
+</head>
+<body>
+    {% load static %}
+    <div class="container">
+        <h1>Registrar Nueva Fundación</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}  <!-- Renderiza el formulario -->
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </form>
+    </div>
+</body>
+</html>

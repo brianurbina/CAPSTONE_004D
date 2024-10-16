@@ -21,42 +21,79 @@
             background-attachment: fixed;
             color: white;
         }
-      
+        .foundation-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .foundation-card img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+            border-radius: 10px;
+        }
+        .search-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .search-bar input {
+            width: 80%;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination a {
+            color: black;
+            margin: 0 5px;
+            text-decoration: none;
+        }
+        .pagination span {
+            color: black;
+        }
     </style>
 </head>
 <body>
 
     {% include 'estructura/menu.html' %}
+    
     <div class="container-fluid">
-
-        <!--CONTENIDO-->
-        <div class="container container1" >
+        <div class="container container1 mt-4">
+            <h1 class="text-center mb-4">Lista de Fundaciones</h1>
             <div class="search-bar">
                 <form method="GET" action="{% url 'fundaciones' %}" style="flex-grow: 1; margin-right: 10px;">
-                    <input type="text" name="q" placeholder="Buscar: Fundación Banco de ropa">
-                    <button type="submit" style="background-color: black; color: white; border: none; padding: 5px 10px;">Buscar</button>
+                    <input type="text" name="q" placeholder="Buscar: Fundación Banco de ropa" class="form-control">
+                    <button type="submit" class="btn btn-dark mt-2">Buscar</button>
                 </form>
-                <a href="}" class="btn" style="background-color: black; color: white; text-decoration: none; padding: 5px 10px;">Publicar Fundación</a>
+                <a href="{% url 'crear_fundacion' %}" class="btn btn-dark">Publicar Fundación</a>
             </div>
 
             {% for foundation in foundations %}
-                <div class="foundation-card">
-                    <img src="{{ foundation.logotipo.url }}" alt="{{ foundation.razon_social }} Logo">
-                    <div>
-                        <h2>{{ foundation.razon_social }}</h2>
-                        <p>{{ foundation.descripcion }}</p>
-                        <p>Teléfono: {{ foundation.telefono }}</p>
-                        <p>Comuna: {{ foundation.comuna }} | Región: {{ foundation.region }}</p>
-                        {% if foundation.sitio_web %}
-                            <a href="{{ foundation.sitio_web }}" class="btn" style="background-color: #f0f0f0; padding: 5px 10px; text-decoration: none; display: inline-block; margin-top: 10px;">Visitar</a>
-                        {% endif %}
-                    </div>
+            <div class="foundation-card">
+                <img src="{{ foundation.logotipo.url }}" alt="{{ foundation.razon_social }} Logo">
+                <div>
+                    <h2>{{ foundation.razon_social }}</h2>
+                    <p>{{ foundation.descripcion }}</p>
+                    <p>Teléfono: {{ foundation.telefono }}</p>
+                    <p>Comuna: {{ foundation.comuna }} | Región: {{ foundation.region }}</p>
+                    {% if foundation.sitio_web %}
+                        <a href="{{ foundation.sitio_web }}" class="btn btn-link" style="background-color: #f0f0f0; padding: 5px 10px; text-decoration: none;">Visitar</a>
+                    {% endif %}
                 </div>
+            </div>
             {% empty %}
                 <p>No se encontraron fundaciones.</p>
             {% endfor %}
 
-            <div class="pagination">
+            <div class="pagination mt-4">
                 <span class="step-links">
                     {% if page_obj.has_previous %}
                         <a href="?page=1">&laquo; primera</a>
@@ -72,14 +109,13 @@
                 </span>
             </div>
         </div>
-
     </div>
 
     <!--LIBRERIAS-->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
 
-{% include 'estructura/footer.html' %}
+    {% include 'estructura/footer.html' %}
+</body>
 </html>

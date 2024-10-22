@@ -25,15 +25,30 @@
             height: 400px; /* Asegúrate de definir la altura */
             width: 100%;
         }
+        .mapa{
+            align-items: center;
+        }
+
+        .container-map {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
 
     {% include 'estructura/menu.html' %}
-    <div class="container-fluid">
-        <h1>Mapa de Fundaciones</h1>
-        <div id="map"></div>
-
+    <div class="container-fluid" >
+        <br><br><br><br><br><br>
+        <div class="container container-map" >
+        <h1 style="text-align: center; color: white;">Mapa de Fundaciones</h1><br><br>
+        <div id="map"></div></div>
+        <br><br><br><br><br><br>
         <script>
             const fundaciones = [
                 {% for foundation in foundations %}

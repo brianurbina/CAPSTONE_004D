@@ -9,15 +9,75 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* Estilos aquí */
+      body {
+            background-image: url("{% static '/img/fondo.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+
+        .perfil-container {
+            max-width: 800px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: rgba(248, 249, 250, 0.9);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .perfil-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .perfil-imagen2 {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+            border: 2px solid #007bff;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007bff;
+            margin: 0;
+        }
+
+        .info {
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .info label {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .descripcion {
+            margin-left: 20px;
+            flex-grow: 1;
+        }
+
+        .btn-custom {
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
     {% include 'estructura/menu.html' %}
     <div class="container-fluid">
+     
         <div class="perfil-container">
             <div class="perfil-header">
-                <img src="{{ usuario.foto_perfil.url }}" alt="Foto de perfil" class="perfil-imagen2" />
+                <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil" class="perfil-imagen2" />
                 <div class="descripcion">
                     <h2>Perfil de {{ usuario.username }}</h2>
                     <div class="info">
@@ -26,11 +86,25 @@
                     </div>
                 </div>
             </div>
+
+            <div class="info">
+                <label>Nombre:</label>
+                <p>{{ usuario.first_name }} {{ usuario.last_name }}</p>
+            </div>
+            <div class="info">
+                <label>Correo:</label>
+                <p>{{ usuario.email }}</p>
+            </div>
+            <div class="info">
+                <label>Dirección:</label>
+                <p>{{ usuario.direccion }}</p>
+            </div>
             <div class="info">
                 <label>Teléfono:</label>
                 <p>{{ usuario.telefono }}</p>
             </div>
             <button id="iniciar-conversacion" data-usuario-username="{{ usuario.username }}" class="btn btn-primary">Iniciar Conversación</button>
+
         </div>
     </div>
 

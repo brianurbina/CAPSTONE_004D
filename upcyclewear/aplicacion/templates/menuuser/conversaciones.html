@@ -48,72 +48,93 @@
             font-size: 0.8em;
             color: gray;
         }
+        .container-chat {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .list-group-item {
+            transition: background-color 0.6s;
+        }   
+
+        .list-group-item.active {
+            background-color: #C4FF61 !important;; /* Color para la conversación seleccionada */
+            color: black !important;; /* Color del texto */
+            font-weight: bold !important;; /* Hacer el texto más destacado */
+        }
+
+        .list-group-item:hover {
+            background-color: rgba(196, 255, 97, 0.5); /* Color de fondo al pasar el mouse */
+        }
     </style>
 </head>
 <body>
-{% include 'estructura/menu.html' %}
-<div class="container-fluid">
-    <br><br>
-    <div class="container" style="background-color: white;">
-        <div class="row">
-            <div class="col-md-4">
-                <h1>Mis Conversaciones</h1>
-                <ul class="list-group">
-                    {% for conversacion in conversaciones %}
-                    <li class="list-group-item {% if conversacion.id_conversacion == selected_conversacion.id_conversacion %}active{% endif %}">
-                        <a href="?conversacion_id={{ conversacion.id_conversacion }}" class="d-flex align-items-center">
-                            <img src="{% if conversacion.usuario1 == request.user %}{{ conversacion.usuario2.foto_perfil.url }}{% else %}{{ conversacion.usuario1.foto_perfil.url }}{% endif %}" 
-                                 alt="Foto de perfil" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">
-                            <span>
-                                {% if conversacion.usuario1 == request.user %} 
-                                    {{ conversacion.usuario2.username }} 
-                                {% else %} 
-                                    {{ conversacion.usuario1.username }} 
-                                {% endif %}
-                            </span>
-                        </a>
-                    </li>
-                    {% empty %}
-                        <li class="list-group-item">No tienes conversaciones.</li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="col-md-8">
-                {% if selected_conversacion %}
-                <h2>
-                    Conversación con 
-                    {% if selected_conversacion.usuario1 == request.user %}
-                        {{ selected_conversacion.usuario2.username }}
-                    {% else %}
-                        {{ selected_conversacion.usuario1.username }}
-                    {% endif %}
-                </h2>
-                    <div id="mensajes">
-                        {% for mensaje in mensajes %}
-                            <div class="mensaje {% if mensaje.emisor == request.user %}mensaje-enviado{% else %}mensaje-recibido{% endif %}">
-                                <img src="{{ mensaje.emisor.foto_perfil.url }}" alt="Foto de perfil">
-                                <div>
-                                    <strong>{{ mensaje.emisor.username }}:</strong> {{ mensaje.mensaje }}
-                                    <div class="hora" data-fecha="{{ mensaje.fecha_hora|date:"c" }}">{{ mensaje.fecha_hora|date:"H:i" }}</div>
-
-                                </div>
-                            </div>
+    {% include 'estructura/menu.html' %}
+    <div class="container-fluid">
+        <br><br>
+        <div class="container container-chat">
+            <div class="row">
+                <div class="col-md-4">
+                    <h1 style="color: white; font-size: 25px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Mis Conversaciones</h1> <hr>
+                    <ul class="list-group">
+                        {% for conversacion in conversaciones %}
+                        <li class="list-group-item {% if conversacion.id_conversacion == selected_conversacion.id_conversacion %}active{% endif %}">
+                            <a href="?conversacion_id={{ conversacion.id_conversacion }}" class="d-flex align-items-center">
+                                <img src="{% if conversacion.usuario1 == request.user %}{{ conversacion.usuario2.foto_perfil.url }}{% else %}{{ conversacion.usuario1.foto_perfil.url }}{% endif %}" 
+                                     alt="Foto de perfil" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">
+                                <span>
+                                    {% if conversacion.usuario1 == request.user %} 
+                                        {{ conversacion.usuario2.username }} 
+                                    {% else %} 
+                                        {{ conversacion.usuario1.username }} 
+                                    {% endif %}
+                                </span>
+                            </a>
+                        </li>
+                        {% empty %}
+                            <li class="list-group-item" style="color: white; font-size: 25px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">No tienes conversaciones.</li>
                         {% endfor %}
-                    </div>
-                    <form id="mensaje-form" method="POST">
-                        {% csrf_token %}
-                        <input type="text" id="mensaje" required class="form-control" placeholder="Escribe tu mensaje...">
-                        <input type="hidden" id="conversacion_id" value="{{ selected_conversacion.id_conversacion }}">
-                        <button type="submit" class="btn btn-primary">Enviar</button>
-                    </form>
-                {% else %}
-                    <h2>Selecciona una conversación para ver los mensajes.</h2>
-                {% endif %}
+                    </ul>
+                </div>
+
+                <div class="col-md-8">
+                    {% if selected_conversacion %}
+                    <h2 style="color: white; font-size: 25px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                        Conversación con 
+                        {% if selected_conversacion.usuario1 == request.user %}
+                            {{ selected_conversacion.usuario2.username }}
+                        {% else %}
+                            {{ selected_conversacion.usuario1.username }}
+                        {% endif %}
+                    </h2>
+                        <div id="mensajes">
+                            {% for mensaje in mensajes %}
+                                <div class="mensaje {% if mensaje.emisor == request.user %}mensaje-enviado{% else %}mensaje-recibido{% endif %}">
+                                    <img src="{{ mensaje.emisor.foto_perfil.url }}" alt="Foto de perfil">
+                                    <div>
+                                        <strong>{{ mensaje.emisor.username }}:</strong> {{ mensaje.mensaje }}
+                                        <div class="hora" data-fecha="{{ mensaje.fecha_hora|date:"c" }}">{{ mensaje.fecha_hora|date:"H:i" }}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <form id="mensaje-form" method="POST">
+                            {% csrf_token %}
+                            <input type="text" id="mensaje" required class="form-control" placeholder="Escribe tu mensaje...">
+                            <input type="hidden" id="conversacion_id" value="{{ selected_conversacion.id_conversacion }}">
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </form>
+                    {% else %}
+                        <h2 style="color: white; font-size: 25px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Selecciona una conversación para ver los mensajes.</h2>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
-</div>
 <br><br>
 
 <script>

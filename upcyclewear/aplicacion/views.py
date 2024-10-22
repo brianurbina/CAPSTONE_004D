@@ -293,10 +293,6 @@ def crear_fundacion(request):
     return render(request, 'forms/form_fundacion.html', {'form': form})
 
 
-import uuid
-from django.shortcuts import render, redirect
-from .forms import PeticionForm
-from .models import Peticion
 
 def crear_peticion(request):
     if request.method == 'POST':

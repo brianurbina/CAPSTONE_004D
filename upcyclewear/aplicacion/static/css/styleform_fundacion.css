@@ -1,0 +1,19 @@
+/* .css */
+body {
+    background-color: #f8f9fa; /* Color de fondo suave */
+}
+
+.container {
+    background-color: #ffffff; /* Fondo blanco para el formulario */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Color de fondo del botón */
+    border: none; /* Sin borde */
+}
+
+.text-danger {
+    font-size: 0.875em; /* Tamaño de fuente más pequeño para errores */
+}

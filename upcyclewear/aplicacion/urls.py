@@ -23,4 +23,5 @@ urlpatterns = [
     path('perfil/<str:username>/', views.perfil_usuario, name='perfil_usuario'),
     path('guardar-mensaje/', views.guardar_mensaje, name='guardar_mensaje'),
     path('crear-conversacion/<str:usuario_username>/', views.crear_conversacion, name='crear_conversacion'),
+    path('fundacion/modificar/<str:rut>/', views.modificar_fundacion, name='modificar_fundacion'),
 ]

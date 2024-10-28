@@ -1,20 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UsuarioRegisterForm, FundacionForm, PeticionForm, DonacionForm
+from .forms import UsuarioRegisterForm, FundacionForm, PeticionForm, DonacionForm, FundacionFormMod
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse
 from .models import Usuario, Fundacion, Peticion, Donacion, Conversacion, Mensaje
-from django.views.generic import ListView, DetailView, CreateView
 from django.db.models import Q
 from django.core.paginator import Paginator
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from .serializers import MensajeSerializer
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 import json
 import uuid
 import random
@@ -22,8 +16,12 @@ import string
 from datetime import datetime
 import pytz
 import uuid
+
 # Create your views here.
 
+# Decorador para verificar si el usuario es superusuario
+def superuser_required(function):
+    return user_passes_test(lambda u: u.is_superuser)(function)
 
 @login_required(login_url='/')
 def index(request):
@@ -131,6 +129,25 @@ def fundaciones(request):
 
     return render(request, 'menuuser/fundaciones.html', {'foundations': foundations})
     
+
+
+@login_required(login_url='/')
+@superuser_required
+def modificar_fundacion(request, rut):
+    fundacion = get_object_or_404(Fundacion, rut=rut)
+    if request.method == 'POST':
+        form = FundacionFormMod(request.POST, request.FILES, instance=fundacion)
+        if form.is_valid():
+            form.save()
+            return redirect('fundaciones')  # Redirige a la vista de fundaciones
+        else:
+            # Imprimir los errores del formulario
+            print(form.errors)  # Esto ayudará a diagnosticar problemas
+    else:
+        form = FundacionForm(instance=fundacion)
+
+    return render(request, 'modificar/mod_fundacion.html', {'form': form})
+
 ##class FundacionDetailView(DetailView):
   #  model = Fundacion
    # template_name = 'fundacion_detail.html'

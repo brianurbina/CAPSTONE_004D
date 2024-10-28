@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'aplicacion',
     'channels',
     'rest_framework',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

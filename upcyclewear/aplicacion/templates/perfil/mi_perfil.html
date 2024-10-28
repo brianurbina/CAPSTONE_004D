@@ -1,128 +1,278 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UPCYCLE WEAR - {{ user.username }}</title>
-    
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/styleuser.css' %}">
-    <style>
-        body {
-            background-image: url("{% static '/img/fondo.png' %}");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: white;
-        }
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-        .perfil-container {
-            max-width: 800px;
-            margin: 50px auto;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            padding: 20px;
-            background-color: rgba(248, 249, 250, 0.9);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
+  <title>Upcycle Wear - Mi Perfil</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
-        .perfil-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .perfil-imagen2 {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 20px;
-            border: 2px solid #007bff;
-        }
-
-        h2 {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #007bff;
-            margin: 0;
-        }
-
-        .info {
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        .info label {
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        .descripcion {
-            margin-left: 20px;
-            flex-grow: 1;
-        }
-
-        .btn-custom {
-            margin-right: 10px;
-        }
-    </style>
 </head>
+
 <body>
+    {% load static %}
+  {% include 'estructura/menu.html' %}
+ 
 
-    {% include 'estructura/menu.html' %}
-    <div class="container-fluid">
 
-        <!-- CONTENIDO -->
-     
-        <div class="perfil-container">
-            <div class="perfil-header">
-                <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil" class="perfil-imagen2" />
-                <div class="descripcion">
-                    <h2>Perfil de {{ user.username }}</h2>
-                    <div class="info">
-                        <label>Descripción:</label>
-                        <p>{{ user.descripcion }}</p>
-                    </div>
-                </div>
-            </div>
+    <div class="pagetitle">
+      <h1>Perfil</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+          <li class="breadcrumb-item">Usuario</li>
+          <li class="breadcrumb-item active">Perfil</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
 
-            <div class="info">
-                <label>Nombre:</label>
-                <p>{{ user.first_name }} {{ user.last_name }}</p>
-            </div>
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
 
-            <div class="info">
-                <label>Correo:</label>
-                <p>{{ user.email }}</p>
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+              <img src="{{ user.foto_perfil.url }}" alt="Profile" class="rounded-circle">
+              <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+              <div class="social-links mt-2">
+                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+              </div>
             </div>
-            <div class="info">
-                <label>Dirección:</label>
-                <p>{{ user.direccion }}</p>
-            </div>
-            <div class="info">
-                <label>Teléfono:</label>
-                <p>{{ user.telefono }}</p>
-            </div>
-            
-            <a href="" class="btn btn-primary btn-custom">Modificar Perfil</a>
-            <a href="{% url 'logout' %}" class="btn btn-danger btn-custom">Cerrar sesión</a>
+          </div>
+
         </div>
-    
-    </div>
 
-    <!-- LIBRERIAS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+        <div class="col-xl-8">
 
-{% include 'estructura/footer.html' %}
-</html>
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <li class="nav-item">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Vista previa</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Editar perfil</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Configuración</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Cambiar contraseña</button>
+                </li>
+
+              </ul>
+              <div class="tab-content pt-2">
+
+                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                  <h5 class="card-title">Descripción</h5>
+                  <p class="small fst-italic">{{ user.descripcion }}</p>
+
+                  <h5 class="card-title">Detalles perfil</h5>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label ">Nombre</div>
+                    <div class="col-lg-9 col-md-8">{{ user.first_name }} {{ user.last_name }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Dirección:</div>
+                    <div class="col-lg-9 col-md-8">{{ user.direccion }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Teléfono</div>
+                    <div class="col-lg-9 col-md-8">{{ user.telefono }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Email</div>
+                    <div class="col-lg-9 col-md-8">{{ user.email }}</div>
+                  </div>
+
+                </div>
+
+                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
+                  <!-- Profile Edit Form -->
+                  <form>
+                    <div class="row mb-3">
+                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                      <div class="col-md-8 col-lg-9">
+                        <img src="{{ user.foto_perfil.url }}" alt="Profile">
+                        <div class="pt-2">
+                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="first_name" type="text" class="form-control" id="first_name" value="{{ user.first_name }}">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="last_name" type="text" class="form-control" id="last_name" value="{{ user.last_name }}">
+                        </div>
+                      </div>
+
+                    
+                    <div class="row mb-3">
+                      <label for="about" class="col-md-4 col-lg-3 col-form-label">Descripción</label>
+                      <div class="col-md-8 col-lg-9">
+                        <textarea name="about" class="form-control" id="about" style="height: 100px">{{ user.descripcion }}</textarea>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="company" class="col-md-4 col-lg-3 col-form-label">Dirección</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="company" type="text" class="form-control" id="company" value="{{ user.direccion }}">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Teléfono</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="job" type="text" class="form-control" id="Job" value="{{ user.telefono }}">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Country" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="country" type="text" class="form-control" id="Country" value="{{ user.email }}">
+                      </div>
+                    </div>
+
+          
+
+         
+
+                    <div class="row mb-3">
+                      <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </div>
+                  </form><!-- End Profile Edit Form -->
+
+                </div>
+
+                <div class="tab-pane fade pt-3" id="profile-settings">
+
+                  <!-- Settings Form -->
+                  <form>
+
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
+                      <div class="col-md-8 col-lg-9">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="changesMade" checked>
+                          <label class="form-check-label" for="changesMade">
+                            Changes made to your account
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="newProducts" checked>
+                          <label class="form-check-label" for="newProducts">
+                            Information on new products and services
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="proOffers">
+                          <label class="form-check-label" for="proOffers">
+                            Marketing and promo offers
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
+                          <label class="form-check-label" for="securityNotify">
+                            Security alerts
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                  </form><!-- End settings Form -->
+
+                </div>
+
+                <div class="tab-pane fade pt-3" id="profile-change-password">
+                  <!-- Change Password Form -->
+                  <form>
+
+                    <div class="row mb-3">
+                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="password" type="password" class="form-control" id="currentPassword">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Change Password</button>
+                    </div>
+                  </form><!-- End Change Password Form -->
+
+                </div>
+
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    {% include 'estructura/footer.html' %}

@@ -36,17 +36,7 @@
             margin-right: 20px;
             border-radius: 10px;
         }
-        .search-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .search-bar input {
-            width: 80%;
-            padding: 5px;
-            border-radius: 5px;
-        }
+
         .pagination {
             margin-top: 20px;
             text-align: center;
@@ -65,12 +55,21 @@
 
     {% include 'estructura/menu.html' %}
     
+
+    <div class="pagetitle">
+        <h1>Fundaciones</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+            <li class="breadcrumb-item">Fundaciones</li>
+          </ol>
+        </nav>
+      </div>
     <div class="container-fluid">
         <div class="container container1 mt-4">
-            <h1 class="text-center mb-4">Lista de Fundaciones</h1>
             <div class="search-bar">
                 <form method="GET" action="{% url 'fundaciones' %}" style="flex-grow: 1; margin-right: 10px;">
-                    <input type="text" name="q" placeholder="Buscar: Fundación Banco de ropa" class="form-control">
+                    <input type="text" name="q" placeholder="Buscar una Fundación..." class="form-control">
                     <button type="submit" class="btn btn-dark mt-2">Buscar</button>
                 </form>
                 <a href="{% url 'crear_fundacion' %}" class="btn btn-dark">Publicar Fundación</a>
@@ -85,7 +84,17 @@
                     <p>Teléfono: {{ foundation.telefono }}</p>
                     <p>Comuna: {{ foundation.comuna }} | Región: {{ foundation.region }}</p>
                     {% if foundation.sitio_web %}
-                        <a href="{{ foundation.sitio_web }}" class="btn btn-link" style="background-color: #f0f0f0; padding: 5px 10px; text-decoration: none;">Visitar</a>
+
+                        <a href="{{ foundation.sitio_web }}" class="btn btn-info" target="_blank">
+                            <i class="bi bi-cursor-fill"></i> Visitar
+                        </a>
+                        
+                        {% if user.is_superuser %}
+                        <a href="{% url 'modificar_fundacion' foundation.rut %}" class="btn btn-warning">
+                            <i class="bi bi-pencil-square"></i> Modificar
+                        </a>
+                        {% endif %}
+
                     {% endif %}
                 </div>
             </div>

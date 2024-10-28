@@ -15,7 +15,7 @@
 }
 
 .search-bar {
-    background-color: #C4FF61; /* Color de fondo para la barra de búsqueda */
+     /* Color de fondo para la barra de búsqueda */
     padding: 10px;
     display: flex;
     justify-content: space-between;

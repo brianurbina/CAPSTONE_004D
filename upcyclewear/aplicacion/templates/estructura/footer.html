@@ -1,96 +1,22 @@
-{% load static %}
-<style>
-html, body {
-    height: 100%; /* Asegura que el HTML y body ocupen toda la altura del viewport */
-    margin: 0;
-}
 
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* La página siempre ocupará la altura completa del viewport */
-}
+</main>
+   {% load static %}
+   <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>Upcycle Wear</span></strong>. All Rights Reserved 
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+      Designed by <a href="{% url 'principal' %}">Upcycle Wear</a>
+    </div>
+  </footer><!-- End Footer -->
 
-.footer {
-    margin-top: auto; /* Empuja el footer hacia el final de la página */
-    bottom: 0; 
-    height: 500px;
-    width: 100%;
-    background: #C4FF61;
-    padding: 20px 0; /* Ajusta el espacio vertical alrededor del texto */
-    display: flex;
-    justify-content: center; /* Centra el contenido horizontalmente */
-    align-items: center; /* Centra el contenido verticalmente si es necesario */
-    position: relative;
-}
-
-.social-icons {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 20px; /* Espacio adicional entre los iconos y el texto */
-}
-
-.social-icons a {
-    color: black; /* Cambiado a negro */
-    font-size: 30px; /* Aumenta el tamaño de los iconos */
-    text-decoration: none;
-    transition: transform 0.3s, color 0.3s;
-}
-
-.social-icons a:hover {
-    color: #007bff; /* Cambia el color al pasar el mouse */
-    transform: scale(1.2); /* Aumenta el tamaño al pasar el mouse */
-}
-
-.social-icons a .fab {
-    background-color: white;
-    border-radius: 50%;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-/* Cambia el color del texto en el footer a negro */
-.footer h5, .footer p {
-    color: black !important; /* Cambiado a negro */
-}
-.footer h6 {
-    margin: 0;
-    text-align: center; /* Asegura que el texto dentro del h6 esté centrado */
-    
-}
-
-</style>
-</head>
-<body>
-    <footer class="footer">
-        <div class="container">
-            <div class="row mt-4">
-                <div class="col-md-4 mb-4" style="text-align: center;">
-                    <h5>Contacto</h5>
-                    <p>
-                        <i class="fab fa-whatsapp"></i> 
-                        <span style="margin-left: 10px;">+56 9 3456 7891 // +56 9 1234 5678</span>
-                    </p>
-                    <p>
-                        <i class="far fa-envelope"></i> 
-                        <span style="margin-left: 10px;">contacto@upcyclewear.cl</span>
-                    </p>
-                </div>
-                <div class="col-md-4 mb-4" style="text-align: center;">
-                    <p>¡Síguenos en nuestras redes!</p>
-                    <ul class="list-inline social-icons">
-                        <li class="list-inline-item"><a href="https://www.facebook.com/profile.php?id=61559042896464&locale=es_LA"><i class="fab fa-facebook"></i></a></li>
-                        <li class="list-inline-item"><a href="https://www.instagram.com/servicomputec"><i class="fab fa-instagram"></i></a></li>
-                    </ul>
-                </div>
-            
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <p style="font-size:14px;">© UpcycleWear.cl || 2024 || Todos los derechos reservados.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+ 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</html>

@@ -81,83 +81,6 @@
     margin-left: 10px;
 }
 
-/* Barra de navegación */
-.navbar {
-    background-color: #C4FF61 !important;
-    border: none;
-}
-
-.navbar-brand {
-    color: #fff !important;
-    font-size: 24px;
-}
-
-.navbar-nav .nav-link {
-    color: #fff !important;
-    font-size: 25px;
-    transition: font-size 0.4s;
-    font-family: 'Courier New', Courier, monospace;
-    padding: 0 20px !important;
-}
-
-.navbar-nav .nav-link:hover {
-    color: yellow !important;
-    font-size: 30px;
-    text-decoration: underline;
-}
-
-.dropdown-item:hover {
-    background-color: yellow !important;
-    color: black !important;
-    font-weight: bold !important;
-}
-
-.logo-navbar {
-    height: 50px;
-}
-
-/* Centrado del logo */
-.navbar-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-.navbar-right {
-    position: absolute;
-    right: 0;
-}
-
-/* Estilos para pantallas pequeñas */
-@media (max-width: 1000px) {
-    .btn-iniciar-sesion,
-    .btn-crear-cuenta {
-        padding: 5px 10px;
-        font-size: 14px;
-        width: 100%;
-        margin-bottom: 10px;
-    }
-
-    .navbar-nav .nav-link {
-        font-size: 18px;
-    }
-
-    .navbar-center {
-        flex-direction: column;
-    }
-
-    .logo-navbar {
-        height: 40px;
-    }
-
-    .navbar-right {
-        position: static;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-}
 
 
 
@@ -174,10 +97,10 @@
 
 .modal-content {
 
-    background: linear-gradient(180deg, #C4FF61 50%, white 80%);
+    background: linear-gradient(180deg, #001973 50%, white 80%);
     margin: 20% auto;
     padding: 20px;
-    border: 1px solid #f3e300;
+    border: 4px solid black;
     width: 100%;
     max-width: 400px;
 }
@@ -378,37 +301,6 @@ button[type="submit"]:hover {
     .card-container {
         width: 100%;
     }
-}
-
-/* Estilos para la imagen flotante BOT */
-.footer {
-    position: relative;
-    background: #C4FF61;
-    padding: 20px 0; /* Ajusta el espacio vertical alrededor del texto */
-    display: flex;
-    justify-content: center; /* Centra el contenido horizontalmente */
-    align-items: center; /* Centra el contenido verticalmente si es necesario */
-}
-
-.img-bot {
-    position: absolute;
-    bottom: 10px; /* Ajusta la distancia desde la parte inferior */
-    right: 10px; /* Ajusta la distancia desde la parte derecha */
-    max-width: 100px; /* Ajusta el tamaño según lo necesario */
-    height: auto; /* Mantiene la proporción */
-    object-fit: contain; /* Mantiene proporción sin distorsionar */
-
-}
-.ubicar-img-bot {
-    max-width: 100px;
-    height: auto;
-    margin: 0 auto;
-    position: absolute;
-    top: -100px; /* Ajusta esta distancia para que flote sobre la tarjeta */
-    left: 250%;
-    transform: translateX(-50%);
-    z-index: 2;
-   
 }
 
 /* Estilos para la barra de navegación 

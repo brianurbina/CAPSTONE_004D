@@ -6,20 +6,26 @@ from django.forms import widgets
 from django.forms.models import ModelChoiceField
 from django.forms.widgets import Widget
 
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from .models import Usuario  # Asegúrate de que la ruta de importación sea correcta
+
 class UsuarioRegisterForm(UserCreationForm):
-    direccion = forms.CharField(max_length=255, required=False)
-    telefono = forms.CharField(max_length=20, required=False)
-    foto_perfil = forms.ImageField(required=False)
-    descripcion = forms.CharField(widget=forms.Textarea, required=False)
+    direccion = forms.CharField(max_length=255, required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    telefono = forms.CharField(max_length=20, required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    foto_perfil = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'form-control'}))
+    descripcion = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}), required=False)
 
     class Meta:
         model = Usuario
-        fields = ['username', 'email', 'telefono', 'direccion', 'foto_perfil', 'password1', 'password2', 'descripcion']
+        fields = ['first_name', 'last_name','username', 'email', 'telefono', 'direccion', 'foto_perfil', 'password1', 'password2', 'descripcion']
         widgets = {
-            'password1': forms.PasswordInput(),
-            'password2': forms.PasswordInput(),
-            'foto_perfil': forms.FileInput(),
-            'descripcion': forms.Textarea(attrs={'rows': 4}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
         }
 
     def save(self, commit=True):
@@ -36,6 +42,7 @@ class UsuarioRegisterForm(UserCreationForm):
             user.save()
         
         return user
+
 
 
 
@@ -184,6 +191,8 @@ REGIONS_CHOICES = [
     ("Aysén", "Región de Aysén del General Carlos Ibáñez del Campo"),
     ("Magallanes", "Región de Magallanes y de la Antártica Chilena")
 ]
+
+
 class FundacionForm(forms.ModelForm):
 
     class Meta: 
@@ -220,6 +229,37 @@ class FundacionForm(forms.ModelForm):
         if commit:
             fundacion.save()
         return fundacion
+    
+class FundacionFormMod(forms.ModelForm):
+
+    class Meta: 
+        model = Fundacion
+        fields = ['rut', 'razon_social', 'comuna', 'region', 'direccion', 'descripcion', 'telefono', 'logotipo', 'sitio_web','aprobada']
+        labels = {
+            'rut': 'RUT:',
+            'razon_social': 'Razón Social:',
+            'comuna': 'Comuna:',
+            'region': 'Región:',
+            'direccion': 'Dirección:',
+            'descripcion': 'Descripción:',
+            'telefono': 'Teléfono:',
+            'logotipo': 'Logotipo:',
+            'sitio_web': 'Sitio Web:',
+            'aprobada': 'Aprobada',
+        }
+        widgets = {
+            'rut': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el RUT', 'id': 'rut'}),
+            'razon_social': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese la razón social', 'id': 'razon_social'}),
+            'comuna': forms.Select(choices=COMUNA_CHOICES, attrs={'class': 'form-control', 'id': 'comuna'}),
+            'region': forms.Select(choices=REGIONS_CHOICES, attrs={'class': 'form-control', 'id': 'region'}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese la dirección', 'id': 'direccion'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ingrese una descripción', 'id': 'descripcion', 'rows': 3}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el teléfono', 'id': 'telefono'}),
+            'logotipo': forms.FileInput(attrs={'class': 'file-input', 'id': 'logotipo', 'style': 'color: white; background-color: green; text-align: center; width: 100%;'}),
+            'sitio_web': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el sitio web', 'id': 'sitio_web'}),
+            'aprobada': forms.CheckboxInput(),
+        }
+
 
 
 # Definimos las opciones para el campo tipo_ropa

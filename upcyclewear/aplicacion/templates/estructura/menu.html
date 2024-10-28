@@ -1,200 +1,311 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM5Jzz//Wx1ImO03eK/pA3U9fYkT5i5H75+9Q0" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
- 
+  {% load static %}
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Menu</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/quill/quill.snow.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/quill/quill.bubble.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/simple-datatables/style.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Updated: Apr 20 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
-   <style>
-  
-/* Estilo corregido para la barra de navegación */
-.navbar {
-    background-color: #C4FF61 !important; /* Color de fondo del menú */
-    border: none; /* Elimina bordes si hay */
-}
 
-.navbar-brand {
-    color: black !important; /* Letras blancas */
-    font-size: 24px; /* Tamaño de fuente */
-}
-
-.navbar-nav .nav-link {
-    color: black !important; /* Letras blancas */
-    font-size: 25px;
-    transition: font-size 0.4s; /* Transición de tamaño de fuente */
-    font-family: 'Courier New', Courier, monospace;
-    padding: 0 20px !important;
-}
-
-.navbar-nav .nav-link:hover {
-    color: rgb(0, 195, 255) !important; /* Letras amarillas */
-    font-size: 30px; /* Tamaño de fuente aumentado */
-    text-decoration: underline; /* Subrayado */
-    font-family: 'Courier New', Courier, monospace;
-}
-
-.dropdown-item:hover {
-    background-color: yellow !important; /* Fondo amarillo */
-    color: black !important; /* Letras negras */
-    font-weight: bold !important; /* Negrita */
-}
-
-.logo-navbar {
-    width: 150px; /* Tamaño deseado en píxeles */
-    height: auto; /* Altura ajustada automáticamente */
-}
-
-
-.usuario-autenticado {
-    display: flex;
-    align-items: center;
-    position: relative; /* Para posicionar el menú desplegable */
-}
-
-.perfil-imagen {
-    width: 40px; /* Tamaño de la imagen */
-    height: 40px; /* Tamaño de la imagen */
-    border-radius: 50%; /* Imagen circular */
-    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
-    margin-right: 10px; /* Espaciado a la derecha de la imagen */
-    cursor: pointer; /* Cambiar el cursor al pasar sobre la imagen */
-    border: 2px solid #007bff; /* Borde azul para simular un botón */
-    background-color: #f8f9fa; /* Fondo claro para el botón */
-    transition: background-color 0.3s; /* Transición suave */
-}
-
-.perfil-imagen:hover {
-    background-color: #e2e6ea; /* Color de fondo al pasar el ratón */
-}
-
-.dropdown-menu {
-    display: none; /* Ocultar el menú por defecto */
-    position: absolute; /* Posicionar el menú */
-    top: 50px; /* Ajustar según el diseño */
-    left: -150px; /* Desplazar hacia la izquierda, ajustar según necesidad */
-    background-color: white; /* Fondo del menú */
-    border: 1px solid #ccc; /* Borde del menú */
-    border-radius: 5px; /* Bordes redondeados */
-    z-index: 1000; /* Asegurarse de que esté por encima de otros elementos */
-}
-
-.dropdown-menu.show {
-    display: block; /* Mostrar el menú cuando tiene la clase 'show' */
-}
-
-.dropdown-item {
-    padding: 10px; /* Espaciado de las opciones del menú */
-    text-decoration: none; /* Sin subrayado */
-    color: #333; /* Color del texto */
-    display: block; /* Mostrar como bloque */
-}
-
-.dropdown-item:hover {
-    background-color: #f0f0f0; /* Cambiar el fondo al pasar el ratón */
-}
-/* Media Query para resoluciones bajas */
-@media (max-width: 991px) {
-    .dropdown-menu {
-        left: auto; /* Remover el desplazamiento hacia la izquierda */
-
-        top: 50px; /* Ajusta esto si es necesario */
-    }
-}
-
-.menu-icon {
-
-    cursor: pointer; /* Cambiar el cursor al pasar sobre el ícono */
-    color: #007bff; /* Color del ícono */
-    background: rgba(255, 255, 255, 0.322); /* Fondo semi-transparente */
-    border-radius: 50%; /* Para un efecto circular */
-    padding: 10px; /* Espaciado interno */
- 
-    transition: color 0.3s; /* Transición para el cambio de color */
-}
-
-/* Cambiar color al pasar el ratón */
-.menu-icon:hover {
-    color: #00d9ff; /* Color celeste al pasar el ratón */
-    background-color: rgba(255, 255, 255, 0.459);
-}
-
-</style>
-
-</head>
 <body>
-    {% load static %}
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid justify-content-between">
-            <a class="navbar-brand" href="{% url 'index' %}">
-                <img src="{% static 'img/logo.png' %}" alt="Logo" class="logo-navbar">
-            </a>
-            <button id="menu-open-button" class="navbar-toggler bg-light" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'chat' %}">
-                            <i class="fas fa-comment-dots"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'fundaciones' %}">Fundaciones</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'donar' %}">Donar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'pedir' %}">Pedir</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'mapa' %}">Mapa</a>
-                    </li>
-                </ul>
-                <div class="usuario-autenticado d-flex align-items-center position-relative">
-                    <a href="{% url 'mi_perfil' %}"><img src="{{ user.foto_perfil.url }}" alt="Foto de perfil" class="perfil-imagen"  /></a>
-                    <div class="menu-icon" id="perfil-dropdown-toggle" >
-                       <a> <i class="fas fa-ellipsis-v"></i></a> <!-- Ícono de tres puntos -->
-                    </div>
-                    <div class="dropdown-menu" id="perfil-dropdown">
-                        <a class="dropdown-item" href="{% url 'mi_perfil' %}">Ver perfil</a>
-                        <a class="dropdown-item" href="">Modificar perfil</a>
-                        <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a>
-                    </div>
+ {% load static %}
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="{% url 'principal' %}" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="">
+        <span class="d-none d-lg-block">Upcycle Wear</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+   
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle " href="#">
+            <i class="bi bi-search"></i>
+          </a>
+        </li><!-- End Search Icon-->
+
+        <li class="nav-item dropdown">
+
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-bell"></i>
+            <span class="badge bg-primary badge-number">4</span>
+          </a><!-- End Notification Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+            <li class="dropdown-header">
+              You have 4 new notifications
+              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-exclamation-circle text-warning"></i>
+              <div>
+                <h4>Lorem Ipsum</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>30 min. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-x-circle text-danger"></i>
+              <div>
+                <h4>Atque rerum nesciunt</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>1 hr. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-check-circle text-success"></i>
+              <div>
+                <h4>Sit rerum fuga</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>2 hrs. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-info-circle text-primary"></i>
+              <div>
+                <h4>Dicta reprehenderit</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>4 hrs. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li class="dropdown-footer">
+              <a href="#">Show all notifications</a>
+            </li>
+
+          </ul><!-- End Notification Dropdown Items -->
+
+        </li><!-- End Notification Nav -->
+
+        <li class="nav-item dropdown">
+
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-chat-left-text"></i>
+            <span class="badge bg-success badge-number">3</span>
+          </a><!-- End Messages Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+            <li class="dropdown-header">
+              You have 3 new messages
+              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
+                <div>
+                  <h4>Maria Hudson</h4>
+                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                  <p>4 hrs. ago</p>
                 </div>
-            </div>
-        </div>
-    </nav>
-    
-    
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggle = document.getElementById('perfil-dropdown-toggle');
-            const dropdown = document.getElementById('perfil-dropdown');
-    
-            toggle.addEventListener('click', function () {
-                dropdown.classList.toggle('show');
-            });
-    
-            // Cerrar el menú si se hace clic fuera de él
-            window.addEventListener('click', function (event) {
-                if (!toggle.contains(event.target) && !dropdown.contains(event.target)) {
-                    dropdown.classList.remove('show');
-                }
-            });
-        });
-    </script>
-    
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <li class="message-item">
+              <a href="#">
+                <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
+                <div>
+                  <h4>Anna Nelson</h4>
+                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                  <p>6 hrs. ago</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
-</body>
-</html>
+            <li class="message-item">
+              <a href="#">
+                <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
+                <div>
+                  <h4>David Muldon</h4>
+                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                  <p>8 hrs. ago</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="dropdown-footer">
+              <a href="#">Show all messages</a>
+            </li>
+
+          </ul><!-- End Messages Dropdown Items -->
+
+        </li><!-- End Messages Nav -->
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{{ user.foto_perfil.url }}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ user.first_name }} {{ user.last_name }}</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{ user.first_name }} {{ user.last_name }}</h6>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'mi_perfil' %}">
+                <i class="bi bi-person"></i>
+                <span>Mi perfil</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                <i class="bi bi-gear"></i>
+                <span>Modificar Perfil</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'logout' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Cerrar Sesión</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'fundaciones' %}">
+          <i class="bi bi-building"></i>
+          <span>Fundaciones</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'donar' %}">
+          <i class="bi bi-heart-fill"></i>
+          <span>Donar</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'pedir' %}">
+          <i class="bi bi-hand-index-thumb"></i>
+          <span>Pedir</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'mapa' %}">
+          <i class="bi bi-geo-alt"></i>
+          <span>Mapa</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'chat' %}">
+            <i class="fas fa-comment-dots"></i> 
+            <span>Conversaciones</span>
+        </a>
+      </li>
+
+     
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <script src="{% static 'vendor/apexcharts/apexcharts.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/chart.js/chart.umd.js' %}"></script>
+  <script src="{% static 'vendor/echarts/echarts.min.js' %}"></script>
+  <script src="{% static 'vendor/quill/quill.js' %}"></script>
+  <script src="{% static 'vendor/simple-datatables/simple-datatables.js' %}"></script>
+  <script src="{% static 'vendor/tinymce/tinymce.min.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+
+  <script src="{% static 'js/main2.js' %}"></script>
+  <main id="main" class="main">

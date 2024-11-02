@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Reportes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+<div class="container my-4">
+    <h2 class="text-center">Gestión de Reportes de Usuarios</h2>
+    <p class="text-center">Revisa y actualiza el estado de los reportes de usuarios.</p>
+
+    {% for reporte in reportes %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Reporte de {{ reporte.usuario_reportante }} sobre {{ reporte.usuario_reportado }}</h5>
+            <p><strong>Motivo:</strong> {{ reporte.get_motivo_display }}</p>
+            <p><strong>Descripción:</strong> {{ reporte.descripcion }}</p>
+            <p><strong>Fecha:</strong> {{ reporte.fecha_creacion }}</p>
+            <p><strong>Estado:</strong> {{ reporte.get_estado_display }}</p>
+            <!-- Mostrar resultado si el estado es Resuelto o Rechazado -->
+ {% if reporte.estado == 'RESUELTO' or reporte.estado == 'RECHAZADO' %}
+ <p><strong>Resultado:</strong> {{ reporte.resultado }}</p>
+{% endif %}
+            <!-- Agregar el email del usuario reportante aquí -->
+            <button class="btn btn-success resolveButton" data-id="{{ reporte.id_reporte }}" data-email="{{ reporte.usuario_reportante.email }}">Marcar como Resuelto</button>
+            <button class="btn btn-danger rejectButton" data-id="{{ reporte.id_reporte }}" data-email="{{ reporte.usuario_reportante.email }}">Rechazar</button>
+        </div>
+    </div>
+{% endfor %}
+
+</div>
+ 
+<script>
+// Función para abrir el modal y pedir resultado
+// Función para abrir el modal y pedir resultado
+function showModal(reportId, action, email) {
+    Swal.fire({
+        title: action === 'RESUELTO' ? 'Marcar como Resuelto' : 'Rechazar Reporte',
+        text: 'Ingrese el resultado de esta acción:',
+        input: 'textarea',
+        inputPlaceholder: 'Escriba el resultado aquí...',
+        showCancelButton: true,
+        confirmButtonText: action === 'RESUELTO' ? 'Marcar como Resuelto' : 'Rechazar',
+        cancelButtonText: 'Cancelar',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Debe ingresar un resultado';
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const resultado = result.value;
+
+            // Realizar la solicitud POST con el estado y resultado
+            fetch(`/actualizar_estado_reporte/${reportId}/${action}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ estado: action, resultado: resultado })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Usar el correo electrónico del argumento
+                    Swal.fire('¡Éxito!', 'El reporte ha sido actualizado. Se ha notificado al Email del Usuario: ' + email, 'success')
+                    .then(() => {
+                        location.reload();
+                    });
+                } else {
+                    
+                    Swal.fire('Error', 'No se pudo actualizar el reporte.', 'error');
+                }
+            });
+        }
+    });
+}
+
+// Eventos de botones
+document.querySelectorAll('.resolveButton').forEach(button => {
+    button.addEventListener('click', function() {
+        const reportId = this.getAttribute('data-id');
+        const email = this.getAttribute('data-email'); // Obtener el email del atributo de datos
+        showModal(reportId, 'RESUELTO', email); // Pasar el email a la función
+    });
+});
+
+document.querySelectorAll('.rejectButton').forEach(button => {
+    button.addEventListener('click', function() {
+        const reportId = this.getAttribute('data-id');
+        const email = this.getAttribute('data-email'); // Obtener el email del atributo de datos
+        showModal(reportId, 'RECHAZADO', email); // Pasar el email a la función
+    });
+});
+
+</script>
+
+</body>
+</html>

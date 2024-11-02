@@ -1,0 +1,6 @@
+Internal Server Error: /actualizar_estado_reporte/9944036a-d2bb-43c8-bca2-f11591382e29/RESUELTO/
+"POST /actualizar_estado_reporte/9944036a-d2bb-43c8-bca2-f11591382e29/RESUELTO/ HTTP/1.1" 500 249
+Internal Server Error: /actualizar_estado_reporte/9944036a-d2bb-43c8-bca2-f11591382e29/RECHAZADO/
+"POST /actualizar_estado_reporte/9944036a-d2bb-43c8-bca2-f11591382e29/RECHAZADO/ HTTP/1.1" 500 221
+Internal Server Error: /actualizar_estado_reporte/9944036a-d2bb-43c8-bca2-f11591382e29/RECHAZADO/
+"POST /actualizar_estado_reporte/9944036a-d2bb-43c8-bca2-f11591382e29/RECHAZADO/ HTTP/1.1" 500 222

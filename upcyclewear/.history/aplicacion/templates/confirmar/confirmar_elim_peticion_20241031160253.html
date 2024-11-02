@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar - UPCYCLE WEAR</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/styleuser.css' %}">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Fondo claro */
+            color: #343a40; /* Color de texto oscuro */
+        }
+        .container {
+            max-width: 600px; /* Limitar el ancho de la caja */
+            margin-top: 100px; /* Espaciado superior */
+            padding: 20px; /* Espaciado interno */
+            background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con algo de transparencia */
+            border-radius: 15px; /* Esquinas redondeadas */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra */
+        }
+        .alert-custom {
+            background-color: rgba(255, 193, 7, 0.9); /* Color amarillo */
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .alert-icon {
+            font-size: 2em; /* Tamaño del icono */
+            color: #ffcc00; /* Color del icono */
+            margin-right: 10px; /* Espaciado a la derecha del icono */
+        }
+        .header-title {
+            display: flex;
+            align-items: center; /* Centrar verticalmente el icono y el texto */
+            margin-bottom: 20px; /* Espaciado debajo del título */
+        }
+        .btn-danger {
+            margin-right: 10px; /* Espaciado entre botones */
+        }
+    </style>
+</head>
+<body>
+    {% include 'estructura/menu.html' %}
+
+    <div class="container">
+        <div class="header-title">
+            <i class="fas fa-exclamation-triangle alert-icon"></i> <!-- Icono de alerta -->
+            <h1 class="mb-0">Eliminar {{ tipo }}</h1>
+        </div>
+        <div class="alert alert-custom">
+            <p class="mb-0">¿Estás seguro de que deseas eliminar "{{ objeto.razon_social }}"?</p>
+            <p class="mb-0" style="color: red">Esta acción no se puede deshacer.</p>
+        </div>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <div class="text-center">
+                <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                <a href="{% url 'donar' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+{% include 'estructura/footer.html' %}
+</html>

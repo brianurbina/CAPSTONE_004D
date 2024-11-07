@@ -16,7 +16,9 @@ class Usuario(AbstractUser):
 
        def __str__(self):
            return self.username
-   
+
+
+
 
 class Donacion(models.Model):
     ESTADO_CHOICES = [
@@ -36,10 +38,6 @@ class Donacion(models.Model):
     foto = models.ImageField(upload_to='donaciones/')
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES)
     receptor = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, related_name='donaciones_recibidas')
-
-class HistorialDonaciones(models.Model):
-    donacion = models.ForeignKey(Donacion, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
 
 class Conversacion(models.Model):
@@ -69,8 +67,8 @@ class Fundacion(models.Model):
     telefono = models.CharField(max_length=20)
     logotipo = models.ImageField(upload_to='fundaciones/', null=True, blank=True, default='img/nofoto.jpg')
     sitio_web = models.URLField(blank=True)
-    correo = models.EmailField(blank=True)
     aprobada = models.BooleanField(default=False)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='dueño')
 
 class Peticion(models.Model):
     ESTADO_CHOICES = [
@@ -87,12 +85,6 @@ class Peticion(models.Model):
     descripcion = models.TextField()
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES)
     donador = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True, related_name='donaciones_realizadas')
-
-class HistorialPeticiones(models.Model):
-    peticion = models.ForeignKey(Peticion, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-
-
 
 
 class Reseña(models.Model):
@@ -147,4 +139,19 @@ class ReporteUsuario(models.Model):
     def __str__(self):
         return f'Reporte de {self.usuario_reportante} sobre {self.usuario_reportado} - {self.get_motivo_display()}'
 
+"""
+class Region(models.Model):
+    id= models.CharField(primary_key=True, max_length=50)
+    region = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f'id: {self.id} region: {self.region}'
+
+class Comuna(models.Model):
+    id= models.CharField(primary_key=True, max_length=50)
+    region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True, blank=True, related_name='region')
+    comuna = models.CharField(max_length=50)
+    def __str__(self):
+        return f'id: {self.id} region: {self.comuna}'
+"""
 

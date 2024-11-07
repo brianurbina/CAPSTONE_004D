@@ -226,6 +226,7 @@ class FundacionForm(forms.ModelForm):
         fundacion = super().save(commit=False)
         # Establecer 'aprobada' como False
         fundacion.aprobada = False
+        
         if commit:
             fundacion.save()
         return fundacion

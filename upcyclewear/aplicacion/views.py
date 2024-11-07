@@ -412,17 +412,24 @@ def crear_conversacion(request, usuario_username):
 
 
 
-#FORMULARIOS
+from django.shortcuts import render, redirect
+from .forms import FundacionForm
+import uuid
+
 def crear_fundacion(request):
     if request.method == 'POST':
-        form = FundacionForm(request.POST, request.FILES)  # Asegúrate de incluir request.FILES para manejar archivos
+        form = FundacionForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()  # Guardar el formulario
+            # No guardar aún
+            fundacion = form.save(commit=False)
+            # Asignar el usuario actual
+            fundacion.usuario = request.user
+            # Asignar cualquier otro campo necesario
+            fundacion.aprobada = False  # Ejemplo, si es necesario
+            fundacion.save()  # Guardar la instancia
             return redirect('fundaciones')  # Redirigir a la lista de fundaciones (cambia según tu URL)
     else:
         form = FundacionForm()
-
-
 
     return render(request, 'forms/form_fundacion.html', {'form': form})
 

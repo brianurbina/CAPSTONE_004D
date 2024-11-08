@@ -62,7 +62,7 @@
                 {% for foundation in foundations %}
                     { 
                         nombre: "{{ foundation.razon_social }}", 
-                        direccion: "{{ foundation.direccion }}, {{ foundation.comuna }}, Chile",
+                        direccion: "{{ foundation.direccion }}, {{ foundation.comuna_region }}, Chile",
                         logotipo: "{{ foundation.logotipo.url }}",
                         descripcion: "{{ foundation.descripcion }}",
                         telefono: "{{ foundation.telefono }}",

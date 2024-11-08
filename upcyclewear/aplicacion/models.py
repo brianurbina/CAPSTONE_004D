@@ -26,14 +26,163 @@ class Donacion(models.Model):
         ('en_proceso', 'En proceso'),
         ('donado', 'Donado'),
     ]
-    
+
+    TIPO_ROPA_CHOICES = [
+    ('', 'Seleccione una opción'),  # Opción por defecto
+    # Ropa Superior
+    ('Ropa Superior', [
+        ('camiseta', 'Camiseta'),
+        ('polo', 'Polo'),
+        ('blusa', 'Blusa'),
+        ('camisa', 'Camisa'),
+        ('top', 'Top'),
+        ('sueter', 'Suéter'),
+        ('sudadera', 'Sudadera'),
+        ('chaqueta', 'Chaqueta'),
+        ('abrigo', 'Abrigo'),
+        ('cardigan', 'Cárdigan'),
+        ('chaleco', 'Chaleco'),
+        ('camiseta_sin_mangas', 'Camiseta sin mangas'),
+        ('blazer', 'Saco o Blazer'),
+        ('jersey', 'Jersey'),
+    ]),
+    # Ropa Inferior
+    ('Ropa Inferior', [
+        ('pantalon', 'Pantalón'),
+        ('falda', 'Falda'),
+        ('shorts', 'Shorts'),
+        ('bermudas', 'Bermudas'),
+        ('leggings', 'Leggings'),
+        ('capris', 'Capris'),
+    ]),
+    # Vestidos
+    ('Vestidos', [
+        ('vestido_fiesta', 'Vestido de Fiesta'),
+        ('vestido_casual', 'Vestido Casual'),
+        ('vestido_noche', 'Vestido de Noche'),
+        ('vestido_largo', 'Vestido Largo'),
+        ('vestido_corto', 'Vestido Corto'),
+        ('vestido_coctel', 'Vestido de Cóctel'),
+        ('maxi_vestido', 'Maxi Vestido'),
+    ]),
+    # Ropa Íntima
+    ('Ropa Íntima', [
+        ('sujetador', 'Sujetador'),
+        ('calzoncillos', 'Calzoncillos'),
+        ('bragas', 'Bragas'),
+        ('bodysuit', 'Bodysuit'),
+        ('camiseta_interior', 'Camiseta interior'),
+        ('faja', 'Faja'),
+        ('corset', 'Corset'),
+        ('camison', 'Camisón'),
+        ('pijama', 'Pijamas'),
+        ('batas_dormir', 'Batas de dormir'),
+    ]),
+    # Ropa de Exterior
+    ('Ropa de Exterior', [
+        ('abrigo', 'Abrigo'),
+        ('chaqueta', 'Chaqueta'),
+        ('gabardina', 'Gabardina o Trench'),
+        ('parka', 'Parka'),
+        ('poncho', 'Poncho'),
+        ('capa', 'Capa'),
+        ('impermeable', 'Impermeable'),
+        ('chaleco_acolchado', 'Chaleco acolchado'),
+    ]),
+    # Ropa Deportiva
+    ('Ropa Deportiva', [
+        ('sudadera', 'Sudadera'),
+        ('pantalon_deportivo', 'Pantalón deportivo'),
+        ('shorts_deportivos', 'Shorts deportivos'),
+        ('leggings_deportivos', 'Leggings deportivos'),
+        ('top_deportivo', 'Top deportivo'),
+        ('traje_bano', 'Traje de baño'),
+        ('bikini', 'Bikini'),
+        ('ropa_ciclismo', 'Ropa de ciclismo'),
+        ('ropa_yoga', 'Ropa de yoga'),
+    ]),
+    # Ropa de Bebé
+    ('Ropa de Bebé', [
+        ('body', 'Body'),
+        ('pelele', 'Pelele'),
+        ('mameluco', 'Mameluco'),
+        ('babero', 'Babero'),
+        ('pantalones_bebe', 'Pantalones para bebé'),
+        ('conjuntos_bebe', 'Conjuntos'),
+        ('polainas', 'Polainas'),
+        ('pijamas_bebe', 'Pijamas para bebé'),
+        ('chaleco_acolchado_bebe', 'Chaleco acolchado para bebé'),
+    ]),
+    # Trajes
+    ('Trajes', [
+        ('traje_dos_piezas', 'Traje de dos piezas'),
+        ('esmoquin', 'Esmoquin'),
+        ('traje_tres_piezas', 'Traje de tres piezas'),
+        ('conjunto_falda', 'Conjunto de falda y chaqueta'),
+        ('conjunto_pantalon', 'Conjunto de pantalón y top'),
+    ]),
+    # Accesorios de Ropa
+    ('Accesorios de Ropa', [
+        ('bufanda', 'Bufanda'),
+        ('guantes', 'Guantes'),
+        ('sombrero', 'Sombrero'),
+        ('cinturon', 'Cinturón'),
+        ('panuelo', 'Pañuelo'),
+        ('calcetines', 'Calcetines'),
+        ('ligas', 'Ligas'),
+        ('chal', 'Chal'),
+    ]),
+    # Uniformes
+    ('Uniformes', [
+        ('uniforme_escolar', 'Uniforme escolar'),
+        ('uniforme_trabajo', 'Uniforme de trabajo'),
+        ('ropa_enfermeria', 'Ropa de enfermería'),
+        ('uniforme_deportivo', 'Uniforme deportivo'),
+        ('traje_proteccion', 'Traje de protección'),
+        ('uniforme_militar', 'Uniforme militar'),
+    ]),
+    # Trajes Tradicionales
+    ('Trajes Tradicionales', [
+        ('kimono', 'Kimono'),
+        ('sari', 'Sari'),
+        ('traje_folclorico', 'Traje folclórico'),
+        ('traje_flamenco', 'Traje de flamenco'),
+        ('traje_charro', 'Traje charro'),
+        ('toga', 'Toga'),
+    ]),
+    # Ropa Especializada
+    ('Ropa Especializada', [
+        ('ropa_maternidad', 'Ropa de maternidad'),
+        ('ropa_seguridad', 'Ropa de seguridad'),
+        ('ropa_lluvia', 'Ropa de lluvia'),
+        ('traje_nieve', 'Traje de nieve'),
+        ('traje_neopreno', 'Traje de neopreno'),
+    ]),
+]
+    TALLAS = [
+    ('0-3m', '0-3 meses'),
+    ('3-6m', '3-6 meses'),
+    ('6-9m', '6-9 meses'),
+    ('9-12m', '9-12 meses'),
+    ('S', 'Small'),
+    ('M', 'Medium'),
+    ('L', 'Large'),
+    ('XL', 'Extra Large'),
+    ('XXL', 'Double Extra Large'),
+]
+    TEMPORADAS = [
+    ('primavera', 'Primavera'),
+    ('verano', 'Verano'),
+    ('otono', 'Otoño'),
+    ('invierno', 'Invierno'),
+]
     id = models.CharField(primary_key=True, max_length=50)
     fecha_hora = models.DateTimeField(auto_now_add=True)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='donaciones')
     titulo = models.CharField(max_length=100)
-    tipo_ropa = models.CharField(max_length=50)
-    talla = models.CharField(max_length=20)
-    temporada = models.CharField(max_length=20)  # Añadido tipo de campo
+    tipo_ropa = models.CharField(max_length=50,choices=TIPO_ROPA_CHOICES)
+    talla = models.CharField(max_length=20,choices=TALLAS, default='M',)
+    temporada = models.CharField(max_length=20 , choices=TEMPORADAS,default='primavera')  # Añadido tipo de campo
     descripcion = models.TextField()
     foto = models.ImageField(upload_to='donaciones/')
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES)
@@ -58,10 +207,142 @@ class Mensaje(models.Model):
 
 
 class Fundacion(models.Model):
+    # Definimos las regiones y sus comunas
+    REGIONES_Y_COMUNAS = [
+    ('', 'Seleccione una opción'),  # Opción por defecto
+    # Comunas de la Región Metropolitana
+    ('Región Metropolitana', [
+        ('santiago', 'Santiago'),
+        ('maipu', 'Maipú'),
+        ('providencia', 'Providencia'),
+        ('las_condes', 'Las Condes'),
+        ('ñunoa', 'Ñuñoa'),
+        ('vitacura', 'Vitacura'),
+        ('la_florida', 'La Florida'),
+        ('peñalolen', 'Peñalolén'),
+        ('el_bosque', 'El Bosque'),
+        ('la_reina', 'La Reina'),
+        ('pudahuel', 'Pudahuel'),
+        ('independencia', 'Independencia'),
+        ('san_miguel', 'San Miguel'),
+        ('san_joaquin', 'San Joaquín'),
+        ('macul', 'Macul'),
+    ]),
+    # Comunas de la Región de Valparaíso
+    ('Región de Valparaíso', [
+        ('valparaiso', 'Valparaíso'),
+        ('vina_del_mar', 'Viña del Mar'),
+        ('quillota', 'Quillota'),
+        ('san_antonio', 'San Antonio'),
+        ('san_felipe', 'San Felipe'),
+        ('villa_alegre', 'Villa Alegre'),
+        ('almargen', 'Almargen'),
+        ('almendral', 'Almendral'),
+        ('cachagua', 'Cachagua'),
+        ('zapallar', 'Zapallar'),
+    ]),
+    # Comunas de la Región de Coquimbo
+    ('Región de Coquimbo', [
+        ('la_serena', 'La Serena'),
+        ('coquimbo', 'Coquimbo'),
+        ('combarbala', 'Combarbalá'),
+        ('illapel', 'Illapel'),
+        ('andacollo', 'Andacollo'),
+        ('punitaqui', 'Punitaqui'),
+        ('ovalle', 'Ovalle'),
+        ('punta_arenas', 'Punta Arenas'),
+        ('peñuelas', 'Peñuelas'),
+    ]),
+    # Comunas de la Región de Antofagasta
+    ('Región de Antofagasta', [
+        ('antofagasta', 'Antofagasta'),
+        ('calama', 'Calama'),
+        ('mejillones', 'Mejillones'),
+        ('tocopilla', 'Tocopilla'),
+        ('sierra_gorda', 'Sierra Gorda'),
+        ('maria_elena', 'María Elena'),
+    ]),
+    # Comunas de la Región de Atacama
+    ('Región de Atacama', [
+        ('copiapo', 'Copiapó'),
+        ('vallenar', 'Vallenar'),
+        ('chilecito', 'Chilecito'),
+        ('caldera', 'Caldera'),
+        ('huasco', 'Huasco'),
+        ('freirina', 'Freirina'),
+    ]),
+    # Comunas de la Región de Araucanía
+    ('Región de Araucanía', [
+        ('temuco', 'Temuco'),
+        ('angol', 'Angol'),
+        ('villarrica', 'Villarrica'),
+        ('pitrufquen', 'Pitrufquén'),
+        ('freire', 'Freire'),
+        ('carahue', 'Carahue'),
+        ('teodoro_schmidt', 'Teodoro Schmidt'),
+        ('lachauco', 'Lachauco'),
+    ]),
+    # Comunas de la Región de Los Ríos
+    ('Región de Los Ríos', [
+        ('valdivia', 'Valdivia'),
+        ('la_union', 'La Unión'),
+        ('rio_negro', 'Río Negro'),
+        ('corral', 'Corral'),
+        ('los_lagos', 'Los Lagos'),
+        ('llanquihue', 'Llanquihue'),
+    ]),
+    # Comunas de la Región de Los Lagos
+    ('Región de Los Lagos', [
+        ('osorno', 'Osorno'),
+        ('puerto_montt', 'Puerto Montt'),
+        ('castro', 'Castro'),
+        ('ancud', 'Ancud'),
+        ('puyehue', 'Puyehue'),
+        ('los_muermos', 'Los Muermos'),
+        ('maullín', 'Maullín'),
+    ]),
+    # Comunas de la Región de Magallanes
+    ('Región de Magallanes', [
+        ('punta_arenas', 'Punta Arenas'),
+        ('porvenir', 'Porvenir'),
+        ('cabo_de_hornos', 'Cabo de Hornos'),
+        ('primavera', 'Primavera'),
+        ('serrano', 'Serrano'),
+    ]),
+    # Comunas de la Región de Arica y Parinacota
+    ('Región de Arica y Parinacota', [
+        ('arica', 'Arica'),
+        ('putre', 'Putre'),
+        ('camarones', 'Camarones'),
+    ]),
+    # Comunas de la Región de Tarapacá
+    ('Región de Tarapacá', [
+        ('iquique', 'Iquique'),
+        ('alto_hospicio', 'Alto Hospicio'),
+        ('pica', 'Pica'),
+        ('migración', 'Migración'),
+    ]),
+    # Comunas de la Región de Antofagasta
+    ('Región de Antofagasta', [
+        ('antofagasta', 'Antofagasta'),
+        ('calama', 'Calama'),
+        ('mejillones', 'Mejillones'),
+        ('tocopilla', 'Tocopilla'),
+        ('sierra_gorda', 'Sierra Gorda'),
+    ]),
+    # Comunas de la Región de Ñuble
+    ('Región de Ñuble', [
+        ('chillan', 'Chillán'),
+        ('bulnes', 'Bulnes'),
+        ('quillan', 'Quillán'),
+        ('yungay', 'Yungay'),
+    ]),
+]
+
+
     rut = models.CharField(primary_key=True, max_length=20)
     razon_social = models.CharField(max_length=100)
-    comuna = models.CharField(max_length=50)
-    region = models.CharField(max_length=50)
+    comuna_region = models.CharField(max_length=50, choices=REGIONES_Y_COMUNAS, default='')
     direccion = models.CharField(max_length=255)
     descripcion = models.TextField()
     telefono = models.CharField(max_length=20)
@@ -76,12 +357,146 @@ class Peticion(models.Model):
         ('en_proceso', 'En proceso'),
         ('completada', 'Completada'),
     ]
+    # Definimos las opciones para el campo tipo_ropa
+    TIPO_ROPA_CHOICES = [
+    ('', 'Seleccione una opción'),  # Opción por defecto
+    # Ropa Superior
+    ('Ropa Superior', [
+        ('camiseta', 'Camiseta'),
+        ('polo', 'Polo'),
+        ('blusa', 'Blusa'),
+        ('camisa', 'Camisa'),
+        ('top', 'Top'),
+        ('sueter', 'Suéter'),
+        ('sudadera', 'Sudadera'),
+        ('chaqueta', 'Chaqueta'),
+        ('abrigo', 'Abrigo'),
+        ('cardigan', 'Cárdigan'),
+        ('chaleco', 'Chaleco'),
+        ('camiseta_sin_mangas', 'Camiseta sin mangas'),
+        ('blazer', 'Saco o Blazer'),
+        ('jersey', 'Jersey'),
+    ]),
+    # Ropa Inferior
+    ('Ropa Inferior', [
+        ('pantalon', 'Pantalón'),
+        ('falda', 'Falda'),
+        ('shorts', 'Shorts'),
+        ('bermudas', 'Bermudas'),
+        ('leggings', 'Leggings'),
+        ('capris', 'Capris'),
+    ]),
+    # Vestidos
+    ('Vestidos', [
+        ('vestido_fiesta', 'Vestido de Fiesta'),
+        ('vestido_casual', 'Vestido Casual'),
+        ('vestido_noche', 'Vestido de Noche'),
+        ('vestido_largo', 'Vestido Largo'),
+        ('vestido_corto', 'Vestido Corto'),
+        ('vestido_coctel', 'Vestido de Cóctel'),
+        ('maxi_vestido', 'Maxi Vestido'),
+    ]),
+    # Ropa Íntima
+    ('Ropa Íntima', [
+        ('sujetador', 'Sujetador'),
+        ('calzoncillos', 'Calzoncillos'),
+        ('bragas', 'Bragas'),
+        ('bodysuit', 'Bodysuit'),
+        ('camiseta_interior', 'Camiseta interior'),
+        ('faja', 'Faja'),
+        ('corset', 'Corset'),
+        ('camison', 'Camisón'),
+        ('pijama', 'Pijamas'),
+        ('batas_dormir', 'Batas de dormir'),
+    ]),
+    # Ropa de Exterior
+    ('Ropa de Exterior', [
+        ('abrigo', 'Abrigo'),
+        ('chaqueta', 'Chaqueta'),
+        ('gabardina', 'Gabardina o Trench'),
+        ('parka', 'Parka'),
+        ('poncho', 'Poncho'),
+        ('capa', 'Capa'),
+        ('impermeable', 'Impermeable'),
+        ('chaleco_acolchado', 'Chaleco acolchado'),
+    ]),
+    # Ropa Deportiva
+    ('Ropa Deportiva', [
+        ('sudadera', 'Sudadera'),
+        ('pantalon_deportivo', 'Pantalón deportivo'),
+        ('shorts_deportivos', 'Shorts deportivos'),
+        ('leggings_deportivos', 'Leggings deportivos'),
+        ('top_deportivo', 'Top deportivo'),
+        ('traje_bano', 'Traje de baño'),
+        ('bikini', 'Bikini'),
+        ('ropa_ciclismo', 'Ropa de ciclismo'),
+        ('ropa_yoga', 'Ropa de yoga'),
+    ]),
+    # Ropa de Bebé
+    ('Ropa de Bebé', [
+        ('body', 'Body'),
+        ('pelele', 'Pelele'),
+        ('mameluco', 'Mameluco'),
+        ('babero', 'Babero'),
+        ('pantalones_bebe', 'Pantalones para bebé'),
+        ('conjuntos_bebe', 'Conjuntos'),
+        ('polainas', 'Polainas'),
+        ('pijamas_bebe', 'Pijamas para bebé'),
+        ('chaleco_acolchado_bebe', 'Chaleco acolchado para bebé'),
+    ]),
+    # Trajes
+    ('Trajes', [
+        ('traje_dos_piezas', 'Traje de dos piezas'),
+        ('esmoquin', 'Esmoquin'),
+        ('traje_tres_piezas', 'Traje de tres piezas'),
+        ('conjunto_falda', 'Conjunto de falda y chaqueta'),
+        ('conjunto_pantalon', 'Conjunto de pantalón y top'),
+    ]),
+    # Accesorios de Ropa
+    ('Accesorios de Ropa', [
+        ('bufanda', 'Bufanda'),
+        ('guantes', 'Guantes'),
+        ('sombrero', 'Sombrero'),
+        ('cinturon', 'Cinturón'),
+        ('panuelo', 'Pañuelo'),
+        ('calcetines', 'Calcetines'),
+        ('ligas', 'Ligas'),
+        ('chal', 'Chal'),
+    ]),
+    # Uniformes
+    ('Uniformes', [
+        ('uniforme_escolar', 'Uniforme escolar'),
+        ('uniforme_trabajo', 'Uniforme de trabajo'),
+        ('ropa_enfermeria', 'Ropa de enfermería'),
+        ('uniforme_deportivo', 'Uniforme deportivo'),
+        ('traje_proteccion', 'Traje de protección'),
+        ('uniforme_militar', 'Uniforme militar'),
+    ]),
+    # Trajes Tradicionales
+    ('Trajes Tradicionales', [
+        ('kimono', 'Kimono'),
+        ('sari', 'Sari'),
+        ('traje_folclorico', 'Traje folclórico'),
+        ('traje_flamenco', 'Traje de flamenco'),
+        ('traje_charro', 'Traje charro'),
+        ('toga', 'Toga'),
+    ]),
+    # Ropa Especializada
+    ('Ropa Especializada', [
+        ('ropa_maternidad', 'Ropa de maternidad'),
+        ('ropa_seguridad', 'Ropa de seguridad'),
+        ('ropa_lluvia', 'Ropa de lluvia'),
+        ('traje_nieve', 'Traje de nieve'),
+        ('traje_neopreno', 'Traje de neopreno'),
+    ]),
+]
+
     
     id = models.CharField(primary_key=True, max_length=50)
     fecha_hora = models.DateTimeField(auto_now_add=True)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='peticiones')
     titulo = models.CharField(max_length=100)
-    tipo_ropa = models.CharField(max_length=50)
+    tipo_ropa = models.CharField(max_length=50, choices=TIPO_ROPA_CHOICES, default='')
     descripcion = models.TextField()
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES)
     donador = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True, related_name='donaciones_realizadas')

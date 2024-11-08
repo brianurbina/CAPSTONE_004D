@@ -79,8 +79,7 @@
                 // Obtener los valores actuales de los campos
                 const rut = $("#{{ form.rut.id_for_label }}").val();
                 const razonSocial = $("#{{ form.razon_social.id_for_label }}").val();
-                const comuna = $("#{{ form.comuna.id_for_label }}").val();
-                const region = $("#{{ form.region.id_for_label }}").val();
+                const comuna_region = $("#{{ form.comuna_region.id_for_label }}").val();
                 const direccion = $("#{{ form.direccion.id_for_label }}").val();
                 const descripcion = $("#{{ form.descripcion.id_for_label }}").val();
                 const telefono = $("#{{ form.telefono.id_for_label }}").val();
@@ -199,32 +198,19 @@
                 }
 
                 // Validar comuna
-                $("#comunaError").remove();
-                if (!comuna) {
-                    $("#{{ form.comuna.id_for_label }}").addClass("is-invalid");
-                    if (!$("#comunaError").length) {
-                        $("<div id='comunaError' class='text-danger'>Por favor, seleccione una comuna.</div>")
-                            .insertAfter("#{{ form.comuna.id_for_label }}");
+                $("#comuna_regionError").remove();
+                if (!comuna_region) {
+                    $("#{{ form.comuna_region.id_for_label }}").addClass("is-invalid");
+                    if (!$("#comuna_regionError").length) {
+                        $("<div id='comuna_regionError' class='text-danger'>Por favor, seleccione una comuna.</div>")
+                            .insertAfter("#{{ form.comuna_region.id_for_label }}");
                     }
                     isValid = false;
                 } else {
-                    $("#{{ form.comuna.id_for_label }}").removeClass("is-invalid");
-                    $("#comunaError").remove(); // Ocultar el mensaje de error si la validación es exitosa
+                    $("#{{ form.comuna_region.id_for_label }}").removeClass("is-invalid");
+                    $("#comuna_regionError").remove(); // Ocultar el mensaje de error si la validación es exitosa
                 }
-
-                // Validar region
-                $("#regionError").remove();
-                if (!region) {
-                    $("#{{ form.region.id_for_label }}").addClass("is-invalid");
-                    if (!$("#regionError").length) {
-                        $("<div id='regionError' class='text-danger'>Por favor, seleccione una region.</div>")
-                            .insertAfter("#{{ form.region.id_for_label }}");
-                    }
-                    isValid = false;
-                } else {
-                    $("#{{ form.region.id_for_label }}").removeClass("is-invalid");
-                    $("#regionError").remove(); // Ocultar el mensaje de error si la validación es exitosa
-                }
+           
                 
                 // Si el formulario es válido, puedes enviarlo
                 if (isValid) {
@@ -260,19 +246,12 @@
                         {% endif %}
                     </div>
 
-                    <div class="form-group">
-                        <label for="{{ form.comuna.id_for_label }}">Comuna</label>
-                        {{ form.comuna|add_class:"form-control" }}
-                        {% if form.comuna.errors %}
-                            <div id="comunaError" class="text-danger invalid-feedback" style="display: none;">{{ form.comuna.errors }}</div>
-                        {% endif %}
-                    </div>
 
                     <div class="form-group">
-                        <label for="{{ form.region.id_for_label }}">Región</label>
-                        {{ form.region|add_class:"form-control" }}
-                        {% if form.region.errors %}
-                            <div id="regionError" class="text-danger invalid-feedback" style="display: none;">{{ form.region.errors }}</div>
+                        <label for="{{ form.comuna_region.id_for_label }}">Comuna</label>
+                        {{ form.comuna_region|add_class:"form-control" }}
+                        {% if form.comuna_region.errors %}
+                            <div id="comuna_regionError" class="text-danger invalid-feedback" style="display: none;">{{ form.comuna_region.errors }}</div>
                         {% endif %}
                     </div>
 

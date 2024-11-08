@@ -45,164 +45,15 @@ class UsuarioRegisterForm(UserCreationForm):
 
 
 
-
-
-# Listado de comunas
-COMUNA_CHOICES = [
-    ('', 'Seleccione una comuna'),  # Valor inicial vacío
-    ('Santiago', 'Santiago'),
-    ('Maipú', 'Maipú'),
-    ('La Florida', 'La Florida'),
-    ('Cerrillos', 'Cerrillos'),
-    ('Lo Barnechea', 'Lo Barnechea'),
-    ('San Joaquín', 'San Joaquín'),
-    ('Estación Central', 'Estación Central'),
-    ('San Bernardo', 'San Bernardo'),
-    ('San José de Mayo', 'San José de Mayo'),
-    ('San Pedro de Atacama', 'San Pedro de Atacama'),
-    ('Chillán', 'Chillán'),
-    ('Los Angeles', 'Los Angeles'),
-    ('Talca', 'Talca'),
-    ('Chillán Viejo', 'Chillán Viejo'),
-    ('Llanquihue', 'Llanquihue'),
-    ('Osorno', 'Osorno'),
-    ('Palena', 'Palena'),
-    ('San Juan de la Costa', 'San Juan de la Costa'),
-    ('Concepción', 'Concepción'),
-    ('Arauco', 'Arauco'),
-    ('Huasco', 'Huasco'),
-    ('Cautín', 'Cautín'),
-    ('Malleco', 'Malleco'),
-    ('Yumbel', 'Yumbel'),
-    ('Lonquimay', 'Lonquimay'),
-    ('Alto Hospicio', 'Alto Hospicio'),
-    ('San Pedro de la Paz', 'San Pedro de la Paz'),
-    ('Nuble', 'Nuble'),
-    ('San Vicente de Tagua Tagua', 'San Vicente de Tagua Tagua'),
-    ('Chiloe', 'Chiloe'),
-    ('San Antonio', 'San Antonio'),
-    ('Talagante', 'Talagante'),
-    ('Chimborazo', 'Chimborazo'),
-    ('San José de la Montaña', 'San José de la Montaña'),
-    ('San Luis de la Paz', 'San Luis de la Paz'),
-    ('Teno', 'Teno'),
-    ('Vilcún', 'Vilcún'),
-    ('San José de Uraco', 'San José de Uraco'),
-    ('San Pedro de los Milagros', 'San Pedro de los Milagros'),
-    ('San Fernando', 'San Fernando'),
-    ('Tapachello', 'Tapachello'),
-    ('Chimichagua', 'Chimichagua'),
-    ('Ocotillo', 'Ocotillo'),
-    ('San Vicente de Chuco', 'San Vicente de Chuco'),
-    ('Peralillo', 'Peralillo'),
-    ('Pichilemu', 'Pichilemu'),
-    ('La Ligua', 'La Ligua'),
-    ('Colchagua', 'Colchagua'),
-    ('San Cristóbal', 'San Cristóbal'),
-    ('Castro', 'Castro'),
-    ('Las Cortes', 'Las Cortes'),
-    ('Quillón', 'Quillón'),
-    ('San José de Siguas', 'San José de Siguas'),
-    ('San Antonio de los Andes', 'San Antonio de los Andes'),
-    ('San Gabriel', 'San Gabriel'),
-    ('Natales', 'Natales'),
-    ('San José de las Lajas', 'San José de las Lajas'),
-    ('Talcahuano', 'Talcahuano'),
-    ('Curicó', 'Curicó'),
-    ('Talamanca', 'Talamanca'),
-    ('Chillán de los Chaves', 'Chillán de los Chaves'),
-    ('Santa Cruz', 'Santa Cruz'),
-    ('Litueche', 'Litueche'),
-    ('Chiloe de los Santos', 'Chiloe de los Santos'),
-    ('Parral', 'Parral'),
-    ('San Felipe', 'San Felipe'),
-    ('San José de la Montaña', 'San José de la Montaña'),
-    ('San Pedro de la Costa', 'San Pedro de la Costa'),
-    ('Chimbarongo', 'Chimbarongo'),
-    ('San José de la Maguana', 'San José de la Maguana'),
-    ('San Pedro de la Paz', 'San Pedro de la Paz'),
-    ('San Fernando de Apure', 'San Fernando de Apure'),
-    ('San Clemente', 'San Clemente'),
-    ('Santa Elena', 'Santa Elena'),
-    ('San Carlos', 'San Carlos'),
-    ('San Miguel', 'San Miguel'),
-    ('Tambolón', 'Tambolón'),
-    ('Villa Alegre', 'Villa Alegre'),
-    ('Villa de Castro', 'Villa de Castro'),
-    ('Hualañé', 'Hualañé'),
-    ('Nacimiento', 'Nacimiento'),
-    ('Parral', 'Parral'),
-    ('San Pedro de la Paz', 'San Pedro de la Paz'),
-    ('San Fernando de Vallecas', 'San Fernando de Vallecas'),
-    ('San José de la Mari', 'San José de la Mari'),
-    ('San Luis de la Paz', 'San Luis de la Paz'),
-    ('San Miguel de Tucumán', 'San Miguel de Tucumán'),
-    ('Temuco', 'Temuco'),
-    ('Quillota', 'Quillota'),
-    ('La Serena', 'La Serena'),
-    ('Concepción', 'Concepción'),
-    ('Talca', 'Talca'),
-    ('Chillán', 'Chillán'),
-    ('La Ligua', 'La Ligua'),
-    ('Colchagua', 'Colchagua'),
-    ('San Cristóbal', 'San Cristóbal'),
-    ('Castro', 'Castro'),
-    ('Las Cortes', 'Las Cortes'),
-    ('Quillón', 'Quillón'),
-    ('San José de Siguas', 'San José de Siguas'),
-    ('San Antonio de los Andes', 'San Antonio de los Andes'),
-    ('San Gabriel', 'San Gabriel'),
-    ('Natales', 'Natales'),
-]
-
-"""REGIONS_CHOICES = [
-    ("I - Tarapacá", "I - Tarapacá"),
-    ("II - Antofagasta", "II - Antofagasta"),
-    ("III - Atacama", "III - Atacama"),
-    ("IV - Coquimbo", "IV - Coquimbo"),
-    ("V - Valparaíso", "V - Valparaíso"),
-    ("VI - O’Higgins", "VI - O’Higgins"),
-    ("VII - Maule", "VII - Maule"),
-    ("VIII - Biobío", "VIII - Biobío"),
-    ("IX - Araucanía", "IX - Araucanía"),
-    ("X - Los Lagos", "X - Los Lagos"),
-    ("XI - Aisén", "XI - Aisén"),
-    ("XII - Magallanes", "XII - Magallanes"),
-    ("XIII - Metropolitana de Santiago", "XIII - Metropolitana de Santiago"),
-    ("XIV - Los Ríos", "XIV - Los Ríos"),
-    ("XV - Arica y Parinacota", "XV - Arica y Parinacota"),
-    ("XVI - Ñuble", "XVI - Ñuble"),
-]"""
-REGIONS_CHOICES = [
-    ("Arica y Parinacota", "Región de Arica y Parinacota"),
-    ("Tarapacá", "Región de Tarapacá"),
-    ("Antofagasta", "Región de Antofagasta"),
-    ("Atacama", "Región de Atacama"),
-    ("Coquimbo", "Región de Coquimbo"),
-    ("Valparaíso", "Región de Valparaíso"),
-    ("Metropolitana de Santiago", "Región Metropolitana"),
-    ("O’Higgins", "Región del Libertador General Bernardo O’Higgins"),
-    ("Maule", "Región del Maule"),
-    ("Ñuble", "Región de Ñuble"),
-    ("Biobío", "Región del Biobío"),
-    ("La Araucanía", "Región de La Araucanía"),
-    ("Los Ríos", "Región de Los Ríos"),
-    ("Los Lagos", "Región de Los Lagos"),
-    ("Aysén", "Región de Aysén del General Carlos Ibáñez del Campo"),
-    ("Magallanes", "Región de Magallanes y de la Antártica Chilena")
-]
-
-
 class FundacionForm(forms.ModelForm):
 
     class Meta: 
         model = Fundacion
-        fields = ['rut', 'razon_social', 'comuna', 'region', 'direccion', 'descripcion', 'telefono', 'logotipo', 'sitio_web']
+        fields = ['rut', 'razon_social', 'comuna_region', 'direccion', 'descripcion', 'telefono', 'logotipo', 'sitio_web']
         labels = {
             'rut': 'RUT:',
             'razon_social': 'Razón Social:',
-            'comuna': 'Comuna:',
-            'region': 'Región:',
+            'comuna_region': 'Comuna:',
             'direccion': 'Dirección:',
             'descripcion': 'Descripción:',
             'telefono': 'Teléfono:',
@@ -212,21 +63,20 @@ class FundacionForm(forms.ModelForm):
         widgets = {
             'rut': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el RUT', 'id': 'rut'}),
             'razon_social': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese la razón social', 'id': 'razon_social'}),
-            'comuna': forms.Select(choices=COMUNA_CHOICES, attrs={'class': 'form-control', 'id': 'comuna'}),
-            'region': forms.Select(choices=REGIONS_CHOICES, attrs={'class': 'form-control', 'id': 'region'}),
+            'comuna_region': forms.Select(choices=Fundacion.REGIONES_Y_COMUNAS, attrs={'class': 'form-control', 'id': 'comuna_region'}),
             'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese la dirección', 'id': 'direccion'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ingrese una descripción', 'id': 'descripcion', 'rows': 3}),
             'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el teléfono', 'id': 'telefono'}),
             'logotipo': forms.FileInput(attrs={'class': 'file-input', 'id': 'logotipo', 'style': 'color: white; background-color: green; text-align: center; width: 100%;'}),
             'sitio_web': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el sitio web', 'id': 'sitio_web'}),
         }
+        
 
     def save(self, commit=True):
         # Crear una instancia sin guardar
         fundacion = super().save(commit=False)
         # Establecer 'aprobada' como False
         fundacion.aprobada = False
-        
         if commit:
             fundacion.save()
         return fundacion
@@ -235,12 +85,11 @@ class FundacionFormMod(forms.ModelForm):
 
     class Meta: 
         model = Fundacion
-        fields = ['rut', 'razon_social', 'comuna', 'region', 'direccion', 'descripcion', 'telefono', 'logotipo', 'sitio_web','aprobada']
+        fields = ['rut', 'razon_social', 'comuna_region', 'direccion', 'descripcion', 'telefono', 'logotipo', 'sitio_web','aprobada']
         labels = {
             'rut': 'RUT:',
             'razon_social': 'Razón Social:',
-            'comuna': 'Comuna:',
-            'region': 'Región:',
+            'comuna_region': 'Comuna:',
             'direccion': 'Dirección:',
             'descripcion': 'Descripción:',
             'telefono': 'Teléfono:',
@@ -251,8 +100,7 @@ class FundacionFormMod(forms.ModelForm):
         widgets = {
             'rut': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el RUT', 'id': 'rut'}),
             'razon_social': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese la razón social', 'id': 'razon_social'}),
-            'comuna': forms.Select(choices=COMUNA_CHOICES, attrs={'class': 'form-control', 'id': 'comuna'}),
-            'region': forms.Select(choices=REGIONS_CHOICES, attrs={'class': 'form-control', 'id': 'region'}),
+            'comuna_region': forms.Select(choices=Fundacion.REGIONES_Y_COMUNAS, attrs={'class': 'form-control', 'id': 'comuna_region'}),
             'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese la dirección', 'id': 'direccion'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ingrese una descripción', 'id': 'descripcion', 'rows': 3}),
             'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el teléfono', 'id': 'telefono'}),
@@ -263,146 +111,8 @@ class FundacionFormMod(forms.ModelForm):
 
 
 
-# Definimos las opciones para el campo tipo_ropa
-TIPO_ROPA_CHOICES = [
-    ('', 'Seleccione una opción'),  # Opción por defecto
-    # Ropa Superior
-    ('Ropa Superior', [
-        ('camiseta', 'Camiseta'),
-        ('polo', 'Polo'),
-        ('blusa', 'Blusa'),
-        ('camisa', 'Camisa'),
-        ('top', 'Top'),
-        ('sueter', 'Suéter'),
-        ('sudadera', 'Sudadera'),
-        ('chaqueta', 'Chaqueta'),
-        ('abrigo', 'Abrigo'),
-        ('cardigan', 'Cárdigan'),
-        ('chaleco', 'Chaleco'),
-        ('camiseta_sin_mangas', 'Camiseta sin mangas'),
-        ('blazer', 'Saco o Blazer'),
-        ('jersey', 'Jersey'),
-    ]),
-    # Ropa Inferior
-    ('Ropa Inferior', [
-        ('pantalon', 'Pantalón'),
-        ('falda', 'Falda'),
-        ('shorts', 'Shorts'),
-        ('bermudas', 'Bermudas'),
-        ('leggings', 'Leggings'),
-        ('capris', 'Capris'),
-    ]),
-    # Vestidos
-    ('Vestidos', [
-        ('vestido_fiesta', 'Vestido de Fiesta'),
-        ('vestido_casual', 'Vestido Casual'),
-        ('vestido_noche', 'Vestido de Noche'),
-        ('vestido_largo', 'Vestido Largo'),
-        ('vestido_corto', 'Vestido Corto'),
-        ('vestido_coctel', 'Vestido de Cóctel'),
-        ('maxi_vestido', 'Maxi Vestido'),
-    ]),
-    # Ropa Íntima
-    ('Ropa Íntima', [
-        ('sujetador', 'Sujetador'),
-        ('calzoncillos', 'Calzoncillos'),
-        ('bragas', 'Bragas'),
-        ('bodysuit', 'Bodysuit'),
-        ('camiseta_interior', 'Camiseta interior'),
-        ('faja', 'Faja'),
-        ('corset', 'Corset'),
-        ('camison', 'Camisón'),
-        ('pijama', 'Pijamas'),
-        ('batas_dormir', 'Batas de dormir'),
-    ]),
-    # Ropa de Exterior
-    ('Ropa de Exterior', [
-        ('abrigo', 'Abrigo'),
-        ('chaqueta', 'Chaqueta'),
-        ('gabardina', 'Gabardina o Trench'),
-        ('parka', 'Parka'),
-        ('poncho', 'Poncho'),
-        ('capa', 'Capa'),
-        ('impermeable', 'Impermeable'),
-        ('chaleco_acolchado', 'Chaleco acolchado'),
-    ]),
-    # Ropa Deportiva
-    ('Ropa Deportiva', [
-        ('sudadera', 'Sudadera'),
-        ('pantalon_deportivo', 'Pantalón deportivo'),
-        ('shorts_deportivos', 'Shorts deportivos'),
-        ('leggings_deportivos', 'Leggings deportivos'),
-        ('top_deportivo', 'Top deportivo'),
-        ('traje_bano', 'Traje de baño'),
-        ('bikini', 'Bikini'),
-        ('ropa_ciclismo', 'Ropa de ciclismo'),
-        ('ropa_yoga', 'Ropa de yoga'),
-    ]),
-    # Ropa de Bebé
-    ('Ropa de Bebé', [
-        ('body', 'Body'),
-        ('pelele', 'Pelele'),
-        ('mameluco', 'Mameluco'),
-        ('babero', 'Babero'),
-        ('pantalones_bebe', 'Pantalones para bebé'),
-        ('conjuntos_bebe', 'Conjuntos'),
-        ('polainas', 'Polainas'),
-        ('pijamas_bebe', 'Pijamas para bebé'),
-        ('chaleco_acolchado_bebe', 'Chaleco acolchado para bebé'),
-    ]),
-    # Trajes
-    ('Trajes', [
-        ('traje_dos_piezas', 'Traje de dos piezas'),
-        ('esmoquin', 'Esmoquin'),
-        ('traje_tres_piezas', 'Traje de tres piezas'),
-        ('conjunto_falda', 'Conjunto de falda y chaqueta'),
-        ('conjunto_pantalon', 'Conjunto de pantalón y top'),
-    ]),
-    # Accesorios de Ropa
-    ('Accesorios de Ropa', [
-        ('bufanda', 'Bufanda'),
-        ('guantes', 'Guantes'),
-        ('sombrero', 'Sombrero'),
-        ('cinturon', 'Cinturón'),
-        ('panuelo', 'Pañuelo'),
-        ('calcetines', 'Calcetines'),
-        ('ligas', 'Ligas'),
-        ('chal', 'Chal'),
-    ]),
-    # Uniformes
-    ('Uniformes', [
-        ('uniforme_escolar', 'Uniforme escolar'),
-        ('uniforme_trabajo', 'Uniforme de trabajo'),
-        ('ropa_enfermeria', 'Ropa de enfermería'),
-        ('uniforme_deportivo', 'Uniforme deportivo'),
-        ('traje_proteccion', 'Traje de protección'),
-        ('uniforme_militar', 'Uniforme militar'),
-    ]),
-    # Trajes Tradicionales
-    ('Trajes Tradicionales', [
-        ('kimono', 'Kimono'),
-        ('sari', 'Sari'),
-        ('traje_folclorico', 'Traje folclórico'),
-        ('traje_flamenco', 'Traje de flamenco'),
-        ('traje_charro', 'Traje charro'),
-        ('toga', 'Toga'),
-    ]),
-    # Ropa Especializada
-    ('Ropa Especializada', [
-        ('ropa_maternidad', 'Ropa de maternidad'),
-        ('ropa_seguridad', 'Ropa de seguridad'),
-        ('ropa_lluvia', 'Ropa de lluvia'),
-        ('traje_nieve', 'Traje de nieve'),
-        ('traje_neopreno', 'Traje de neopreno'),
-    ]),
-]
 
 class PeticionForm(forms.ModelForm):
-    tipo_ropa = forms.ChoiceField(
-        choices=TIPO_ROPA_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-control'}),
-        label='Tipo de Ropa',
-    )
     class Meta:
         model = Peticion
         fields = ['titulo', 
@@ -419,7 +129,7 @@ class PeticionForm(forms.ModelForm):
         }
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el título', 'id': 'titulo'}),
-            'tipo_ropa': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Seleccione el tipo de ropa', 'id': 'tipo_ropa'}),  # Cambiado a Select
+            'tipo_ropa': forms.Select(choices=Peticion.TIPO_ROPA_CHOICES, attrs={'class': 'form-control', 'placeholder': 'Seleccione el tipo de ropa', 'id': 'tipo_ropa'}),  # Cambiado a Select
             #'talla': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Seleccione la talla', 'id': 'talla'}),  # Añadir widget para 'talla'
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ingrese una descripción', 'id': 'descripcion', 'rows': 3}),
             #'estado': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Ingrese el estado', 'id': 'estado'}),  # Añadir widget para 'estado'
@@ -451,9 +161,19 @@ class DonacionForm(forms.ModelForm):
         }
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el título', 'id': 'titulo'}),
-            'tipo_ropa': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el tipo de ropa', 'id': 'tipo_ropa'}),
-            'talla': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese la talla', 'id': 'talla'}),
-            'temporada': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese la temporada', 'id': 'temporada'}),
+            'tipo_ropa': forms.Select(choices=Donacion.TIPO_ROPA_CHOICES ,attrs={
+                'class': 'form-control',
+                'id': 'tipo_ropa',
+                'placeholder': 'Indica el tipo de ropa'
+            },),
+            'temporada': forms.Select(choices=Donacion.TEMPORADAS ,attrs={
+                'class': 'form-control',
+                'id': 'temporada',
+                'placeholder': 'Indica la temporada'}),
+            'talla': forms.Select(choices=Donacion.TALLAS ,attrs={
+                'class': 'form-control',
+                'id': 'talla',
+                'placeholder': 'Indica la talla'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ingrese una descripción', 'id': 'descripcion', 'rows': 3}),
             'foto': forms.FileInput(attrs={'class': 'file-input', 'id': 'foto', 'style': 'color: white; background-color: green; text-align: center; width: 100%;'}),
         }
@@ -505,7 +225,7 @@ class PeticionFormMod(forms.ModelForm):
                 'id': 'titulo',
                 'placeholder': 'Escribe el título de la petición'
             }),
-            'tipo_ropa': forms.TextInput(attrs={
+            'tipo_ropa': forms.Select(choices=Peticion.TIPO_ROPA_CHOICES,attrs={
                 'class': 'form-control',
                 'id': 'tipo_ropa',
                 'placeholder': 'Indica el tipo de ropa'
@@ -563,9 +283,22 @@ class DonacionFormMod(forms.ModelForm):
         }
         widgets = {
             'estado': forms.Select(choices=Donacion.ESTADO_CHOICES),
-            'receptor': forms.Select()
+            'receptor': forms.Select(),
+            'tipo_ropa': forms.Select(choices=Donacion.TIPO_ROPA_CHOICES ,attrs={
+                'class': 'form-control',
+                'id': 'tipo_ropa',
+                'placeholder': 'Indica el tipo de ropa'
+            },),
+            'temporada': forms.Select(choices=Donacion.TEMPORADAS ,attrs={
+                'class': 'form-control',
+                'id': 'temporada',
+                'placeholder': 'Indica la temporada'}),
+            'talla': forms.Select(choices=Donacion.TALLAS ,attrs={
+                'class': 'form-control',
+                'id': 'talla',
+                'placeholder': 'Indica la talla'})
+        
         }
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['receptor'].queryset = Usuario.objects.filter(is_active=True)
@@ -575,3 +308,38 @@ class DonacionFormMod(forms.ModelForm):
         # Hacer que ciertos campos sean opcionales
         self.fields['foto'].required = False  # Campo opcional
         self.fields['receptor'].required = False  # Campo opcional
+    
+
+
+from django import forms
+from .models import Fundacion
+
+class FiltroFundacionForm(forms.Form):
+    # Filtrar las opciones para eliminar 'Seleccione una opción'
+    regiones_comunas_filtradas = [
+        option for option in Fundacion.REGIONES_Y_COMUNAS if option[0] != ''
+    ]
+    
+    # Agregamos la opción 'TODOS' al principio y las comunas filtradas
+    comuna_region = forms.ChoiceField(
+        choices=[('TODOS', 'Todos')] + regiones_comunas_filtradas,  # Agregar 'TODOS' al principio
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control', 'id': 'comuna_region'})
+    )
+    
+    query = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Buscar...', 'id': 'query'})
+    )
+
+class FiltroPeticionDonacion(forms.Form):
+    # Filtrar las opciones para eliminar 'Seleccione una opción'
+    tipo_de_ropa_filtradas = [
+        option for option in Donacion.TIPO_ROPA_CHOICES if option[0] != ''
+    ]
+
+    tipo_de_ropa = forms.ChoiceField(
+        choices=[('TODOS', 'Todos')] + tipo_de_ropa_filtradas,  # Agregar 'TODOS' al principio
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control', 'id': 'tipo_ropa'})
+    )

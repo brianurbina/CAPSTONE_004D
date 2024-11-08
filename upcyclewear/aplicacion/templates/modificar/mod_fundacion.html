@@ -44,8 +44,7 @@
                 // Obtener los valores actuales de los campos
                 const rut = $("#id_rut").val(); // RUT no se valida
                 const razonSocial = $("input[name='razon_social']").val();
-                const comuna = $("input[name='comuna']").val();
-                const region = $("input[name='region']").val();
+                const comuna_region = $("input[name='comuna_region']").val();
                 const direccion = $("input[name='direccion']").val();
                 const descripcion = $("input[name='descripcion']").val();
                 const telefono = $("input[name='telefono']").val();
@@ -136,16 +135,12 @@
                     </div>
 
                     <div class="col-12">
-                        <label for="{{ form.comuna.id_for_label }}" class="form-label">Comuna</label>
-                        {{ form.comuna|add_class:"form-control" }}
-                        <div class="invalid-feedback">{{ form.comuna.errors }}</div>
+                        <label for="{{ form.comuna_region.id_for_label }}" class="form-label">Comuna</label>
+                        {{ form.comuna_region|add_class:"form-control" }}
+                        <div class="invalid-feedback">{{ form.comuna_region.errors }}</div>
                     </div>
 
-                    <div class="col-12">
-                        <label for="{{ form.region.id_for_label }}" class="form-label">Región</label>
-                        {{ form.region|add_class:"form-control" }}
-                        <div class="invalid-feedback">{{ form.region.errors }}</div>
-                    </div>
+                    
 
                     <div class="col-12">
                         <label for="{{ form.direccion.id_for_label }}" class="form-label">Dirección</label>

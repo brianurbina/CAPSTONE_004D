@@ -207,40 +207,48 @@ def perfil_usuario(request, username):
         'reporte_form': reporte_form,
     })
 
-
-
-
-
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from .forms import FiltroFundacionForm
 from django.db.models import Q
-from django.core.paginator import Paginator
-from .models import Fundacion
-
 @login_required(login_url='/')
 def fundaciones(request):
-    query = request.GET.get('q')  # Obtener la búsqueda del usuario
+    # Instanciar el formulario de filtro con los datos del GET
+    form = FiltroFundacionForm(request.GET or None)
+    
+    # Obtener el valor de 'q' (búsqueda) si está presente en la solicitud, o una cadena vacía si no lo está
+    query = request.GET.get('q', '')  # 'q' será una cadena vacía si no se pasa como parámetro
 
-    # Filtrar fundaciones que tienen el campo 'aprobada' en False
+    # Filtrar fundaciones aprobadas
     foundations = Fundacion.objects.filter(aprobada=True)
 
-    # Si hay una consulta de búsqueda, filtra también por ella
-    if query:
-        foundations = foundations.filter(
-            Q(razon_social__icontains=query) | 
-            Q(descripcion__icontains=query) |
-            Q(comuna__icontains=query) |
-            Q(region__icontains=query) |
-            Q(direccion__icontains=query) |
-            Q(telefono__icontains=query)
-        )
+    # Verificar si el formulario es válido y aplicar filtros
+    if form.is_valid():
+        comuna_region = form.cleaned_data.get('comuna_region')
+
+        # Filtrar por comuna_region si se selecciona una comuna específica
+        if comuna_region and comuna_region != 'TODOS':
+            foundations = foundations.filter(comuna_region=comuna_region)
+
+        # Filtrar por consulta de búsqueda (si 'q' no está vacío)
+        if query:
+            foundations = foundations.filter(
+                Q(razon_social__icontains=query) | 
+                Q(descripcion__icontains=query) |
+                Q(direccion__icontains=query) |
+                Q(telefono__icontains=query)
+            )
 
     # Paginación
     paginator = Paginator(foundations, 10)  # 10 fundaciones por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'menuuser/fundaciones.html', {'foundations': page_obj, 'query': query})
+    context = {
+        'foundations': page_obj,
+        'form': form,  # Pasar el formulario al template
+        'query': query,  # Asegurarse de pasar la consulta para mantenerla en el formulario
+    }
+    return render(request, 'menuuser/fundaciones.html', context)
+
 
 
 
@@ -299,7 +307,7 @@ def mapa(request):
         foundations = Fundacion.objects.filter(
             Q(razon_social__icontains=query) | 
             Q(descripcion__icontains=query) |
-            Q(comuna__icontains=query) |
+            Q(comuna_region__icontains=query) |
             Q(region__icontains=query) |
             Q(direccion__icontains=query) |
             Q(telefono__icontains=query)
@@ -548,32 +556,51 @@ def eliminar_peticion(request, id):
 
 
 #vista admin
-
 @login_required(login_url='/')
 @superuser_required
 def solicitud_fundaciones(request):
-    query = request.GET.get('q')  # Obtener la búsqueda del usuario
+    # Instanciar el formulario de filtro con los datos del GET
+    form = FiltroFundacionForm(request.GET or None)
+    
+    # Obtener el valor de 'q' (búsqueda) si está presente en la solicitud, o una cadena vacía si no lo está
+    query = request.GET.get('q', '')  # 'q' será una cadena vacía si no se pasa como parámetro
 
     # Filtrar fundaciones que tienen el campo 'aprobada' en False
     foundations = Fundacion.objects.filter(aprobada=False)
 
-    # Si hay una consulta de búsqueda, filtra también por ella
-    if query:
-        foundations = foundations.filter(
-            Q(razon_social__icontains=query) | 
-            Q(descripcion__icontains=query) |
-            Q(comuna__icontains=query) |
-            Q(region__icontains=query) |
-            Q(direccion__icontains=query) |
-            Q(telefono__icontains=query)
-        )
+    # Verificar si el formulario de filtro es válido y aplicar filtros
+    if form.is_valid():
+        comuna_region = form.cleaned_data.get('comuna_region')
+
+        # Filtrar por comuna_region si se selecciona una comuna específica
+        if comuna_region and comuna_region != 'TODOS':
+            foundations = foundations.filter(comuna_region=comuna_region)
+
+        # Filtrar por consulta de búsqueda (si 'q' no está vacío)
+        if query:
+            foundations = foundations.filter(
+                Q(razon_social__icontains=query) | 
+                Q(descripcion__icontains=query) |
+                Q(comuna_region__icontains=query) |  # Cambiado a 'comuna_region'
+                Q(direccion__icontains=query) |
+                Q(telefono__icontains=query)
+            )
 
     # Paginación
     paginator = Paginator(foundations, 10)  # 10 fundaciones por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'admin/solicitud_fundaciones.html', {'foundations': page_obj, 'query': query})
+    # Pasar los datos al contexto para renderizar la vista
+    context = {
+        'foundations': page_obj,  # Fundaciones paginadas
+        'form': form,  # Pasar el formulario de filtro al template
+        'query': query,  # Pasar la consulta de búsqueda para mantenerla en el formulario
+    }
+
+    return render(request, 'admin/solicitud_fundaciones.html', context)
+
+
 
 
 @login_required(login_url='/')

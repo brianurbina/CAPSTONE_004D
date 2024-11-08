@@ -69,14 +69,35 @@
       </div>
       
     <div class="container-fluid">
-        <div class="container container1 mt-4">
-            <div class="search-bar">
-                <form method="GET" action="{% url 'fundaciones' %}" style="flex-grow: 1; margin-right: 10px;">
-                    <input type="text" name="q" placeholder="Buscar una Fundación..." class="form-control">
-                    <button type="submit" class="btn btn-dark mt-2">Buscar</button>
-                </form>
-                <a href="{% url 'crear_fundacion' %}" class="btn btn-dark">Inscribir Fundación</a>
-            </div>
+            <form method="GET" action="{% url 'solicitud_fundaciones' %}" class="mb-4">
+                <!-- Botón para Inscribir Fundación (centrado) -->
+                <div class="text-left mb-4">
+                    <a href="{% url 'crear_fundacion' %}" class="btn btn-dark">Inscribir Fundación</a>
+                </div>
+                <hr>
+            
+                <!-- Fila con el campo de búsqueda y filtro por comuna -->
+                <div class="row">
+                    <!-- Campo de Búsqueda -->
+                    <div class="col-md-8">
+                        <label for="q" class="form-label">Buscar</label>
+                        <input type="text" name="q" id="q" placeholder="Buscar una Fundación..." class="form-control" value="{{ query }}">
+                    </div>
+            
+                    <!-- Filtro por Comuna -->
+                    <div class="col-md-4">
+                        <label for="comuna_region" class="form-label">Comuna</label>
+                        {{ form.comuna_region }}  <!-- El campo de selección se pasa desde el formulario de Django -->
+                    </div>
+                </div>
+                
+                <!-- Botón de Búsqueda y Aplicar Filtros (centrado) -->
+                <div class="mt-3 text-right">
+                    <button type="submit" class="btn btn-dark">Buscar</button>
+                </div>
+            </form>
+            
+            <hr>
 
             {% for foundation in foundations %}
             <div class="foundation-card">
@@ -86,8 +107,7 @@
                     <p><strong>RUT:</strong> {{ foundation.rut }}</p>
                     <p><strong>Descripción:</strong> {{ foundation.descripcion }}</p>
                     <p><strong>Teléfono:</strong> {{ foundation.telefono }}</p>
-                    <p><strong>Comuna:</strong> {{ foundation.comuna }}</p>
-                    <p><strong>Región:</strong> {{ foundation.region }}</p>
+                    <p><strong>Comuna:</strong> {{ foundation.get_comuna_region_display }}</p>
                     <p><strong>Dirección:</strong> {{ foundation.direccion }}</p>
                     <p><strong>Sitio web:</strong> 
                         {% if foundation.sitio_web %}

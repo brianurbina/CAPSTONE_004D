@@ -9,7 +9,7 @@
 </head>
 <body>
     {% include 'estructura/menu.html' %}
-
+    {% load static %}
 <div class="container my-4">
     <h2 class="text-center">Gestión de Reportes de Usuarios</h2>
     <p class="text-center">Revisa y actualiza el estado de los reportes de usuarios.</p>
@@ -36,12 +36,13 @@
                 </select>
             </div>
         </div>
-        <div class="mt-3 text-center">
-            <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+        <div class="mt-3 text-left">
+            <button type="submit" class="btn btn-dark">Aplicar Filtros</button>
         </div>
     </form>
-
-    {% for reporte in reportes %}
+<hr>
+{% if reportes %}
+{% for reporte in reportes %}
     <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
 
     <div class="card mb-3">
@@ -59,7 +60,16 @@
             <button class="btn btn-warning reviewButton" data-id="{{ reporte.id_reporte }}">Marcar como Revisado</button>
         </div>
     </div>
-    {% endfor %}
+{% endfor %}
+{% else %}
+<br><br><br>
+<div class="text-center my-5">
+    <img src="{% static 'img/noexisten.png' %}"  style="width: 100px; height: 100px;">
+    <h2 class="mt-3" style="font-size: 1.5rem; color: #555;">No hay reportes disponibles :)</h2>
+</div>
+
+{% endif %}
+
 </div>
 
 <script>

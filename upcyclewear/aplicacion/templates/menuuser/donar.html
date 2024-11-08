@@ -72,8 +72,8 @@
                 <div class="publication-card">
                     <h2 class="card-title">{{ peticion.titulo }}</h2>
                     <p><strong>Descripción:</strong> {{ peticion.descripcion }}</p>
-                    <p><strong>Tipo de ropa:</strong> {{ peticion.tipo_ropa }}</p>
-                    <p><strong>Estado:</strong> {{ peticion.estado }}</p>
+                    <p><strong>Tipo de ropa:</strong> {{ peticion.get_tipo_ropa_display }}</p>
+                    <p><strong>Estado:</strong> {{ peticion.get_estado_display }}</p>
                     <p><strong>Fecha:</strong> {{ peticion.fecha_hora|date:"Y-m-d H:i" }}</p>
                     <p><strong>Usuario:</strong> {{ peticion.usuario.username }}</p>
                     <div class="d-flex">

@@ -80,10 +80,10 @@
                         <div class="col-md-8">
                             <h2 class="card-title">{{ donacion.titulo }}</h2>
                             <p><strong>Descripción:</strong> {{ donacion.descripcion }}</p>
-                            <p><strong>Tipo de ropa:</strong> {{ donacion.tipo_ropa }}</p>
-                            <p><strong>Talla:</strong> {{ donacion.talla }}</p>
-                            <p><strong>Temporada:</strong> {{ donacion.temporada }}</p>
-                            <p><strong>Estado:</strong> {{ donacion.estado }}</p>
+                            <p><strong>Tipo de ropa:</strong> {{ donacion.get_tipo_ropa_display }}</p>
+                            <p><strong>Talla:</strong> {{ donacion.get_talla_display }}</p>
+                            <p><strong>Temporada:</strong> {{ donacion.get_temporada_display }}</p>
+                            <p><strong>Estado:</strong> {{ donacion.get_estado_display }}</p>
                             <p><strong>Fecha:</strong> {{ donacion.fecha_hora|date:"Y-m-d H:i" }}</p>
                             <p><strong>Usuario:</strong> {{ donacion.usuario.username }}</p>
                             <div class="d-flex">

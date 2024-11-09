@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: upcyclewear
+    env: docker
+    plan: free
+    docker:
+      buildCommand: "docker build -t upcyclewear ."
+      startCommand: "docker run -p 8000:8000 upcyclewear"
+    envVars:
+      DB_NAME: (your-db-connection-string)
+      DB_USER: (your-db-username)
+      DB_PASSWORD: (your-db-password)

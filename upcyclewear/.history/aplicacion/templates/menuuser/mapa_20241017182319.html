@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPCYCLE WEAR - Mapa</title>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8MywmUH96jIquDe5Dxyrx1MWRHO3xfR0&libraries=marker"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/styleuser.css' %}">
+    <style>
+        body {
+            background-image: url("{% static '/img/fondo.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+        #map {
+            height: 400px; /* Asegúrate de definir la altura */
+            width: 100%;
+        }
+        .mapa{
+            align-items: center;
+        }
+
+        .container-map {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'estructura/menu.html' %}
+    <div class="container-fluid" >
+        <br><br><br><br><br><br>
+        <div class="container container-map" >
+        <h1 style="text-align: center; color: white;">Mapa de Fundaciones</h1><br><br>
+        <div id="map"></div></div>
+        <br><br><br><br><br><br>
+        <script>
+            const fundaciones = [
+                {% for foundation in foundations %}
+                    { 
+                        nombre: "{{ foundation.razon_social }}", 
+                        direccion: "{{ foundation.direccion }}, {{ foundation.comuna }}, Chile",
+                        logotipo: "{{ foundation.logotipo.url }}",
+                        descripcion: "{{ foundation.descripcion }}",
+                        telefono: "{{ foundation.telefono }}",
+                        sitio_web: "{{ foundation.sitio_web }}"
+                    },
+                {% endfor %}
+            ];
+
+            let map;
+
+            function initMap() {
+                map = new google.maps.Map(document.getElementById("map"), {
+                    center: { lat: -33.43224871387503, lng: -70.73906799844872 }, // Centro en Santiago de Chile
+                    zoom: 10,
+                });
+
+                const geocoder = new google.maps.Geocoder();
+
+                fundaciones.forEach(fundacion => {
+                    geocoder.geocode({ address: fundacion.direccion }, (results, status) => {
+                        if (status === "OK") {
+                            const marker = new google.maps.Marker({
+                                position: results[0].geometry.location,
+                                map: map,
+                                title: fundacion.nombre,
+                                icon: {
+                                    url: fundacion.logotipo, // URL del logotipo
+                                    scaledSize: new google.maps.Size(50, 50),
+                                },
+                            });
+
+                            // Infobox
+                            const infowindow = new google.maps.InfoWindow({
+                                content: `
+                                    <div>
+                                        <h4>${fundacion.nombre}</h4>
+                                        <p>${fundacion.descripcion}</p>
+                                        <p><strong>Dirección:</strong> ${fundacion.direccion}</p>
+                                        <p><strong>Teléfono:</strong> ${fundacion.telefono}</p>
+                                        <p><strong>Sitio web:</strong> <a href="${fundacion.sitio_web}" target="_blank">${fundacion.sitio_web}</a></p>
+                                        <img src="${fundacion.logotipo}" style="width: 100%; height: auto;">
+                                    </div>
+                                `,
+                            });
+
+                            marker.addListener("click", () => {
+                                infowindow.open(map, marker);
+                            });
+
+                            if (results[0].geometry.location) {
+                                map.setCenter(results[0].geometry.location);
+                            }
+                        } else {
+                            console.error("No se pudo encontrar la dirección: " + fundacion.direccion + " - " + status);
+                        }
+                    });
+                });
+            }
+
+            window.onload = initMap; // Inicializa el mapa al cargar la página
+        </script>
+    </div>
+
+    <!-- Librerías -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+{% include 'estructura/footer.html' %}
+</html>

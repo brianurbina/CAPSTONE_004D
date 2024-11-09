@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: upcyclewear
+    env: docker
+    plan: free
+    docker:
+      buildCommand: "docker build -t upcyclewear ."
+      startCommand: "docker run -p 8000:8000 upcyclewear"
+  envVars:
+    DB_NAME: '(DESCRIPTION=(ADDRESS=(PROTOCOL=tcps)(HOST=adb.sa-santiago-1.oraclecloud.com)(PORT=1522))(CONNECT_DATA=(SERVICE_NAME=g2abc6effbe7f19_upcyclewear_high.adb.oraclecloud.com)))'
+    DB_USER: 'ADMIN'  # Reemplaza esto con tu nombre de usuario
+    DB_PASSWORD: 'SecurePass1234'

@@ -77,31 +77,12 @@ def logout_view(request):
 #VISTAS USUARIO:
 
 
-from .forms import FiltroPedir
 @login_required(login_url='/')
 def pedir(request):
-    form = FiltroPedir(request.GET or None)
-    # Obtener parámetros de búsqueda y filtros
-    query = request.GET.get('q', '')  # Búsqueda del usuario, por defecto vacío
-    tipo_ropa = request.GET.get('tipo_ropa', 'TODOS')
-    talla = request.GET.get('talla', '')
-    temporada = request.GET.get('temporada', '')
+    query = request.GET.get('q')  # Obtener la búsqueda del usuario
 
-    # Obtener todas las donaciones y aplicar filtros
-    if form.is_valid():
-        tipo_ropa = form.cleaned_data.get('tipo_ropa')
-
-    donaciones = Donacion.objects.all()
-    if tipo_ropa != 'TODOS':
-        donaciones = donaciones.filter(tipo_ropa=tipo_ropa)
-    if talla:
-        donaciones = donaciones.filter(talla=talla)
-    if temporada:
-        donaciones = donaciones.filter(temporada=temporada)
-    
-    # Aplicar la búsqueda
     if query:
-        donaciones = donaciones.filter(
+        donaciones = Donacion.objects.filter(
             Q(titulo__icontains=query) | 
             Q(descripcion__icontains=query) |
             Q(tipo_ropa__icontains=query) |
@@ -109,29 +90,21 @@ def pedir(request):
             Q(temporada__icontains=query) |
             Q(usuario__username__icontains=query)
         )
-    
-    # Ordenar por fecha de creación (opcional)
-    donaciones = donaciones.order_by('-fecha_hora')
+    else:
+        # Obtener todas las donaciones del usuario actual
+        donaciones = Donacion.objects.all().order_by('-fecha_hora')  # Ordenar por fecha, de más reciente a más antiguo
 
-    # Paginación
-    paginator = Paginator(donaciones, 10)  # Mostrar 10 donaciones por página
+    # Paginación (opcional)
+    paginator = Paginator(donaciones, 10)  # Mostrar 3 donaciones por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # Contexto para la plantilla
-    context = {
+    # Renderizar la plantilla con las donaciones
+    return render(request, 'menuuser/pedir.html', {
         'donaciones': page_obj,
-        'TIPO_ROPA_CHOICES': Donacion.TIPO_ROPA_CHOICES,
-        'TALLAS': Donacion.TALLAS,
-        'TEMPORADAS': Donacion.TEMPORADAS,
-        'selected_tipo_ropa': tipo_ropa,
-        'selected_talla': talla,
-        'selected_temporada': temporada,
-        'query': query,
-        'form': form,
-    }
+        'query': query
+    })
 
-    return render(request, 'menuuser/pedir.html', context)
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash, logout

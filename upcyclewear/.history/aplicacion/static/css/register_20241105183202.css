@@ -1,0 +1,141 @@
+.sitename {
+    color: white;
+
+}
+
+.btn-iniciar-sesion,
+.btn-crear-cuenta {
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    text-align: center;
+    
+}
+
+
+.btn-iniciar-sesion:hover,
+.btn-crear-cuenta:hover {
+    background-color: white;
+    color: #000;
+}
+
+.btn-crear-cuenta {
+    background-color: white;
+    color: #000;
+    margin-left: 10px;
+}
+
+
+
+
+/* Modal */
+.modal {
+    display: none;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+
+    background: linear-gradient(180deg, #001973 50%, white 80%);
+    margin: 20% auto;
+    padding: 20px;
+    border: 4px solid black;
+    width: 100%;
+    max-width: 400px;
+}
+
+.cerrar {
+    background-color: transparent;
+    border: none;
+    color: black;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.cerrar:hover,
+.cerrar:focus {
+    color: red;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+button[type="submit"] {
+    padding: 10px;
+    background-color: #000;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-modal {
+    width: 200px;
+}
+
+/* Información del usuario */
+.usuario-autenticado {
+    text-align: right;
+}
+
+.mensaje-bienvenida {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.nombre-usuario {
+    font-weight: bold;
+}
+
+/* Otros estilos */
+.contact-info {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.carousel-item img {
+    max-height: 800px;
+    width: auto;
+}
+
+/* Degradados */
+.degradado1 {
+    height: 2px; /* Cambiar este valor para aumentar el grosor */
+    background: linear-gradient(to right, #7ddab2, black);
+    animation: cambiaColor 0.8s linear infinite alternate;
+}
+
+@keyframes cambiaColor {
+    0% {
+        background: linear-gradient(to right, #C4FF61, white);
+    }
+    100% {
+        background: linear-gradient(to right, white, #C4FF61);
+    }
+}

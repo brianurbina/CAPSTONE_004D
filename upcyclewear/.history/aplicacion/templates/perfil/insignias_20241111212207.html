@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/* Estilos generales */
+.badges-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.overall-progress {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.progress-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.progress-circle {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-circle svg {
+    transform: rotate(-90deg);
+}
+
+.progress-circle-text {
+    position: absolute;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #28a745;
+}
+
+/* Estilos de la línea de tiempo */
+.timeline {
+    position: relative;
+    padding: 2rem 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background-color: #e9ecef;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 3rem;
+    width: 100%;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #e9ecef;
+    border: 4px solid #fff;
+    border-radius: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.timeline-item.active::before {
+    background-color: #28a745;
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+}
+
+.insignia-container {
+    position: relative;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+}
+
+.insignia-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.insignia-icon {
+    width: 60px;
+    height: 60px;
+    margin-right: 1rem;
+    filter: grayscale(100%);
+    transition: all 0.3s ease;
+}
+
+.timeline-item.active .insignia-icon {
+    filter: grayscale(0%);
+}
+
+.insignia-info {
+    flex: 1;
+}
+
+.insignia-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 0.5rem 0;
+}
+
+.insignia-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+}
+
+.progress-bar-container {
+    background-color: #e9ecef;
+    border-radius: 4px;
+    height: 8px;
+    margin-top: 1rem;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #28a745;
+    transition: width 0.3s ease;
+}
+
+/* Estados inactivos */
+.timeline-item:not(.active) .insignia-container {
+    opacity: 0.7;
+    background-color: #f8f9fa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .timeline::before {
+        left: 31px;
+    }
+    
+    .timeline-item::before {
+        left: 31px;
+    }
+    
+    .insignia-container {
+        width: calc(100% - 60px);
+        margin-left: 60px;
+    }
+}
+</style>
+</head>
+<body>
+
+    {% load static %}
+    {% load custom_filters %}
+    <div class="badges-container">
+        <!-- Cálculo de progreso general -->
+        {% with total_insignias=4 %}
+        {% with insignias_desbloqueadas=0 %}
+        {% with temp_desbloqueadas=insignias_desbloqueadas %}
+            {% if usuario.total_donaciones >= 1 %}
+                {% with temp_desbloqueadas=temp_desbloqueadas|add:1 %}
+                {% endwith %}
+            {% endif %}
+            {% if usuario.total_donaciones >= 3 %}
+                {% with temp_desbloqueadas=temp_desbloqueadas|add:1 %}
+                {% endwith %}
+            {% endif %}
+            {% if usuario.total_donaciones >= 8 %}
+                {% with temp_desbloqueadas=temp_desbloqueadas|add:1 %}
+                {% endwith %}
+            {% endif %}
+            {% if usuario.total_donaciones >= 15 %}
+                {% with temp_desbloqueadas=temp_desbloqueadas|add:1 %}
+                {% endwith %}
+            {% endif %}
+        
+        <!-- Progreso general -->
+        <div class="overall-progress">
+            <div class="progress-info">
+                <div>
+                    <h2 style="margin: 0;">Tu Progreso de Insignias</h2>
+                    {% if usuario.total_donaciones >= 15 %}
+                    <p style="margin: 0.5rem 0;">¡Felicidades! Has desbloqueado todas las insignias</p>
+                    {% elif usuario.total_donaciones <= 15 %}
+                    <p style="margin: 0.5rem 0;">¡Sigue así! Has desbloqueado 
+                    
+
+                        {% if usuario.total_donaciones >= 15 %}4
+                        {% elif usuario.total_donaciones >= 8 %}3
+                        {% elif usuario.total_donaciones >= 3 %}2
+                        {% elif usuario.total_donaciones >= 1 %}1
+                        {% else %}0
+                        {% endif %} 
+                        de {{ total_insignias }} insignias</p>
+
+                    {% endif %} 
+                </div>
+                <div class="progress-circle">
+                    {% with progress=usuario.total_donaciones %}
+                    {% with progress_percentage=progress|multiply:100|divide:15|floatformat:0 %}
+                    <svg width="120" height="120" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="54" fill="none" stroke="#e9ecef" stroke-width="12"/>
+                        <circle cx="60" cy="60" r="54" fill="none" stroke="#28a745" stroke-width="12"
+                                stroke-dasharray="339.292" 
+                                stroke-dashoffset="{{ progress_percentage|multiply:3.39292 }}" />
+                    </svg>
+                    <div class="progress-circle-text">
+                        {{ progress_percentage }}%
+                    </div>
+                    
+                    {% endwith %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    
+        <!-- Línea de tiempo de insignias -->
+        <div class="timeline">
+            <!-- Insignia 1: Mano amiga (1 donación) -->
+            <div class="timeline-item {% if usuario.total_donaciones >= 1 %}active{% endif %}">
+                <div class="insignia-container">
+                    <div class="insignia-header">
+                        <img src="{% static 'img/insignias/1.png' %}" alt="Mano amiga" class="insignia-icon">
+                        <div class="insignia-info">
+                            <h3 class="insignia-name">Mano amiga</h3>
+                            <p class="insignia-description">Has dado tu primera donación, ¡felicitaciones!</p>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: {% if usuario.total_donaciones >= 1 %}100{% else %}{{ usuario.total_donaciones|multiply:100 }}{% endif %}%"></div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Insignia 2: Corazón generoso (3 donaciones) -->
+            <div class="timeline-item {% if usuario.total_donaciones >= 3 %}active{% endif %}">
+                <div class="insignia-container">
+                    <div class="insignia-header">
+                        <img src="{% static 'img/insignias/3.png' %}" alt="Corazón generoso" class="insignia-icon">
+                        <div class="insignia-info">
+                            <h3 class="insignia-name">Corazón generoso</h3>
+                            <p class="insignia-description">Has alcanzado 3 donaciones, tu generosidad es admirable.</p>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: {% if usuario.total_donaciones >= 3 %}100{% else %}{{ usuario.total_donaciones|multiply:100|divide:3 }}{% endif %}%"></div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Insignia 3: Donador Destacado (8 donaciones) -->
+            <div class="timeline-item {% if usuario.total_donaciones >= 8 %}active{% endif %}">
+                <div class="insignia-container">
+                    <div class="insignia-header">
+                        <img src="{% static 'img/insignias/8.png' %}" alt="Donador Destacado" class="insignia-icon">
+                        <div class="insignia-info">
+                            <h3 class="insignia-name">Donador Destacado</h3>
+                            <p class="insignia-description">¡8 donaciones! Estás marcando la diferencia en muchas vidas.</p>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: {% if usuario.total_donaciones >= 8 %}100{% else %}{{ usuario.total_donaciones|multiply:100|divide:8 }}{% endif %}%"></div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Insignia 4: Donador Supremo (15 donaciones) -->
+            <div class="timeline-item {% if usuario.total_donaciones >= 15 %}active{% endif %}">
+                <div class="insignia-container">
+                    <div class="insignia-header">
+                        <img src="{% static 'img/insignias/15.png' %}" alt="Donador Supremo" class="insignia-icon">
+                        <div class="insignia-info">
+                            <h3 class="insignia-name">Donador Supremo</h3>
+                            <p class="insignia-description">Con 15 donaciones, te has convertido en un referente de generosidad.</p>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: {% if usuario.total_donaciones >= 15 %}100{% else %}{{ usuario.total_donaciones|multiply:100|divide:15 }}{% endif %}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endwith %}
+        {% endwith %}
+        {% endwith %}
+    </div>

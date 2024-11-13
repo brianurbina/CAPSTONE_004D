@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPCYCLE WEAR - Peticiones</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8MywmUH96jIquDe5Dxyrx1MWRHO3xfR0&libraries=marker"></script>
+    
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/stylelistas.css' %}">
+    <style>
+        body {
+            background-image: url("{% static 'img/fondo.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+        .publication-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        .publication-card:hover {
+            transform: translateY(-5px);
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FFD700; /* Color dorado */
+        }
+        .btn-dark {
+            background-color: #343a40;
+            border: none;
+        }
+        #map {
+            height: 400px; /* Asegúrate de definir la altura */
+            width: 100%;
+        }
+        .mapa{
+            align-items: center;
+        }
+
+        .container-map {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'estructura/menu.html' %}
+
+    <div class="pagetitle">
+        <h1>Personas pidiendo</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">UpcycleWear</a></li>
+                <li class="breadcrumb-item active">Personas pidiendo</li>
+            </ol>
+        </nav>
+    </div>
+    <form method="GET" action="{% url 'donar' %}" class="mb-4">
+        <div class="row">
+            <div class="col-md-8">
+                <label for="q" class="form-label">Buscar</label>
+                <input type="text" name="q" id="q" placeholder="Buscar: Titulo de la petición..." class="form-control" value="{{ query }}">
+            </div>
+            <div class="col-md-4">
+                <label for="tipo_ropa" class="form-label">Tipo de ropa</label>
+                {{ form.tipo_ropa }}
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-9 text-left"></div>
+            <div class="col-md-3 text-left">
+                <button type="submit" class="btn btn-dark" style="width: 100%;"><i class="bi bi-filter"></i> Filtrar</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="container-fluid">
+        <!-- Pestañas -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="filtros-tab" data-toggle="tab" href="#filtros" role="tab" aria-controls="filtros" aria-selected="true">Filtros</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="mapa-tab" data-toggle="tab" href="#mapa" role="tab" aria-controls="mapa" aria-selected="false">Mapa</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <!-- Pestaña Filtros -->
+            <div class="tab-pane fade show active" id="filtros" role="tabpanel" aria-labelledby="filtros-tab">
+                
+                <!-- Resultados de las Peticiones -->
+                {% if peticiones %}
+                    {% for peticion in peticiones %}
+                    <div class="publication-card">
+                        <h2 class="card-title">{{ peticion.titulo }}</h2>
+                        <p><strong>Descripción:</strong> {{ peticion.descripcion }}</p>
+                        <p><strong>Tipo de ropa:</strong> {{ peticion.get_tipo_ropa_display }}</p>
+                        <p><strong>Estado:</strong> {{ peticion.get_estado_display }}</p>
+                        <p><strong>Fecha:</strong> {{ peticion.fecha_hora|date:"Y-m-d H:i" }}</p>
+                        <p><strong>Usuario:</strong> {{ peticion.usuario.username }}</p>
+                        <div class="d-flex">
+                            {% if peticion.usuario.username != user.username %}
+                            <button id="iniciar-conversacion" data-usuario-username="{{ peticion.usuario.username }}" class="btn btn-dark mb-2" style="margin-right: 10px;">Iniciar Conversación</button>
+                            <a href="{% url 'perfil_usuario' peticion.usuario.username %}" class="btn btn-dark d-flex align-items-center mb-2" style="margin-right: 10px;">
+                                <i class="fas fa-user" style="margin-right: 5px;"></i> Ver Perfil
+                            </a>
+                            {% endif %}
+
+                            {% if user.is_superuser %}
+                            <a href="{% url 'modificar_peticion' peticion.id %}" class="btn btn-warning mb-2" style="margin-right: 10px;">
+                                <i class="bi bi-pencil-square"></i> Modificar
+                            </a>
+                            <a href="{% url 'eliminar_peticion' peticion.id %}" class="btn btn-danger">
+                                <i class="bi bi-trash-fill"></i> Eliminar
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    {% if peticiones.paginator.num_pages > 1 %}
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            {% if peticiones.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ peticiones.previous_page_number }}{% if q %}&q={{ q }}{% endif %}">Anterior</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                                </li>
+                            {% endif %}
+                            {% for num in peticiones.paginator.page_range %}
+                                {% if peticiones.number == num %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ num }}{% if q %}&q={{ q }}{% endif %}">{{ num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if peticiones.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ peticiones.next_page_number }}{% if q %}&q={{ q }}{% endif %}">Siguiente</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Siguiente</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+                {% else %}
+                <div class="text-center my-5">
+                    <img src="{% static 'img/noencontrado.png' %}" style="width: 100px; height: 100px;">
+                    <h2 class="mt-3" style="font-size: 1.5rem; color: #555;">No se encontraron peticiones.</h2>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Pestaña Mapa (vacía por ahora) -->
+            <div class="tab-pane fade" id="mapa" role="tabpanel" aria-labelledby="mapa-tab">
+                <div class="container container-map">
+                    <h1 style="text-align: center; color: black;">Mapa de Peticiones</h1><br><br>
+                    <div id="map"></div>
+                </div>
+                <br><br><br><br><br><br>
+                
+                <script>
+                    const peticiones = [
+                        {% for peticion in peticiones %}
+                            { 
+                                nombre: "{{ peticion.titulo }}", 
+                                direccion: "{{ peticion.usuario.direccion }}",  <!-- Dirección del Usuario (incluye comuna) -->
+                                descripcion: "{{ peticion.descripcion }}",
+                                telefono: "{{ peticion.usuario.telefono }}",  <!-- Teléfono del Usuario -->
+                                sitio_web: "{{ peticion.usuario.facebook }}",  <!-- Facebook del Usuario -->
+                                foto_perfil: "{{ peticion.usuario.foto_perfil.url }}"  <!-- Foto de perfil del Usuario -->
+                                username: "{{ peticion.usuario.username }}"  <!-- Foto de perfil del Usuario -->
+                            },
+                        {% endfor %}
+                    ];
+                
+                    let map;
+                
+                    function initMap() {
+                        map = new google.maps.Map(document.getElementById("map"), {
+                            center: { lat: -33.43224871387503, lng: -70.73906799844872 }, // Centro en Santiago de Chile
+                            zoom: 10,
+                        });
+                
+                        const geocoder = new google.maps.Geocoder();
+                
+                        peticiones.forEach(peticion => {
+                            geocoder.geocode({ address: peticion.direccion }, (results, status) => {
+                                if (status === "OK") {
+                                    const marker = new google.maps.Marker({
+                                        position: results[0].geometry.location,
+                                        map: map,
+                                        title: peticion.nombre,
+                                        icon: {
+                                            url: peticion.foto_perfil || '/path/to/default-icon.jpg', // Foto de perfil o un ícono por defecto
+                                            scaledSize: new google.maps.Size(40, 40), // Tamaño del icono
+                                            anchor: new google.maps.Point(25, 50), // Ajusta el anclaje para que el marcador esté centrado
+                                            labelOrigin: new google.maps.Point(25, 55), // Ajusta el origen de la etiqueta
+                                            // Aplicar una forma circular a la imagen
+                                            shape: {
+                                                coords: [0, 0, 50, 50],  // Círculo perfecto para que se vea redondeado
+                                                type: 'circle'
+                                            }
+                                        },
+                                    });
+                
+                                    // Evento de mouseover (al pasar el cursor sobre el marcador)
+                                    marker.addListener("mouseover", function() {
+                                        this.setIcon({
+                                            url: peticion.foto_perfil || '/path/to/default-icon.jpg', // Foto de perfil o un ícono por defecto
+                                            scaledSize: new google.maps.Size(50, 50), // Tamaño mayor al pasar el mouse
+                                            anchor: new google.maps.Point(30, 50), // Ajusta el anclaje
+                                            labelOrigin: new google.maps.Point(30, 55), // Ajusta el origen de la etiqueta
+                                            shape: {
+                                                coords: [0, 0, 60, 60],  // Círculo más grande
+                                                type: 'circle'
+                                            }
+                                        });
+                                    });
+                
+                                    // Evento de mouseout (cuando el cursor deja el marcador)
+                                    marker.addListener("mouseout", function() {
+                                        this.setIcon({
+                                            url: peticion.foto_perfil || '/path/to/default-icon.jpg', // Foto de perfil o un ícono por defecto
+                                            scaledSize: new google.maps.Size(40, 40), // Tamaño normal
+                                            anchor: new google.maps.Point(25, 50), // Ajusta el anclaje
+                                            labelOrigin: new google.maps.Point(25, 55), // Ajusta el origen de la etiqueta
+                                            shape: {
+                                                coords: [0, 0, 50, 50],  // Círculo perfecto para que se vea redondeado
+                                                type: 'circle'
+                                            }
+                                        });
+                                    });
+                
+                                    // Infowindow mejorado
+                                    const infowindow = new google.maps.InfoWindow({
+                                        content: `
+                                            <div style="font-family: Arial, sans-serif;">
+                                                <h4 style="margin-bottom: 10px;">${peticion.nombre}</h4>
+                                                <p><strong>Descripción:</strong> ${peticion.descripcion}</p>
+                                                <p><strong>Dirección:</strong> ${peticion.direccion}</p>
+                                                <p><strong>Teléfono:</strong> ${peticion.telefono}</p>
+                                                <a href={% url 'crear_conversacion' ${peticion.username} %}  class="btn btn-dark mb-2" style="margin-right: 10px;">Iniciar Conversación</a>
+                                            </div>
+                                        `,
+                                    });
+                
+                                    marker.addListener("click", () => {
+                                        infowindow.open(map, marker);
+                                    });
+                
+                                    if (results[0].geometry.location) {
+                                        map.setCenter(results[0].geometry.location);
+                                    }
+                                } else {
+                                    console.error("No se pudo encontrar la dirección: " + peticion.direccion + " - " + status);
+                                }
+                            });
+                        });
+                    }
+                
+                    window.onload = initMap; // Inicializa el mapa al cargar la página
+                </script>
+                
+                
+                
+                
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('[id^="iniciar-conversacion"]').forEach(button => {
+            button.onclick = function() {
+                const usuarioUsername = this.getAttribute('data-usuario-username');
+
+                fetch(`/crear-conversacion/${usuarioUsername}/`, {
+                    method: 'GET',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.conversacion_id) {
+                        window.location.href = `/chat/?conversacion_id=${data.conversacion_id}`;
+                    } else {
+                        alert('Error al crear o abrir la conversación');
+                    }
+                })
+                .catch(error => console.error('Error al crear o abrir la conversación:', error));
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

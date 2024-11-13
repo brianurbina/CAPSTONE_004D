@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPCYCLE WEAR - Donar</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/stylelistas.css' %}">
+    <style>
+        body {
+            background-image: url("{% static 'img/fondo.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+        .publication-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        .publication-card:hover {
+            transform: translateY(-5px);
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FFD700; /* Color dorado */
+        }
+        .btn-dark {
+            background-color: #343a40;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'estructura/menu.html' %}
+
+    <div class="pagetitle">
+        <h1>Donar</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+            <li class="breadcrumb-item active">Donar</li>
+          </ol>
+        </nav>
+    </div>
+
+    <div class="container-fluid">
+        <!-- Filtros (Comunes para ambas pestañas) -->
+        <form method="GET" action="{% url 'donar' %}" class="mb-4">
+            <div class="row">
+                <div class="col-md-8">
+                    <label for="q" class="form-label">Buscar</label>
+                    <input type="text" name="q" id="q" placeholder="Buscar: Titulo de la petición..." class="form-control" value="{{ query }}">
+                </div>
+                <div class="col-md-4">
+                    <label for="tipo_ropa" class="form-label">Tipo de ropa</label>
+                    {{ form.tipo_ropa }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9 text-left"></div>
+                <div class="col-md-3 text-left">
+                    <button type="submit" class="btn btn-dark" style="width: 100%;"><i class="bi bi-filter"></i> Filtrar</button> 
+                </div>
+            </div>
+        </form>
+
+        <!-- Pestañas -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="true">Lista de Donaciones</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false">Mapa de Donaciones</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <!-- Pestaña Lista -->
+            <div class="tab-pane fade show active" id="list" role="tabpanel" aria-labelledby="list-tab">
+                <div class="row">
+                    {% if peticiones %}
+                        {% for peticion in peticiones %}
+                        <div class="publication-card col-md-6">
+                            <h2 class="card-title">{{ peticion.titulo }}</h2>
+                            <p><strong>Descripción:</strong> {{ peticion.descripcion }}</p>
+                            <p><strong>Tipo de ropa:</strong> {{ peticion.get_tipo_ropa_display }}</p>
+                            <p><strong>Estado:</strong> {{ peticion.get_estado_display }}</p>
+                            <p><strong>Fecha:</strong> {{ peticion.fecha_hora|date:"Y-m-d H:i" }}</p>
+                            <p><strong>Usuario:</strong> {{ peticion.usuario.username }}</p>
+                            <div class="d-flex">
+                                {% if peticion.usuario.username != user.username %}
+                                <button id="iniciar-conversacion" data-usuario-username="{{ peticion.usuario.username }}" class="btn btn-dark mb-2" style="margin-right: 10px;">Iniciar Conversación</button>
+                                <a href="{% url 'perfil_usuario' peticion.usuario.username %}" class="btn btn-dark d-flex align-items-center mb-2" style="margin-right: 10px;">
+                                    <i class="fas fa-user" style="margin-right: 5px;"></i> Ver Perfil
+                                </a>
+                                {% endif %}
+                                {% if user.is_superuser %}
+                                <a href="{% url 'modificar_peticion' peticion.id %}" class="btn btn-warning mb-2" style="margin-right: 10px;">
+                                    <i class="bi bi-pencil-square"></i> Modificar
+                                </a>
+                                <a href="{% url 'eliminar_peticion' peticion.id %}" class="btn btn-danger">
+                                    <i class="bi bi-trash-fill"></i> Eliminar
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No se encontraron donaciones.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Pestaña Mapa -->
+            <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
+                <div id="mapa-container">
+                    <!-- Aquí va el código del mapa -->
+                    <iframe src="MAP_URL" width="100%" height="500px"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('[id^="iniciar-conversacion"]').forEach(button => {
+            button.onclick = function() {
+                const usuarioUsername = this.getAttribute('data-usuario-username');
+
+                fetch(`/crear-conversacion/${usuarioUsername}/`, {
+                    method: 'GET',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta de la red');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.conversacion_id) {
+                        window.location.href = `/chat/?conversacion_id=${data.conversacion_id}`; 
+                    } else {
+                        alert('Error al crear o abrir la conversación');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al crear o abrir la conversación:', error);
+                });
+            };
+        });
+    </script>
+
+    <!-- Librerías -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    {% include 'estructura/footer.html' %}
+</body>
+</html>

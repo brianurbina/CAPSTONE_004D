@@ -478,7 +478,8 @@ h6 {
 }
 
 .header-nav .nav-profile img {
-  max-height: 36px;
+  height: 36px;
+  width: 35px;
 }
 
 .header-nav .nav-profile span {
@@ -998,7 +999,8 @@ h6 {
 # Profie Page
 --------------------------------------------------------------*/
 .profile .profile-card img {
-  max-width: 120px;
+  width: 300px;
+  height: 300px;
 }
 
 .profile .profile-card h2 {
@@ -1045,7 +1047,8 @@ h6 {
 }
 
 .profile .profile-edit img {
-  max-width: 120px;
+  width: 200px;
+  height: 200px;
 }
 
 /*--------------------------------------------------------------
@@ -1258,7 +1261,7 @@ h6 {
   /* Dark theme variables */
   --dark-body-bg: #1a1a1a;
   --dark-body-color: #e0e0e0;
-  --dark-primary: #5868f6;
+  --dark-primary: white;
   --dark-primary-light: white;
   --dark-secondary: #7a97d1;
   --dark-card-bg: #2d2d2d;
@@ -1274,7 +1277,7 @@ h6 {
   --dark-dropdown-hover: #3d3d3d;
   --dark-input-border: rgba(255, 255, 255, 0.2);
   --dark-shadow: 0px 0 30px rgba(0, 0, 0, 0.3);
-  --dark-text-muted: #a0a0a0;
+  --dark-text-muted: black;
 
   /* Default theme (light) */
   --body-bg: var(--light-body-bg);
@@ -1388,7 +1391,7 @@ a:hover {
 
 /* Dark theme specific overrides */
 .dark-theme .bg-primary-light {
-  background-color: rgba(81, 84, 241, 0.2);
+  background-color: red;
 }
 
 .dark-theme .bg-secondary-light {

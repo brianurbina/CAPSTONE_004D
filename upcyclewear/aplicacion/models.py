@@ -165,11 +165,11 @@ class Donacion(models.Model):
     ('3-6m', '3-6 meses'),
     ('6-9m', '6-9 meses'),
     ('9-12m', '9-12 meses'),
-    ('S', 'Small'),
-    ('M', 'Medium'),
-    ('L', 'Large'),
-    ('XL', 'Extra Large'),
-    ('XXL', 'Double Extra Large'),
+    ('S', 'S'),
+    ('M', 'M'),
+    ('L', 'L'),
+    ('XL', 'XL'),
+    ('XXL', 'XXL'),
 ]
     TEMPORADAS = [
     ('primavera', 'Primavera'),

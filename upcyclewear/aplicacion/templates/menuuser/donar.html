@@ -224,7 +224,7 @@
                 {% endif %}
             </div>
 
-            <!-- Pestaña Mapa (vacía por ahora) -->
+  
             <div class="tab-pane fade" id="mapa" role="tabpanel" aria-labelledby="mapa-tab">
                 <div class="container-fluid">
         
@@ -233,111 +233,139 @@
                 <br><br><br><br><br><br>
                 
                 <script>
-                    const peticiones = [
-                        {% for peticion in peticiones %}
-                            { 
-                                nombre: "{{ peticion.titulo }}", 
-                                direccion: "{{ peticion.usuario.direccion }}",  /* Dirección del Usuario (incluye comuna) */
-                                descripcion: "{{ peticion.descripcion }}",
-                                telefono: "{{ peticion.usuario.telefono }}",  /* Teléfono del Usuario */
-                                sitio_web: "{{ peticion.usuario.facebook }}",  /* Facebook del Usuario */
-                                foto_perfil: "{{ peticion.usuario.foto_perfil.url }}",  /* Foto de perfil del Usuario */
-                                usuario_username: "{{ peticion.usuario.username }}"
-                            },
-                        {% endfor %}
-                    ];
-                
-                    let map;
-                
-                    function initMap() {
-                        map = new google.maps.Map(document.getElementById("map"), {
-                            center: { lat: -33.43224871387503, lng: -70.73906799844872 }, // Centro en Santiago de Chile
-                            zoom: 10,
-                        });
-                
-                        const geocoder = new google.maps.Geocoder();
-                
-                        peticiones.forEach(peticion => {
-                            geocoder.geocode({ address: peticion.direccion }, (results, status) => {
-                                if (status === "OK") {
-                                    const marker = new google.maps.Marker({
-                                        position: results[0].geometry.location,
-                                        map: map,
-                                        title: peticion.nombre,
-                                        icon: {
-                                            url: peticion.foto_perfil || '/path/to/default-icon.jpg', // Foto de perfil o un ícono por defecto
-                                            scaledSize: new google.maps.Size(40, 40), // Tamaño del icono
-                                            anchor: new google.maps.Point(25, 50), // Ajusta el anclaje para que el marcador esté centrado
-                                            labelOrigin: new google.maps.Point(25, 55), // Ajusta el origen de la etiqueta
-                                            shape: {
-                                                coords: [0, 0, 50, 50],  // Círculo perfecto para que se vea redondeado
-                                                type: 'circle'
-                                            }
-                                        },
-                                    });
-                
-                                    // Evento de mouseover (al pasar el cursor sobre el marcador)
-                                    marker.addListener("mouseover", function() {
-                                        this.setIcon({
-                                            url: peticion.foto_perfil || '/path/to/default-icon.jpg', // Foto de perfil o un ícono por defecto
-                                            scaledSize: new google.maps.Size(50, 50), // Tamaño mayor al pasar el mouse
-                                            anchor: new google.maps.Point(30, 50), // Ajusta el anclaje
-                                            labelOrigin: new google.maps.Point(30, 55), // Ajusta el origen de la etiqueta
-                                            shape: {
-                                                coords: [0, 0, 60, 60],  // Círculo más grande
-                                                type: 'circle'
-                                            }
-                                        });
-                                    });
-                
-                                    // Evento de mouseout (cuando el cursor deja el marcador)
-                                    marker.addListener("mouseout", function() {
-                                        this.setIcon({
-                                            url: peticion.foto_perfil || '/path/to/default-icon.jpg', // Foto de perfil o un ícono por defecto
-                                            scaledSize: new google.maps.Size(40, 40), // Tamaño normal
-                                            anchor: new google.maps.Point(25, 50), // Ajusta el anclaje
-                                            labelOrigin: new google.maps.Point(25, 55), // Ajusta el origen de la etiqueta
-                                            shape: {
-                                                coords: [0, 0, 50, 50],  // Círculo perfecto para que se vea redondeado
-                                                type: 'circle'
-                                            }
-                                        });
-                                    });
-                
-                                    // Infowindow mejorado
-                                    const infowindow = new google.maps.InfoWindow({
-    content: `
-        <div style="font-family: Arial, sans-serif;">
-            <h4 style="margin-bottom: 10px;">${peticion.nombre}</h4>
-            <p><strong>Descripción:</strong> ${peticion.descripcion}</p>
-            <p><strong>Dirección:</strong> ${peticion.direccion}</p>
-            <p><strong>Teléfono:</strong> ${peticion.telefono}</p>
-            ${peticion.usuario_username !== '{{ user.username }}' ? `
-                <a href="#" id="iniciar-conversacion-${peticion.usuario_username}" 
-                   data-usuario-username="${peticion.usuario_username}" class="btn btn-dark mb-2" style="margin-right: 10px;">
-                   Iniciar Conversación
-                </a>
-            ` : ''}
-        </div>
-    `,
-});
+ const peticiones = [
+    {% for peticion in peticiones %}
+        { 
+            nombre: "{{ peticion.titulo }}", 
+            direccion: "{{ peticion.usuario.direccion }}", 
+            descripcion: "{{ peticion.descripcion }}",
+            telefono: "{{ peticion.usuario.telefono }}", 
+            sitio_web: "{{ peticion.usuario.facebook }}", 
+            foto_perfil: "{{ peticion.usuario.foto_perfil.url }}", 
+            usuario_username: "{{ peticion.usuario.username }}",
+        },
+    {% endfor %}
+];
 
-                
-                                    marker.addListener("click", () => {
-                                        infowindow.open(map, marker);
-                                    });
-                
-                                    if (results[0].geometry.location) {
-                                        map.setCenter(results[0].geometry.location);
-                                    }
-                                } else {
-                                    console.error("No se pudo encontrar la dirección: " + peticion.direccion + " - " + status);
-                                }
-                            });
-                        });
+let map;
+
+function initMap() {
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: -33.43224871387503, lng: -70.73906799844872 }, // Centro en Santiago de Chile
+        zoom: 10,
+    });
+
+    const geocoder = new google.maps.Geocoder();
+
+    peticiones.forEach(peticion => {
+        geocoder.geocode({ address: peticion.direccion }, (results, status) => {
+            if (status === "OK") {
+                const marker = new google.maps.Marker({
+                    position: results[0].geometry.location,
+                    map: map,
+                    title: peticion.nombre,
+                    icon: {
+                        url: peticion.foto_perfil || '/path/to/default-icon.jpg', // Foto de perfil o un ícono por defecto
+                        scaledSize: new google.maps.Size(40, 40), // Tamaño del icono
+                        anchor: new google.maps.Point(25, 50), // Ajusta el anclaje para que el marcador esté centrado
+                        labelOrigin: new google.maps.Point(25, 55), // Ajusta el origen de la etiqueta
+                        shape: {
+                            coords: [0, 0, 50, 50],  // Círculo perfecto para que se vea redondeado
+                            type: 'circle'
+                        }
+                    },
+                });
+
+                // Evento de mouseover (al pasar el cursor sobre el marcador)
+                marker.addListener("mouseover", function() {
+                    this.setIcon({
+                        url: peticion.foto_perfil || '/path/to/default-icon.jpg', // Foto de perfil o un ícono por defecto
+                        scaledSize: new google.maps.Size(50, 50), // Tamaño mayor al pasar el mouse
+                        anchor: new google.maps.Point(30, 50), // Ajusta el anclaje
+                        labelOrigin: new google.maps.Point(30, 55), // Ajusta el origen de la etiqueta
+                        shape: {
+                            coords: [0, 0, 60, 60],  // Círculo más grande
+                            type: 'circle'
+                        }
+                    });
+                });
+
+                // Evento de mouseout (cuando el cursor deja el marcador)
+                marker.addListener("mouseout", function() {
+                    this.setIcon({
+                        url: peticion.foto_perfil || '/path/to/default-icon.jpg', // Foto de perfil o un ícono por defecto
+                        scaledSize: new google.maps.Size(40, 40), // Tamaño normal
+                        anchor: new google.maps.Point(25, 50), // Ajusta el anclaje
+                        labelOrigin: new google.maps.Point(25, 55), // Ajusta el origen de la etiqueta
+                        shape: {
+                            coords: [0, 0, 50, 50],  // Círculo perfecto para que se vea redondeado
+                            type: 'circle'
+                        }
+                    });
+                });
+
+                // Infowindow mejorado
+                const infowindow = new google.maps.InfoWindow({
+                    content: `
+                        <div style="font-family: Arial, sans-serif;">
+                            <h4 style="margin-bottom: 10px;">${peticion.nombre}</h4>
+                            <p><strong>Descripción:</strong> ${peticion.descripcion}</p>
+                            <p><strong>Dirección:</strong> ${peticion.direccion}</p>
+                            <p><strong>Teléfono:</strong> ${peticion.telefono}</p>
+                            ${peticion.usuario_username !== '{{ user.username }}' ? `
+                                <button id="iniciar-conversacion" data-usuario-username="${peticion.usuario_username}" class="btn btn-dark mb-2">
+                                    Iniciar Conversación
+                                </button>` : ''}
+                        </div>
+                    `
+                });
+
+                // Mostrar el infowindow al hacer clic en el marcador
+                marker.addListener("click", () => {
+                    infowindow.open(map, marker);
+                    
+                    // Centrar el mapa en la ubicación del marcador
+                    if (results[0].geometry.location) {
+                        map.setCenter(results[0].geometry.location);
                     }
-                
-                    window.onload = initMap; // Inicializa el mapa al cargar la página
+                });
+
+                // Asociar el evento del botón "Iniciar Conversación" después de abrir el infowindow
+                google.maps.event.addListener(infowindow, 'domready', function() {
+                    // Asignar el evento de clic a los botones con el id "iniciar-conversacion"
+                    document.querySelectorAll('[id^="iniciar-conversacion"]').forEach(button => {
+                        button.onclick = function() {
+                            const usuarioUsername = this.getAttribute('data-usuario-username');
+
+                            fetch(`/crear-conversacion/${usuarioUsername}/`, {
+                                method: 'GET',
+                                headers: {
+                                    'X-CSRFToken': '{{ csrf_token }}'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.conversacion_id) {
+                                    window.location.href = `/chat/?conversacion_id=${data.conversacion_id}`;
+                                } else {
+                                    alert('Error al crear o abrir la conversación');
+                                }
+                            })
+                            .catch(error => console.error('Error al crear o abrir la conversación:', error));
+                        }
+                    });
+                });
+            } else {
+                console.error("No se pudo encontrar la dirección: " + peticion.direccion + " - " + status);
+            }
+        });
+    });
+}
+
+window.onload = initMap; // Inicializa el mapa al cargar la página
+
+
+                                    
                 </script>
                 
                 

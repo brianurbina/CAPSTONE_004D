@@ -10,9 +10,27 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8MywmUH96jIquDe5Dxyrx1MWRHO3xfR0&libraries=marker"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/stylelistas.css' %}">
     <style>
+          #map {
+            height: 400px; /* Asegúrate de definir la altura */
+            width: 100%;
+        }
+        .mapa{
+            align-items: center;
+        }
+
+        .container-map {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
         body {
             background-image: url("{% static '/img/fondo.png' %}");
             background-size: cover;
@@ -269,9 +287,12 @@
 
     <div class="tab-pane fade" id="mapa" role="tabpanel" aria-labelledby="mapa-tab">
 
-        <p>mapa</p>
         <!-- Mapa Contenido-->
+        <div class="container-fluid">
         
+            <div id="map" style="width: 100%; height: 500px;"></div> <!-- Asegúrate de darle un tamaño adecuado al mapa -->
+        </div>
+        <br><br><br><br><br><br>
         
         
         </div>
@@ -279,7 +300,139 @@
 </div>
 
 
+<script>      const donaciones = [
+    {% for donacion in donaciones %}
+        { 
+            nombre: "{{ donacion.titulo }}", 
+            direccion: "{{ donacion.usuario.direccion }}", 
+            descripcion: "{{ donacion.descripcion }}",
+            telefono: "{{ donacion.usuario.telefono }}", 
+            sitio_web: "{{ donacion.usuario.facebook }}", 
+            foto_perfil: "{{ donacion.usuario.foto_perfil.url }}", 
+            usuario_username: "{{ donacion.usuario.username }}",
+            fecha: "{{ donacion.fecha_hora }}",
+            tipo_ropa: "{{ donacion.tipo_ropa }}",
+            talla: "{{ donacion.talla }}",
+            temporada: "{{ donacion.temporada }}",
+            foto: "{{ donacion.foto.url }}"
+        },
+    {% endfor %}
+];
 
+let map;
+
+function initMap() {
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: -33.43224871387503, lng: -70.73906799844872 }, // Centro en Santiago de Chile
+        zoom: 10,
+    });
+
+    const geocoder = new google.maps.Geocoder();
+
+    donaciones.forEach(donacion => {
+        geocoder.geocode({ address: donacion.direccion }, (results, status) => {
+            if (status === "OK") {
+                const marker = new google.maps.Marker({
+                    position: results[0].geometry.location,
+                    map: map,
+                    title: donacion.nombre,
+                    icon: {
+                        url: donacion.foto_perfil || '/path/to/default-icon.jpg',
+                        scaledSize: new google.maps.Size(40, 40),
+                        anchor: new google.maps.Point(25, 50),
+                        labelOrigin: new google.maps.Point(25, 55),
+                        shape: {
+                            coords: [0, 0, 50, 50],
+                            type: 'circle'
+                        }
+                    },
+                });
+
+                marker.addListener("mouseover", function() {
+                    this.setIcon({
+                        url: donacion.foto_perfil || '/path/to/default-icon.jpg',
+                        scaledSize: new google.maps.Size(50, 50),
+                        anchor: new google.maps.Point(30, 50),
+                        labelOrigin: new google.maps.Point(30, 55),
+                        shape: {
+                            coords: [0, 0, 60, 60],
+                            type: 'circle'
+                        }
+                    });
+                });
+
+                marker.addListener("mouseout", function() {
+                    this.setIcon({
+                        url: donacion.foto_perfil || '/path/to/default-icon.jpg',
+                        scaledSize: new google.maps.Size(40, 40),
+                        anchor: new google.maps.Point(25, 50),
+                        labelOrigin: new google.maps.Point(25, 55),
+                        shape: {
+                            coords: [0, 0, 50, 50],
+                            type: 'circle'
+                        }
+                    });
+                });
+
+                const infowindow = new google.maps.InfoWindow({
+                    content: `
+                        <div style="font-family: Arial, sans-serif;">
+                            <h4 style="margin-bottom: 10px;">${donacion.nombre}</h4>
+                            <p><strong>Fecha:</strong> ${donacion.fecha}</p>
+                            <p><strong>Descripción:</strong> ${donacion.descripcion}</p>
+                            <p><strong>Tipo de Ropa:</strong> ${donacion.tipo_ropa}</p>
+                            <p><strong>Talla:</strong> ${donacion.talla}</p>
+                            <p><strong>Temporada:</strong> ${donacion.temporada}</p>
+                            <img src="${donacion.foto}" alt="Foto de la donación" width="100">
+                            <p><strong>Teléfono:</strong> ${donacion.telefono}</p>
+                            ${donacion.usuario_username !== '{{ user.username }}' ? `
+                                <button id="iniciar-conversacion" data-usuario-username="${donacion.usuario_username}" class="btn btn-dark mb-2">
+                                    Iniciar Conversación
+                                </button>` : ''}
+                        </div>
+                    `
+                });
+
+                marker.addListener("click", () => {
+                    infowindow.open(map, marker);
+                    if (results[0].geometry.location) {
+                        map.setCenter(results[0].geometry.location);
+                    }
+                });
+
+                google.maps.event.addListener(infowindow, 'domready', function() {
+                    document.querySelectorAll('[id^="iniciar-conversacion"]').forEach(button => {
+                        button.onclick = function() {
+                            const usuarioUsername = this.getAttribute('data-usuario-username');
+
+                            fetch(`/crear-conversacion/${usuarioUsername}/`, {
+                                method: 'GET',
+                                headers: {
+                                    'X-CSRFToken': '{{ csrf_token }}'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.conversacion_id) {
+                                    window.location.href = `/chat/?conversacion_id=${data.conversacion_id}`;
+                                } else {
+                                    alert('Error al crear o abrir la conversación');
+                                }
+                            })
+                            .catch(error => console.error('Error al crear o abrir la conversación:', error));
+                        }
+                    });
+                });
+            } else {
+                console.error("No se pudo encontrar la dirección: " + donacion.direccion + " - " + status);
+            }
+        });
+    });
+}
+
+window.onload = initMap;
+
+</script>
 
 
     <script>

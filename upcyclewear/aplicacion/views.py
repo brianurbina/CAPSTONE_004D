@@ -323,7 +323,7 @@ def fundaciones(request):
             )
 
     # Paginación
-    paginator = Paginator(foundations, 10)  # 10 fundaciones por página
+    paginator = Paginator(foundations, 1)  # 10 fundaciones por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -513,24 +513,35 @@ def crear_conversacion(request, usuario_username):
 from django.shortcuts import render, redirect
 from .forms import FundacionForm
 import uuid
-
 def crear_fundacion(request):
     if request.method == 'POST':
         form = FundacionForm(request.POST, request.FILES)
+        direccion_validada = request.POST.get('direccion_validada') == 'true'
+        
+        # Validar el formulario
         if form.is_valid():
-            # No guardar aún
+            if not direccion_validada:
+                # Si la dirección no fue validada, agregar error al formulario
+                form.add_error('direccion', 'Por favor selecciona una dirección válida de las sugerencias de Google Maps')
+                # No continuar con el guardado si hay un error
+                return render(request, 'forms/form_fundacion.html', {'form': form})
+
+            # Si el formulario es válido y la dirección está validada
             fundacion = form.save(commit=False)
-            # Asignar el usuario actual
             fundacion.usuario = request.user
-            # Asignar cualquier otro campo necesario
             fundacion.aprobada = False  # Ejemplo, si es necesario
             fundacion.save()  # Guardar la instancia
-            return redirect('fundaciones')  # Redirigir a la lista de fundaciones (cambia según tu URL)
+            
+            messages.success(request, f'Fundación creada exitosamente, recibira una respuesta a su correo {fundacion.usuario.email} en un plazo de 48 horas.')
+            return render(request, 'forms/form_fundacion.html', {'form': form})  # nos redige ahora al forms para ver el mensaje Renderiza el formulario con el mensaje de éxito
+
+        else:
+            messages.error(request, 'Error al crear la fundación. Por favor, revisa los datos ingresados.')
+
     else:
         form = FundacionForm()
 
-    return render(request, 'forms/form_fundacion.html', {'form': form})
-
+    return render(request, 'forms/form_fundacion.html', {'form': form, 'GOOGLE_MAPS_API_KEY': 'AIzaSyAtwlRCttq5JUstF8LC0WohrFXnosyfWiA'  })
 
 
 def crear_peticion(request):
@@ -543,7 +554,13 @@ def crear_peticion(request):
             peticion.usuario = request.user  # Asignar el usuario actual
             peticion.receptor = request.user  # Asignar el receptor si es necesario
             peticion.save()  # Guardar la instancia
-            return redirect('donar')  # Cambia según tu URL
+            
+            # Mensaje de éxito
+            messages.success(request, 'Petición creada con éxito')
+            return render(request, 'forms/form_peticion.html', {'form': form})  # Cambia esto por la vista a la que deseas redirigir
+
+        else:
+            messages.error(request, 'Error al crear la petición. Por favor, revisa los datos ingresados.')
     else:
         form = PeticionForm()
 
@@ -559,12 +576,16 @@ def crear_donacion(request):
             donacion.donador = request.user  # Asignar el usuario actual como donador
             donacion.usuario = request.user  # Asignar el usuario actual (si este es el campo que necesitas)
             donacion.save()  # Guardar la instancia
-            return redirect('pedir')  # Cambia según tu URL
+            messages.success(request, 'Donacion creada con exito')
+            return render(request, 'forms/form_donacion.html', {'form': form})  # nos redige ahora al forms para ver el mensaje Renderiza el formulario con el mensaje de éxito
+
+        else:
+            messages.error(request, 'Error al crear la fundación. Por favor, revisa los datos ingresados.')
+            
     else:
         form = DonacionForm()
 
     return render(request, 'forms/form_donacion.html', {'form': form})
-
 
 
 

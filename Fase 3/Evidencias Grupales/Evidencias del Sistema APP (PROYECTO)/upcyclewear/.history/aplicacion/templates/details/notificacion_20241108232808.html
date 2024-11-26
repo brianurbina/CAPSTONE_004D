@@ -1,0 +1,22 @@
+
+  {% for notificacion in notificaciones %}
+    <div class="notificacion">
+      <h3>Notificación: {{ notificacion.mensaje }}</h3>
+      <p><strong>Fecha:</strong> {{ notificacion.fecha }}</p>
+      <p><strong>Leída:</strong> {{ notificacion.leida|yesno:"Sí,No" }}</p>
+      <p><strong>Respuesta:</strong> {{ notificacion.respuesta }}</p>
+      
+      <!-- Mostrar detalles de la petición asociada -->
+      {% for peticion in peticiones %}
+        {% if peticion.id == notificacion.peticion.id %}
+          <div class="peticion">
+            <h4>Petición: {{ peticion.titulo }}</h4>
+            <p><strong>Descripción:</strong> {{ peticion.descripcion }}</p>
+            <p><strong>Estado:</strong> {{ peticion.estado }}</p>
+            <p><strong>Fecha y Hora:</strong> {{ peticion.fecha_hora }}</p>
+            <p><strong>Tipo de Ropa:</strong> {{ peticion.tipo_ropa }}</p>
+         
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>

@@ -1,0 +1,27 @@
+<!-- details/peticion_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="peticion-detail">
+    <h1>Detalle de la Petición</h1>
+    
+    <h2>Notificación</h2>
+    <div>
+      <strong>Usuario:</strong> {{ notificacion.usuario.username }}<br>
+      <strong>Mensaje:</strong> {{ notificacion.mensaje }}<br>
+      <strong>Fecha:</strong> {{ notificacion.fecha }}<br>
+      <strong>Leída:</strong> {{ notificacion.leida|yesno:"Sí,No" }}<br>
+      <strong>Respuesta:</strong> {{ notificacion.respuesta }}<br>
+    </div>
+
+    <h2>Petición</h2>
+    <div>
+      <strong>Título:</strong> {{ peticion.titulo }}<br>
+      <strong>Descripción:</strong> {{ peticion.descripcion }}<br>
+      <strong>Estado:</strong> {{ peticion.estado }}<br>
+      <strong>Fecha de Creación:</strong> {{ peticion.fecha_creacion }}<br>
+    </div>
+
+    <!-- Aquí puedes agregar botones o formularios según lo que quieras hacer con la petición -->
+  </div>
+{% endblock %}

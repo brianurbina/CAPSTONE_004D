@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar - UPCYCLE WEAR</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/styleuser.css' %}">
+    <style>
+        body {
+            background-image: url("{% static 'img/fondo.png' %}"); 
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed; 
+            color: white;
+        }
+        .alert-custom {
+            border-radius: 10px;
+            background-color: rgba(255, 193, 7, 0.9); /* Color amarillo con transparencia */
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .alert-custom p {
+            margin: 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    {% include 'estructura/menu.html' %}
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Eliminar {{ tipo }}</h1>
+        <div class="alert alert-custom">
+            <p>¿Estás seguro de que deseas eliminar "{{ objeto }}"?</p>
+            <p>Esta acción no se puede deshacer.</p>
+        </div>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+            <a href="{% url 'fundaciones' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+         
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+{% include 'estructura/footer.html' %}
+</html>

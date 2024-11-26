@@ -1,0 +1,80 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Notificación y Petición</title>
+    <!-- Cargar Bootstrap desde CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJAsTQwUXXs3lYUI+3pb+AS27ls2kr2n27xx+AzREIu7rR0w5S51Yjf4WZ9L" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      body {
+        background-color: #f4f6f9;
+        font-family: 'Arial', sans-serif;
+      }
+      .card-header {
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
+      }
+      .notificacion-title {
+        color: #2980b9;
+      }
+      .respuesta {
+        font-weight: bold;
+        color: #f39c12;
+      }
+      .yesno {
+        color: #27ae60; /* Verde */
+      }
+      .no {
+        color: #e74c3c; /* Rojo */
+      }
+      .card-body p {
+        font-size: 1.1rem;
+      }
+      .peticion {
+        margin-top: 20px;
+        padding-top: 20px;
+      }
+      .icon {
+        margin-right: 8px;
+        color: #3498db;
+      }
+    </style>
+  </head>
+  
+  <body>
+  
+    <div class="container py-5">
+      <h1 class="text-center text-primary mb-5">Notificación y Petición</h1>
+  
+      <!-- Tarjeta de Notificación -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header">
+          <h3 class="notificacion-title">Notificación: {{ notificacion.mensaje }}</h3>
+        </div>
+        <div class="card-body">
+          <p><strong>Fecha:</strong> {{ notificacion.fecha }}</p>
+          <p><strong>Leída:</strong> <span class="{{ notificacion.leida|yesno:'yesno,no' }}">{{ notificacion.leida|yesno:"Sí,No" }}</span></p>
+          <p><strong>Respuesta:</strong> <span class="respuesta">{{ notificacion.respuesta }}</span></p>
+        </div>
+      </div>
+  
+      <!-- Tarjeta de Petición Asociada -->
+      <div class="card shadow-sm">
+        <div class="card-header">
+          <h4><i class="fas fa-box icon"></i> Detalles de la Petición: {{ peticion.titulo }}</h4>
+        </div>
+        <div class="card-body peticion">
+          <p><strong>Descripción:</strong> {{ peticion.descripcion }}</p>
+          <p><strong>Estado:</strong> <span class="respuesta">{{ peticion.estado }}</span></p>
+          <p><strong>Fecha y Hora:</strong> {{ peticion.fecha_hora }}</p>
+          <p><strong>Tipo de Ropa:</strong> {{ peticion.tipo_ropa }}</p>
+          <p><strong>Donador:</strong> {{ peticion.donador.username if peticion.donador else "N/A" }}</p>
+        </div>
+      </div>
+  
+    </div>
+  
+    <!-- Scripts de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybR6d2G0b1S1Zl+pyF6px5mj5ACpV7s2P0F2Gq66J/5GyNE2F" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0g5E5v7r9Gi0jT+/CvVdtcWf8T7A0m6yl6ZT7J2wBwrbr56K" crossorigin="anony
+  

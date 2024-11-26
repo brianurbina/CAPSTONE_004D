@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPCYCLE WEAR - Donaciones</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8MywmUH96jIquDe5Dxyrx1MWRHO3xfR0&libraries=marker"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/stylelistas.css' %}">
+    <style>
+          #map {
+            height: 400px; /* Asegúrate de definir la altura */
+            width: 100%;
+        }
+        .mapa{
+            align-items: center;
+        }
+
+        .container-map {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        body {
+            background-image: url("{% static '/img/fondo.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+        .publication-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        .publication-card:hover {
+            transform: translateY(-5px);
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FFD700; /* Un color dorado para resaltar los títulos */
+        }
+        .card-img-top {
+            border-radius: 10px;
+        }
+        .btn-dark {
+            background-color: #343a40;
+            border: none;
+        }
+        /*.foundation-card img {
+            width: 250px;
+            height: 250px;
+            margin-right: 20px;
+            border-radius: 10px;
+            padding-top: 40px;
+        }*/
+
+    </style>
+</head>
+<body>
+
+    {% include 'estructura/menu.html' %}
+
+    <div class="pagetitle">
+        <h1>Personas donando</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">UpcycleWear</a></li>
+                <li class="breadcrumb-item">Personas donando</li>
+            </ol>
+        </nav>
+    </div>
+<!--Filtro para el pedir-->
+ 
+    <div class="container-fluid">
+        
+            <div class="container-fluid">
+           <!-- Filtro de Motivo y Estado -->
+                <form method="get" action="{% url 'pedir' %}" class="mb-4">
+                    <div class="text-left mb-4">
+                        <!--<a href="{% url 'crear_peticion' %}" class="btn btn-dark">Publicar Petición</a>-->
+                    </div>
+                    <!--<hr>-->
+                
+                    <!-- Fila con el campo de búsqueda y filtro por comuna -->
+                    <div class="row">
+                        <!-- Campo de Búsqueda -->
+                        <div class="col-md-6">
+                            <label for="q" class="form-label"><strong>Buscar</strong></label>
+                            <input type="text" name="q" id="q" placeholder="Buscar..." class="form-control" value="{{ query }}">
+                        </div>
+
+                    <div class="col-md-6">
+                        <label for="tipo_ropa" class="form-label"><strong>Tipo de ropa</strong></label>
+                        {{ form.tipo_ropa }}  <!-- El campo de selección se pasa desde el formulario de Django -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" style="padding: 10px;">
+                            <label for="talla" class="form-label"><strong>Filtrar por talla</strong></label>
+                            <select name="talla" id="talla" class="form-select">
+                                <option value="" {% if not selected_talla %}selected{% endif %}>Todos</option>
+                                {% for key, value in TALLAS %}
+                                    <option value="{{ key }}" {% if selected_talla == key %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6" style="padding: 10px;">
+                            <label for="temporada" class="form-label"><strong>Filtrar por temporada</strong></label>
+                            <select name="temporada" id="temporada" class="form-select">
+                                <option value="" {% if not selected_temporada %}selected{% endif %}>Todos</option>
+                                {% for key, value in TEMPORADAS %}
+                                    <option value="{{ key }}" {% if selected_temporada == key %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9 text-left">
+                            
+                        </div>
+                   
+                    <div class="col-md-3 text-left">
+                        <button type="submit" class="btn btn-dark" style="width: 100%;"><i class="bi bi-filter"></i> Filtrar</button> 
+                    </div>
+                    </div>
+                </form>
+            <hr>
+                            
+           
+            <!--HACER FILTRAOD DE DONACIONES-->
+            <style>
+                /* Estilo para la pestaña activa */
+                .nav-tabs .nav-link.active {
+                    background-color: #a5c6feb4; /* Fondo personalizado */
+                    color: black; /* Cambiar color del texto */
+                    font-weight: bold; /* Hacer el texto en negrita */
+                    
+                    transition: background-color 0.3s, color 0.3s; /* Transición suave */
+                }
+            
+                /* Estilo para los íconos cuando la pestaña está activa */
+                .nav-tabs .nav-link.active i {
+                    color: red; /* Color del ícono cuando la pestaña está activa */
+                }
+            
+                /* Estilo para las pestañas no activas */
+                .nav-tabs .nav-link {
+                    height: 100%;
+                    background-color: #f0f0f0; /* Fondo por defecto */
+                    color: black; /* Color del texto por defecto */
+                    font-weight: bold; /* Negrita */
+                    padding: 15px;
+                    transition: background-color 0.3s, color 0.3s; /* Transición suave */
+                }
+            
+                /* Estilo para los íconos no activos */
+                .nav-tabs .nav-link i {
+                    color: red; /* Color del ícono por defecto */
+                }
+            </style>
+        
+            <!-- Pestañas -->
+            <div class="row" style="text-align: center;">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item col-md-6" >
+                        <a class="nav-link active" id="filtros-tab" data-toggle="tab" href="#filtros" role="tab" aria-controls="filtros" aria-selected="true" style="width: 100%;">
+                            <i class="bi bi-heart-fill" style="font-size: 20px;"></i> Donaciones
+                        </a>
+                    </li>
+                    <li class="nav-item col-md-6">
+                        <a class="nav-link" id="mapa-tab" data-toggle="tab" href="#mapa" role="tab" aria-controls="mapa" aria-selected="false">
+                            <i class="bi bi-geo-alt-fill" style="font-size: 20px;"></i> Mapa
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+    <br>
+        
+        
+
+</div>
+<div class="tab-content" id="myTabContent">
+    <!-- Pestaña Filtros -->
+    <div class="tab-pane fade show active" id="filtros" role="tabpanel" aria-labelledby="filtros-tab">
+           
+
+            {% if donaciones %}
+                {% for donacion in donaciones %}
+                <div class="publication-card">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="{{ donacion.foto.url }}" alt="{{ donacion.titulo }}" class="card-img-top">
+                        </div>
+                        <div class="col-md-8">
+                            <h2 class="card-title">{{ donacion.titulo }}</h2>
+                            <p><strong>Descripción:</strong> {{ donacion.descripcion }}</p>
+                            <p><strong>Tipo de ropa:</strong> {{ donacion.get_tipo_ropa_display }}</p>
+                            <p><strong>Talla:</strong> {{ donacion.get_talla_display }}</p>
+                            <p><strong>Temporada:</strong> {{ donacion.get_temporada_display }}</p>
+                            <p><strong>Estado:</strong> {{ donacion.get_estado_display }}</p>
+                            <p><strong>Fecha:</strong> {{ donacion.fecha_hora|date:"Y-m-d H:i" }}</p>
+                            <p><strong>Usuario:</strong> {{ donacion.usuario.username }}</p>
+                            <div class="d-flex">
+                                {% if donacion.usuario.username != user.username %}
+                                <button id="iniciar-conversacion" data-usuario-username="{{ donacion.usuario.username }}" class="btn btn-dark me-2" style="  margin-right: 10px; ">Iniciar Conversación</button>
+                                <a href="{% url 'perfil_usuario' donacion.usuario.username %}" class="btn btn-dark d-flex align-items-center" style="  margin-right: 10px; ">
+                                    <i class="fas fa-user" style="margin-right: 5px;"></i> Ver Perfil
+                                </a>
+                                {% endif %}
+                                {% if user.is_superuser %} 
+                                <a href="{% url 'modificar_donacion' donacion.id %}" class="btn btn-warning mb-2" style="  margin-right: 10px; ">
+                                    <i class="bi bi-pencil-square"></i> Modificar
+                                </a>
+
+                                <a href="{% url 'eliminar_donacion' donacion.id %}" class="btn btn-danger" >
+                                    <i class="bi bi-trash-fill"></i> Eliminar
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                    <p>No se encontraron donaciones.</p>
+                {% endfor %}
+
+             
+                {% if donaciones.paginator.num_pages > 1 %}
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {% if donaciones.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ donaciones.previous_page_number }}{% if q %}&q={{ q }}{% endif %}">Anterior</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                            </li>
+                        {% endif %}
+                
+                        {% for num in donaciones.paginator.page_range %}
+                            {% if donaciones.number == num %}
+                                <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ num }}{% if q %}&q={{ q }}{% endif %}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                
+                        {% if donaciones.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ donaciones.next_page_number }}{% if q %}&q={{ q }}{% endif %}">Siguiente</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Siguiente</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+            {% else %}
+            <br><br><br>
+            <div class="text-center my-5">
+                <img src="{% static 'img/noencontrado.png' %}"  style="width: 100px; height: 100px;">
+                <h2 class="mt-3" style="font-size: 1.5rem; color: #555;">No se encontraron donaciones.</h2>
+            </div>
+            {% endif %}
+        </div>
+
+
+    <div class="tab-pane fade" id="mapa" role="tabpanel" aria-labelledby="mapa-tab">
+
+        <!-- Mapa Contenido-->
+        <div class="container-fluid">
+        
+            <div id="map" style="width: 100%; height: 500px;"></div> <!-- Asegúrate de darle un tamaño adecuado al mapa -->
+        </div>
+        <br><br><br><br><br><br>
+        
+        
+        </div>
+    
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8MywmUH96jIquDe5Dxyrx1MWRHO3xfR0&libraries=marker"></script>
+
+<script> var map;
+
+    function initMap() {
+        // Establecemos el centro del mapa en Santiago de Chile
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: -33.4489, lng: -70.6693 },  // Coordenadas de Santiago de Chile
+            zoom: 12
+        });
+
+        // Recorremos las donaciones pasadas desde el servidor
+        {% for donacion in donaciones %}
+            if ({{ donacion.latitud }} && {{ donacion.longitud }}) {
+                var marker = new google.maps.Marker({
+                    position: { lat: {{ donacion.latitud }}, lng: {{ donacion.longitud }} },
+                    map: map,
+                    title: '{{ donacion.titulo }}'  // El título aparecerá al pasar el mouse
+                });
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: `
+                        <b>Fecha:</b> {{ donacion.fecha_hora }}<br>
+                        <b>Título:</b> {{ donacion.titulo }}<br>
+                        <b>Tipo de Ropa:</b> {{ donacion.tipo_ropa }}<br>
+                        <b>Talla:</b> {{ donacion.talla }}<br>
+                        <b>Temporada:</b> {{ donacion.temporada }}<br>
+                        <b>Descripción:</b> {{ donacion.descripcion }}<br>
+                        <img src="{{ donacion.foto.url }}" alt="Foto de la donación" width="100">
+                    `
+                });
+
+                marker.addListener('click', function() {
+                    infowindow.open(map, marker);
+                });
+            }
+        {% endfor %}
+    }
+</script>
+
+
+    <script>
+        document.querySelectorAll('[id^="iniciar-conversacion"]').forEach(button => {
+            button.onclick = function() {
+                const usuarioUsername = this.getAttribute('data-usuario-username');
+
+                fetch(`/crear-conversacion/${usuarioUsername}/`, {
+                    method: 'GET',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta de la red');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.conversacion_id) {
+                        window.location.href = `/chat/?conversacion_id=${data.conversacion_id}`; 
+                    } else {
+                        alert('Error al crear o abrir la conversación');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al crear o abrir la conversación:', error);
+                });
+            };
+        });
+    </script>
+
+    <!--LIBRERIAS-->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    {% include 'estructura/footer.html' %}
+</body>
+</html>

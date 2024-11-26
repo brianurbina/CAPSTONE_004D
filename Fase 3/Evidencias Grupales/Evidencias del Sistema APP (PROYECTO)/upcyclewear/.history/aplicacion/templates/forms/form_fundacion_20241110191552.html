@@ -1,0 +1,317 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Fundación</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Incluir SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        body {
+            background-image: url("{% static '/img/fondologo.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+      
+        .form-group label {
+            color: #000;
+        }
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+        }
+        .text-danger {
+            font-size: 0.85rem;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        legend {
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.11/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Validación al intentar enviar el formulario
+            $("#fundacionForm").submit(function(event) {
+                event.preventDefault(); // Evita el envío del formulario
+                var isValid = true; // Variable para comprobar si el formulario es válido
+
+                // Limpia las validaciones previas
+                var inputs = this.querySelectorAll('.form-control');
+                inputs.forEach(function(input) {
+                    input.classList.remove('is-invalid');
+                    input.classList.remove('is-valid');
+                });
+
+                // Obtener los valores actuales de los campos
+                const rut = $("#{{ form.rut.id_for_label }}").val();
+                const razonSocial = $("#{{ form.razon_social.id_for_label }}").val();
+                const comuna_region = $("#{{ form.comuna_region.id_for_label }}").val();
+                const direccion = $("#{{ form.direccion.id_for_label }}").val();
+                const descripcion = $("#{{ form.descripcion.id_for_label }}").val();
+                const telefono = $("#{{ form.telefono.id_for_label }}").val();
+                const logotipo = $("#{{ form.logotipo.id_for_label }}").val();
+                const sitioWeb = $("#{{ form.sitio_web.id_for_label }}").val();
+                const telefonoPattern = /^\+569\d{8}$/; // Acepta exactamente 8 dígitos después de +569
+                const rutPattern = /^\d{7,8}-[0-9Kk]$/; // 7-8 dígitos seguidos de un guion y un dígito verificador (0-9 o K/k)
+                const sitioWebPattern = /^https:\/\/.*/; // Expresión regular para validar que el URL comienza con "https://"
+
+                // Limpiar mensajes de error anteriores
+                $(".text-danger").text('').hide();
+
+                // Validar cada campo
+                inputs.forEach(function(input) {
+                    if (!input.value.trim()) {
+                        input.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        input.classList.add('is-valid');
+                    }
+                });
+
+                // Validar formato de RUT "XXXXXXXX-K"
+
+                // Primero, eliminamos el mensaje de error anterior si existe
+                $("#rutError").remove();
+
+
+                if (!rutPattern.test(rut)) {
+                    // Añadir clase 'is-invalid' para indicar un error en el campo
+                    $("#{{ form.rut.id_for_label }}").addClass("is-invalid");
+
+                    // Mostrar el mensaje de error personalizado cada vez que falle
+                    if (!$("#rutError").length) {
+                        $("<div id='rutError' class='text-danger'>Debe contener el formato XXXXXXXX-K</div>")
+                            .insertAfter("#{{ form.rut.id_for_label }}");
+                    } else {
+                        $("#rutError").show();
+                    }
+
+                    isValid = false;
+                } else {
+                    // Eliminar la clase 'is-invalid' si la validación es exitosa
+                    $("#{{ form.rut.id_for_label }}").removeClass("is-invalid");
+                    $("#rutError").hide(); // Ocultar el mensaje de error si el RUT es válido
+                }
+
+                // Validar longitud de razón social
+                if (razonSocial.length < 5 || razonSocial.length > 100) {
+                    //alert("Por favor, ingrese entre 5 y 100 caracteres en el campo de Razón Social.");
+                    $("#{{ form.razon_social.id_for_label }}").addClass("is-invalid");
+                    isValid = false;
+                }
+
+                // Validar descripción
+                if (descripcion.length < 5 || descripcion.length > 1000) {
+                    //alert("Por favor, ingrese entre 5 y 1000 caracteres en el campo de Descripción.");
+                    $("#{{ form.descripcion.id_for_label }}").addClass("is-invalid");
+                    isValid = false;
+                }
+
+                // Primero, eliminamos el mensaje de error anterior si existe
+                $("#telefonoError").remove();
+
+                if (telefono.length !== 12 || !telefonoPattern.test(telefono)) {
+                    // Añadir clase 'is-invalid' para indicar un error en el campo
+                    $("#{{ form.telefono.id_for_label }}").addClass("is-invalid");
+                    
+                    // Mostrar el mensaje de error personalizado solo si no existe
+                    if (!$("#telefonoError").length) {
+                        $("<div id='telefonoError' class='text-danger'>Debe contener el sufijo +(569)XXXX-XXXX</div>")
+                            .insertAfter("#{{ form.telefono.id_for_label }}");
+                    }
+
+                    isValid = false; // Indicar que la validación falló
+                } else {
+                    // Eliminar la clase 'is-invalid' si la validación es exitosa
+                    $("#{{ form.telefono.id_for_label }}").removeClass("is-invalid");
+                    
+                    // Si el mensaje de error existe, eliminarlo
+                    $("#telefonoError").remove();
+                }
+
+
+                
+                // Validar si la foto ha sido seleccionada
+                $("#logotipoError").remove();
+                if (!logotipo) {
+                    $("#{{ form.logotipo.id_for_label }}").addClass("is-invalid");
+                    if (!$("#logotipoError").length) {
+                        $("<div id='logotipoError' class='text-danger'>Por favor, suba un logotipo.</div>")
+                            .insertAfter("#{{ form.logotipo.id_for_label }}");
+                    }
+                    isValid = false;
+                } else {
+                    $("#{{ form.logotipo.id_for_label }}").removeClass("is-invalid");
+                    $("#logotipoError").remove(); // Ocultar el mensaje de error si la validación es exitosa
+                }
+
+                // Validar que el sitio web comience con 'https://'
+                $("#sitioWebError").remove();
+                if (!sitioWebPattern.test(sitioWeb)) {
+                    // Añadir clase 'is-invalid' para indicar un error en el campo
+                    $("#{{ form.sitio_web.id_for_label }}").addClass("is-invalid");
+
+                    // Mostrar el mensaje de error personalizado
+                    if (!$("#sitioWebError").length) {
+                        $("<div id='sitioWebError' class='text-danger'>Debe ingresar un URL válido que comience con 'https://'</div>")
+                            .insertAfter("#{{ form.sitio_web.id_for_label }}");
+                    }
+                    isValid = false;
+                } else {
+                    // Eliminar la clase 'is-invalid' si la validación es exitosa
+                    $("#{{ form.sitio_web.id_for_label }}").removeClass("is-invalid");
+                    $("#sitioWebError").remove(); // Ocultar el mensaje de error si cumple
+                }
+
+                // Validar comuna
+                $("#comuna_regionError").remove();
+                if (!comuna_region) {
+                    $("#{{ form.comuna_region.id_for_label }}").addClass("is-invalid");
+                    if (!$("#comuna_regionError").length) {
+                        $("<div id='comuna_regionError' class='text-danger'>Por favor, seleccione una comuna.</div>")
+                            .insertAfter("#{{ form.comuna_region.id_for_label }}");
+                    }
+                    isValid = false;
+                } else {
+                    $("#{{ form.comuna_region.id_for_label }}").removeClass("is-invalid");
+                    $("#comuna_regionError").remove(); // Ocultar el mensaje de error si la validación es exitosa
+                }
+           
+                
+                // Si el formulario es válido, puedes enviarlo
+                if (isValid) {
+                    this.submit();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    {% include 'estructura/menu.html' %}
+    <div class="pagetitle">
+        <h1>Inscribir Fundación</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Upcyclewear</a></li>
+            <li class="breadcrumb-item">Inscribir Fundación</li>
+          </ol>
+        </nav>
+      </div>
+      
+    <div class="container mt-5">
+        <div class="form-container">
+
+            <form id="fundacionForm" method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                <fieldset>
+                    <legend class="w-auto px-2">Datos de la Fundación</legend>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.rut.id_for_label }}">RUT</label>
+                        {{ form.rut|add_class:"form-control" }}
+                        {% if form.rut.errors %}
+                            <div class="text-danger">{{ form.rut.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.razon_social.id_for_label }}">Razón Social</label>
+                        {{ form.razon_social|add_class:"form-control" }}
+                        {% if form.razon_social.errors %}
+                            <div class="text-danger">{{ form.razon_social.errors }}</div>
+                        {% endif %}
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="{{ form.comuna_region.id_for_label }}">Comuna</label>
+                        {{ form.comuna_region|add_class:"form-control" }}
+                        {% if form.comuna_region.errors %}
+                            <div id="comuna_regionError" class="text-danger invalid-feedback" style="display: none;">{{ form.comuna_region.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.direccion.id_for_label }}">Dirección</label>
+                        {{ form.direccion|add_class:"form-control" }}
+                        {% if form.direccion.errors %}
+                            <div class="text-danger">{{ form.direccion.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.descripcion.id_for_label }}">Descripción</label>
+                        {{ form.descripcion|add_class:"form-control" }}
+                        {% if form.descripcion.errors %}
+                            <div class="text-danger">{{ form.descripcion.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.telefono.id_for_label }}">Teléfono</label>
+                        {{ form.telefono|add_class:"form-control" }}
+                        {% if form.telefono.errors %}
+                            <div class="text-danger">{{ form.telefono.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.logotipo.id_for_label }}">Logotipo</label>
+                        {{ form.logotipo|add_class:"file-input" }}
+                        {% if form.logotipo.errors %}
+                            <div id="logotipoError" class="text-danger invalid-feedback" style="display: none;">{{ form.logotipo.errors }}</div> <!-- Contenedor para el mensaje de error -->
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.sitio_web.id_for_label }}">Sitio Web</label>
+                        {{ form.sitio_web|add_class:"form-control" }}
+                        {% if form.sitio_web.errors %}
+                            <div class="text-danger">{{ form.sitio_web.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3">Inscribir</button>
+                </fieldset>
+            </form>
+        </div>
+        <br>
+    </div>
+
+    
+</body>
+</html>

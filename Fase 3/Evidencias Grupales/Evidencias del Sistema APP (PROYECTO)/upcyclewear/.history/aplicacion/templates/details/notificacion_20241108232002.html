@@ -1,0 +1,14 @@
+<div class="notificacion-detail">
+    <h1>Detalle de Notificación</h1>
+    
+    <div>
+      <strong>Usuario:</strong> {{ notificacion.usuario.username }}<br>
+      <strong>Mensaje:</strong> {{ notificacion.mensaje }}<br>
+      <strong>Fecha:</strong> {{ notificacion.fecha }}<br>
+      <strong>Leída:</strong> {{ notificacion.leida|yesno:"Sí,No" }}<br>
+      <strong>Respuesta:</strong> {{ notificacion.respuesta }}<br>
+      <strong>Petición:</strong> {{ notificacion.peticion.titulo }}<br>
+    </div>
+
+    
+  </div>

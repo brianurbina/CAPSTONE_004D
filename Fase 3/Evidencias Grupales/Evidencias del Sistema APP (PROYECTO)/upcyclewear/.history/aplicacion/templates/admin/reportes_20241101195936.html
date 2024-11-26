@@ -1,0 +1,60 @@
+// Función para abrir el modal y pedir resultado
+function showModal(reportId, action, email) {
+    Swal.fire({
+        title: action === 'RESUELTO' ? 'Marcar como Resuelto' : 'Rechazar Reporte',
+        text: 'Ingrese el resultado de esta acción:',
+        input: 'textarea',
+        inputPlaceholder: 'Escriba el resultado aquí...',
+        showCancelButton: true,
+        confirmButtonText: action === 'RESUELTO' ? 'Marcar como Resuelto' : 'Rechazar',
+        cancelButtonText: 'Cancelar',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Debe ingresar un resultado';
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const resultado = result.value;
+
+            // Realizar la solicitud POST con el estado y resultado
+            fetch(`/actualizar_estado_reporte/${reportId}/${action}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ estado: action, resultado: resultado })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Usar el correo electrónico del argumento
+                    Swal.fire('¡Éxito!', 'El reporte ha sido actualizado. Email del reportante: ' + email, 'success')
+                    .then(() => {
+                        location.reload(); // Recargar la página
+                    });
+                } else {
+                    Swal.fire('Error', 'No se pudo actualizar el reporte.', 'error');
+                }
+            });
+        }
+    });
+}
+
+// Eventos de botones
+document.querySelectorAll('.resolveButton').forEach(button => {
+    button.addEventListener('click', function() {
+        const reportId = this.getAttribute('data-id');
+        const email = this.getAttribute('data-email'); // Obtener el email del atributo de datos
+        showModal(reportId, 'RESUELTO', email); // Pasar el email a la función
+    });
+});
+
+document.querySelectorAll('.rejectButton').forEach(button => {
+    button.addEventListener('click', function() {
+        const reportId = this.getAttribute('data-id');
+        const email = this.getAttribute('data-email'); // Obtener el email del atributo de datos
+        showModal(reportId, 'RECHAZADO', email); // Pasar el email a la función
+    });
+});

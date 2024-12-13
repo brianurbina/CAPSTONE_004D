@@ -1,0 +1,94 @@
+.foundation-card {
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo más claro para las tarjetas */
+    border: 1px solid #ccc; /* Borde más marcado */
+}
+
+.foundation-card:hover {
+    transform: translateY(-5px); /* Levantar la tarjeta al pasar el ratón */
+}
+
+.foundation-card img {
+    width: 100px;
+    height: auto; /* Mantener proporciones de la imagen */
+    margin-right: 20px;
+    border-radius: 10px; /* Bordes redondeados para la imagen */
+}
+
+.search-bar {
+     /* Color de fondo para la barra de búsqueda */
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.search-bar input {
+    width: 80%;
+    padding: 5px;
+    border: 1px solid #ccc; /* Borde más definido */
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a {
+    color: black;
+    margin: 0 5px;
+    text-decoration: none;
+}
+
+.pagination span {
+    color: black;
+}
+
+.container1 {
+    margin-top: 50px;
+    background-color: rgba(255, 255, 255, 0.493);
+    margin-bottom: 100px; 
+    padding: 20px; /* Espaciado adicional */
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.btn-dark {
+    background-color: black;
+    color: white;
+}
+
+.btn-link {
+    color: black;
+}
+
+.btn-link:hover {
+    text-decoration: underline; /* Efecto de subrayado al pasar el ratón */
+}
+
+/* Estilos adicionales para las tarjetas */
+
+
+.publication-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+}
+.publication-card:hover {
+    transform: translateY(-5px);
+}
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #FFD700; /* Un color dorado para resaltar los títulos */
+}
+.card-img-top {
+    border-radius: 10px;
+}
+.btn-dark {
+    background-color: #343a40;
+    border: none;
+}

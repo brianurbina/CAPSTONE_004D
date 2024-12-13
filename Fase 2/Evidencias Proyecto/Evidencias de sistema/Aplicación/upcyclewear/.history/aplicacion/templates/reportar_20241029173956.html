@@ -1,0 +1,52 @@
+<div class="card">
+    <div class="card-body">
+        <div class="modal fade" id="basicModal" tabindex="-1" aria-labelledby="basicModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="basicModalLabel">Reportar Usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <form method="post">
+                                {% csrf_token %}
+                                <fieldset>
+                                    <legend class="w-auto px-2">Detalles del Reporte</legend>
+
+                                    <div class="form-group">
+                                        <label for="{{ form.usuario_reportado.id_for_label }}">Usuario Reportado</label>
+                                        {{ form.usuario_reportado|add_class:"form-control" }}
+                                        {% if form.usuario_reportado.errors %}
+                                            <div class="text-danger">{{ form.usuario_reportado.errors }}</div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="{{ form.motivo.id_for_label }}">Motivo</label>
+                                        {{ form.motivo|add_class:"form-control" }}
+                                        {% if form.motivo.errors %}
+                                            <div class="text-danger">{{ form.motivo.errors }}</div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="{{ form.descripcion.id_for_label }}">Descripción (Opcional)</label>
+                                        {{ form.descripcion|add_class:"form-control" }}
+                                        {% if form.descripcion.errors %}
+                                            <div class="text-danger">{{ form.descripcion.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Enviar Reporte</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
